@@ -1,0 +1,366 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OEAF Creator - GC</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="default.css"/>
+    <link rel="stylesheet" href="lib/styles/default.css"/>
+    <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+    <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/uuid.js"></script>
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script>
+    //<![CDATA[
+        function doInit() {
+            var gcUri = uuid.v4();
+            $( '#gcUri' ).val( 'urn:' + gcUri );
+            $( 'input' ).keyup( window.codeIt );
+            $( 'input' ).click( window.codeIt );
+            $( 'textarea' ).keyup( window.codeIt );
+            $( 'textarea' ).click( window.codeIt );
+            $( 'select' ).click( window.codeIt );
+            $( '#showUris' ).click( 
+                function() {
+                    if( $( this ).is( ':checked' ) ) 
+                        $( '.uri' ).removeClass( 'notDisplayed' );
+                    else
+                        $( '.uri' ).addClass( 'notDisplayed' );
+                }
+            );
+            $( "#gcAddSubject" ).click( addField( 'gcSubject' ) );
+            $( "#gcAddPrerequisite" ).click( addField( 'gcPrerequisite' ) );
+            initOptionElements( opportunityTypeTable, '#gcOpportunityType', true, false, false );
+            initOptionElements( educationalLevelTable, '#gcEducationalLevel', true, true, true );
+            $( "#gcAddCredit" ).click( addField( 'gcCredit' ) );
+            initOptionElements( assessmentTypeTable, '#gcAssessmentType', false, true, true );
+            doReset();
+        }
+
+        function getCode() {
+            var lang = 'eng';
+
+            var gcIdentifier = normalizeSpace( $( '#gcIdentifier' ).val() );
+            var gcTitle = normalizeSpace( $( '#gcTitle' ).val() );
+            var gcPublicationDate = normalizeSpace( $( '#gcPublicationDate' ).val() );
+            var gcDescription = $( '#gcDescription' ).val();
+            var gcOpportunityType = $( '#gcOpportunityType' ).val();
+            var gcEducationalLevel = $( '#gcEducationalLevel' ).val();
+            var gcObjective = $( '#gcObjective' ).val();
+            var gcOutputQualification = $( '#gcOutputQualification' ).val();
+
+            var tagGcIdentifier = getTag( 'gcIdentifier', lang );
+            var tagGcTitle = getTag( 'gcTitle', lang );
+            var tagGcPublicationDate = getTag( 'gcPublicationDate', lang );
+            var tagGcDescription = getTag( 'gcDescription', lang );
+            var tagGcSubject = getTag( 'gcSubject', lang );
+            var tagGcPrerequisite = getTag( 'gcPrerequisite', lang );
+            var tagGcOpportunityType = getTag( 'gcOpportunityType', lang );
+            var tagGcEducationalLevel = getTag( 'gcEducationalLevel', lang );
+            var tagGcCredit = getTag( 'gcCredit', lang );
+            var tagGcAssessmentType = getTag( 'gcAssessmentType', lang );
+            var tagGcObjective = getTag( 'gcObjective', lang );
+            var tagGcOutputQualification = getTag( 'gcOutputQualification', lang );
+
+            var str = '';
+            if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
+                str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                    'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
+                    'xmlns:mlr-2="http://standards.iso.org/iso-iec/19788/-1/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                    'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
+                    'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                    'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+            //    str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
+            //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+            //    str += '    <mlr-8:describe>' + "\n";
+                str += '      <oeaf:genericComponent';
+                str += '        <rdf:type resource="oeaf:rc0002"/>' + "\n";
+                if( gcUri != '' )
+                    str += ' rdf:about="' + $( '#gcUri' ).val() + '"';
+                str += '>' + "\n";
+                if( gcIdentifier != '' )
+                    str += '        <' + tagGcIdentifier + '>' + gcIdentifier + '</' + tagGcIdentifier + '>' + "\n";
+                if( gcTitle != '' )
+                    str += '        <' + tagGcTitle + '>' + gcTitle + '</' + tagGcTitle + '>' + "\n";
+                if( gcPublicationDate != '' )
+                    str += '        <' + tagGcPublicationDate + '>' + gcPublicationDate + '</' + tagGcPublicationDate + '>' + "\n";
+                if( gcDescription != '' )
+                    str += '        <' + tagGcDescription + '>' + gcDescription.replace( /\n/g, '\\n' ) + '</' + tagGcDescription + '>' + "\n";
+                $( '.gcSubjectTextField' ).each( 
+                    function() { 
+                        var subject = normalizeSpace( $( this ).val() );
+                        if( subject != '' ) 
+                            str += '        <' + tagGcSubject + '>' + subject + '</' + tagGcSubject + '>' + "\n";
+                    } 
+                );
+                $( '.gcPrerequisiteTextField' ).each( 
+                    function() { 
+                        var prerequisite = normalizeSpace( $( this ).val() );
+                        if( prerequisite != '' ) 
+                            str += '        <' + tagGcPrerequisite + '>' + prerequisite + '</' + tagGcPrerequisite + '>' + "\n";
+                    } 
+                );
+                if( gcOpportunityType != null )
+                    str += '        <' + tagGcOpportunityType + '>' + gcOpportunityType + '</' + tagGcOpportunityType + '>' + "\n"; 
+                if( gcEducationalLevel != null ) { 
+                    for( var i = 0; i < $( '#gcEducationalLevel' ).val().length; i++ ) {
+                        var educationalLevelValue = $( '#gcEducationalLevel' ).val()[ i ]; 
+                        if( educationalLevelValue != '' )
+                            str += '        <' + tagGcEducationalLevel + '>' + educationalLevelValue + '</' + tagGcEducationalLevel + '>' + "\n"; 
+                    }
+                }
+                $( '.gcCreditTextField' ).each( 
+                    function() { 
+                        var credit = normalizeSpace( $( this ).val() );
+                        if( credit != '' ) 
+                            str += '        <' + tagGcCredit + '>' + credit + '</' + tagGcCredit + '>' + "\n";
+                    } 
+                );
+                if( gcAssessmentType != null ) { 
+                    for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
+                        var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
+                        if( assessmentTypeValue != '' )
+                            str += '        <' + tagGcAssessmentType + '>' + assessmentTypeValue + '</' + tagGcAssessmentType + '>' + "\n"; 
+                    }
+                }
+                if( gcObjective != '' )
+                    str += '        <' + tagGcObjective + '>' + gcObjective.replace( /\n/g, '\\n' ) + '</' + tagGcObjective + '>' + "\n";
+                if( gcOutputQualification != '' )
+                    str += '        <' + tagGcOutputQualification + '>' + gcOutputQualification.replace( /\n/g, '\\n' ) + '</' + tagGcOutputQualification + '>' + "\n";
+                str += '      </oeaf:genericComponent>' + "\n";
+                str += '    </mlr-8:describe>' + "\n";
+                str += '  </mlr-8:MLR_Record>\n';
+                str += '</rdf:RDF>';
+            }
+            else { // RDFa HTML and XHTML
+                if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    str += '<!DOCTYPE html>' + "\n";
+                    str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+                else { // RDFa XHTML
+                    str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                    str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                        'version="XHTML+RDFa 1.1" ' + "\n" +
+                        //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                        //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                        'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+
+                str += '    <div';
+                if( gcUri != '' )
+                    str += ' resource="' + $( '#gcUri' ).val() + '"';
+                str += ' typeof="oeaf:rc0002">' + "\n";
+                if( gcTitle != '' ) {
+                    str += '      <b><span property="' + tagGcTitle + '">' + gcTitle;
+                    if( gcIdentifier != '' ) 
+                        str += ' (<span property="' + tagGcIdentifier + '">' + gcIdentifier + '</span>)';
+                    str += '</span></b><br/>' + "\n";
+                }
+                if( gcDescription != '' )
+                    str += '      <span property="' + tagGcDescription + '">' + gcDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                if( gcPublicationDate != '' )
+                    str += '      Publication Date: <span property="' + tagGcPublicationDate + '">' + gcPublicationDate + '</span><br/>' + "\n";
+                var subjectHeader = '      Subject(s): <ul>' + "\n";
+                var subjectFooter = '';
+                $( '.gcSubjectTextField' ).each( 
+                    function() { 
+                        var subject = normalizeSpace( $( this ).val() );
+                        if( subject != '' ) { 
+                            str += subjectHeader;
+                            subjectHeader = '';
+                            subjectFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagGcSubject + '">' + subject + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += subjectFooter;
+                var prerequisiteHeader = '      Prerequisite(s): <ul>' + "\n";
+                var prerequisiteFooter = '';
+                $( '.gcPrerequisiteTextField' ).each( 
+                    function() { 
+                        var prerequisite = normalizeSpace( $( this ).val() );
+                        if( prerequisite != '' ) { 
+                            str += prerequisiteHeader;
+                            prerequisiteHeader = '';
+                            prerequisiteFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagGcPrerequisite + '">' + prerequisite + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += prerequisiteFooter;
+                if( gcOpportunityType != null )
+                    str += '      Opportunity Type: <span property="' + tagGcOpportunityType + '" content="' + gcOpportunityType + '">' + opportunityTypeTable[ gcOpportunityType ] + '</span><br/>' + "\n";
+                if( gcEducationalLevel != null ) { 
+                    var educationalLevelHeader = "      <br/> \n      Educational Levels: <ul>\n";
+                    for( var i = 0; i < $( '#gcEducationalLevel' ).val().length; i++ ) {
+                        var educationalLevelValue = $( '#gcEducationalLevel' ).val()[ i ]; 
+                        if( educationalLevelValue != '' ) {
+                            str += educationalLevelHeader; 
+                            str += '      <li><span property="' + tagGcEducationalLevel + '" content="' + educationalLevelValue + '">' + educationalLevelTable[ educationalLevelValue ] + '</span></li>' + "\n";
+                            educationalLevelHeader = '';
+                        }
+                    }
+                    if( educationalLevelHeader == '' )
+                        str += "</ul><br/>\n";
+                }
+                var creditHeader = '      Credit(s): <ul>' + "\n";
+                var creditFooter = '';
+                $( '.gcCreditTextField' ).each( 
+                    function() { 
+                        var credit = normalizeSpace( $( this ).val() );
+                        if( credit != '' ) { 
+                            str += creditHeader;
+                            creditHeader = '';
+                            creditFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagGcCredit + '">' + credit + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += creditFooter;
+                if( gcAssessmentType != null ) { 
+                    var assessmentTypeHeader = "      <br/> \n      Assessment Types: <ul>\n";
+                    for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
+                        var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
+                        if( assessmentTypeValue != '' ) {
+                            str += assessmentTypeHeader; 
+                            str += '      <li><span property="' + tagGcAssessmentType + '" content="' + assessmentTypeValue + '">' + assessmentTypeTable[ assessmentTypeValue ] + '</span></li>' + "\n";
+                            assessmentTypeHeader = '';
+                        }
+                    }
+                    if( assessmentTypeHeader == '' )
+                        str += "</ul><br/>\n";
+                }
+                if( gcObjective != '' ) {
+                    str += '      <br/><br/>' + "\n";
+                    str += '      Objective:<br/>' + "\n";
+                    str += '      <span property="' + tagGcObjective + '">' + gcObjective.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                }
+                if( gcOutputQualification != '' ) {
+                    str += '      <br/><br/>' + "\n";
+                    str += '      Output Qualification:<br/>' + "\n";
+                    str += '      <span property="' + tagGcOutputQualification + '">' + gcOutputQualification.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                }
+                str += '    </div>' + "\n";
+                str += '  </body>' + "\n";
+                str += '</html>' + "\n";
+            }
+            return( str );
+        }
+
+        $( window.doInit );
+    //]]>
+    </script>
+</head>
+<body>
+    <h1>OEAF Creator - GC</h1>
+    <div class="inputs">
+        <form id="gcForm" action="" onreset="doReset();">
+            <fieldset id="allo">
+                <legend>Generic Component (GC)</legend>
+                <div class="field uri">
+                    <label for="gcUri">uri</label>
+                    <input type="text" id="gcUri" />
+                </div>
+                <div class="field">
+                    <label for="gcIdentifier">identifier</label>
+                    <input type="text" id="gcIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="gcTitle">title</label>
+                    <input type="text" id="gcTitle" />
+                </div>
+                <div class="field">
+                    <label for="gcPublicationDate">publication date</label>
+                    <input type="text" id="gcPublicationDate" />
+                </div>
+                <div class="field">
+                    <label for="gcDescription">description</label>
+                    <textarea id="gcDescription" rows="12" cols="30"></textarea>
+                </div>
+                <div class="field">
+                    <label for="gcSubject0">subject</label>
+                    <input type="text" id="gcSubject0" class="gcSubjectTextField"></input>
+                    <button id="gcAddSubject">+</button> 
+                </div>
+                <div class="field">
+                    <label for="gcPrerequisite0">prerequisite</label>
+                    <input type="text" id="gcPrerequisite0" class="gcPrerequisiteTextField"></input>
+                    <button id="gcAddPrerequisite">+</button> 
+                </div>
+                <div class="field">
+                    <label for="gcOpportunityType">opportunity type</label>
+                    <select id="gcOpportunityType"></select>
+                </div>
+                <div class="field">
+                    <label for="gcEducationalLevel">educational level</label>
+                    <select id="gcEducationalLevel"></select>
+                </div>
+                <div class="field">
+                    <label for="gcCredit0">credit</label>
+                    <input type="text" id="gcCredit0" class="gcCreditTextField"></input>
+                    <button id="gcAddCredit">+</button> 
+                </div>
+                <div class="field">
+                    <label for="gcAssessmentType">assessment type</label>
+                    <select id="gcAssessmentType"></select>
+                </div>
+                <div class="field">
+                    <label for="gcObjective">objective</label>
+                    <textarea id="gcObjective" rows="12" cols="30"></textarea>
+                </div>
+                <div class="field">
+                    <label for="gcOutputQualification">output qualification</label>
+                    <textarea id="gcOutputQualification" rows="12" cols="30"></textarea>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="optionsAndOutput">
+
+        <div class="options">
+            <h2>Options</h2>
+            Show URIs: <input type="checkbox" form="gcForm" id="showUris" name="showUris" checked="checked" /><br />
+            Generation: <input type="radio" form="gcForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="gcForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="gcForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label>
+        </div>
+
+        <div class="output">
+            <h2>Code</h2>
+            <pre class="xml"><code id="sampleCode"></code></pre>
+
+            <h2>Preview</h2>
+            <div id="preview">
+                <span></span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

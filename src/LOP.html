@@ -1,0 +1,258 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OEAF Creator - LOP</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="default.css"/>
+    <link rel="stylesheet" href="lib/styles/default.css"/>
+    <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+    <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/uuid.js"></script>
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script>
+    //<![CDATA[
+        function doInit() {
+            var lopUri = uuid.v4();
+            $( '#lopUri' ).val( 'urn:' + lopUri );
+            $( 'input' ).keyup( window.codeIt );
+            $( 'input' ).click( window.codeIt );
+            $( 'textarea' ).keyup( window.codeIt );
+            $( 'textarea' ).click( window.codeIt );
+            $( 'select' ).click( window.codeIt );
+            $( '#showUris' ).click( 
+                function() {
+                    if( $( this ).is( ':checked' ) ) 
+                        $( '.uri' ).removeClass( 'notDisplayed' );
+                    else
+                        $( '.uri' ).addClass( 'notDisplayed' );
+                }
+            );
+            initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
+            doReset();
+        }
+
+        function getCode() {
+            var lang = 'eng';
+
+            var lopIdentifier = normalizeSpace( $( '#lopIdentifier' ).val() );
+            var lopName = normalizeSpace( $( '#lopName' ).val() );
+            var lopFamilyName = normalizeSpace( $( '#lopFamilyName' ).val() );
+            var lopGivenName = normalizeSpace( $( '#lopGivenName' ).val() );
+            var lopName2 = normalizeSpace( $( '#lopName2' ).val() );
+            var lopEmail = normalizeSpace( $( '#lopEmail' ).val() );
+            var lopWorkTelephone = normalizeSpace( $( '#lopWorkTelephone' ).val() );
+            var lopLocation = normalizeSpace( $( '#lopLocation' ).val() );
+            var lopWebSite = normalizeSpace( $( '#lopWebSite' ).val() );
+            var lopType = $( '#lopType' ).val();
+
+            var tagLopIdentifier = getTag( 'lopIdentifier', lang );
+            var tagLopName = getTag( 'lopName', lang );
+            var tagLopFamilyName = getTag( 'lopFamilyName', lang );
+            var tagLopGivenName = getTag( 'lopGivenName', lang );
+            var tagLopName2 = getTag( 'lopName2', lang );
+            var tagLopEmail = getTag( 'lopEmail', lang );
+            var tagLopWorkTelephone = getTag( 'lopWorkTelephone', lang );
+            var tagLopLocation = getTag( 'lopLocation', lang );
+            var tagLopWebSite = getTag( 'lopWebSite', lang );
+            var tagLopType = getTag( 'lopType', lang );
+
+            var str = '';
+            if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
+                str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                    'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
+                    'xmlns:mlr-2="http://standards.iso.org/iso-iec/19788/-1/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                    'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
+                    'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                    'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+            //    str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
+            //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+            //    str += '    <mlr-8:describe>' + "\n";
+                str += '      <oeaf:learningOpportunityProvider';
+                if( lopUri != '' )
+                    str += ' rdf:about="' + $( '#lopUri' ).val() + '"';
+                str += '>' + "\n";
+                str += '        <rdf:type resource="oeaf:rc0001"/>' + "\n";
+                if( lopIdentifier != '' )
+                    str += '        <' + tagLopIdentifier + '>' + lopIdentifier + '</' + tagLopIdentifier + '>' + "\n";
+                if( lopName != '' )
+                    str += '        <' + tagLopName + '>' + lopName + '</' + tagLopName + '>' + "\n";
+                if( lopFamilyName != '' )
+                    str += '        <' + tagLopFamilyName + '>' + lopFamilyName + '</' + tagLopFamilyName + '>' + "\n";
+                if( lopGivenName != '' )
+                    str += '        <' + tagLopGivenName + '>' + lopGivenName + '</' + tagLopGivenName + '>' + "\n";
+                if( lopName2 != '' )
+                    str += '        <' + tagLopName2 + '>' + lopName2 + '</' + tagLopName2 + '>' + "\n";
+                if( lopEmail != '' )
+                    str += '        <' + tagLopEmail + '>' + lopEmail + '</' + tagLopEmail + '>' + "\n";
+                if( lopWorkTelephone != '' )
+                    str += '        <' + tagLopWorkTelephone + '>' + lopWorkTelephone + '</' + tagLopWorkTelephone + '>' + "\n";
+                if( lopLocation != '' )
+                    str += '        <' + tagLopLocation + '>' + lopLocation + '</' + tagLopLocation + '>' + "\n";
+                if( lopWebSite != '' )
+                    str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
+                if( lopType != null )
+                    str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
+                str += '      </oeaf:learningOpportunityProvider>' + "\n";
+                str += '    </mlr-8:describe>' + "\n";
+                str += '  </mlr-8:MLR_Record>\n';
+                str += '</rdf:RDF>';
+            }
+            else { // RDFa HTML and XHTML
+                if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    str += '<!DOCTYPE html>' + "\n";
+                    str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+                else { // RDFa XHTML
+                    str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                    str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                        'version="XHTML+RDFa 1.1" ' + "\n" +
+                        //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                        //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                        'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+
+                str += '    <div';
+                if( lopUri != '' )
+                    str += ' resource="' + $( '#lopUri' ).val() + '"';
+                str += ' typeof="oeaf:rc0001">' + "\n";
+                if( lopName != '' ) {
+                    str += '      <b><span property="' + tagLopName + '">' + lopName + '</span></b>';
+                    if( lopEmail != '' ) 
+                        str += ' (<a property="' + tagLopEmail + '" href="mailto:' + lopEmail + '">' + lopEmail + '</a>)';
+                    str += '<br/>' + "\n";
+                }
+                if( lopFamilyName != '' || lopGivenName != '' ) {
+                    str += '      ';
+                    if( lopFamilyName != '' )
+                        str += '<b><span property="' + tagLopFamilyName + '">' + lopFamilyName + '</span></b>';
+                    if( lopFamilyName != '' && lopGivenName != '' )
+                        str += ', ';
+                    if( lopGivenName != '' )
+                        str += '<b><span property="' + tagLopGivenName + '">' + lopGivenName + '</span></b>';
+                    str += '<br/>' + "\n";
+                }
+                if( lopName2 != '' )
+                    str += '      <b><span property="' + tagLopName2 + '">' + lopName2 + '</span></b><br/>' + "\n";
+                if( lopWorkTelephone != '' )
+                    str += '      Tel.: <span property="' + tagLopWorkTelephone + '">' + lopWorkTelephone + '</span><br/>' + "\n";  
+                if( lopLocation != '' )
+                    str += '      Loc.: <span property="' + tagLopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
+                if( lopWebSite != '' )
+                    str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
+                if( lopType != null )
+                    str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
+                str += '    </div>' + "\n";
+                str += '  </body>' + "\n";
+                str += '</html>' + "\n";
+            }
+            return( str );
+        }
+
+        $( window.doInit );
+    //]]>
+    </script>
+</head>
+<body>
+    <h1>OEAF Creator - LOP</h1>
+    <div class="inputs">
+        <form id="lopForm" action="" onreset="doReset();">
+            <fieldset id="allo">
+                <legend>Learning Opportunity Provider (LOP)</legend>
+                <div class="field uri">
+                    <label for="lopUri">uri</label>
+                    <input type="text" id="lopUri" />
+                </div>
+                <div class="field">
+                    <label for="lopIdentifier">identifier</label>
+                    <input type="text" id="lopIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="lopName">name</label>
+                    <input type="text" id="lopName" />
+                </div>
+                <div class="field">
+                    <label for="lopFamilyName">family name</label>
+                    <input type="text" id="lopFamilyName" />
+                </div>
+                <div class="field">
+                    <label for="lopGivenName">given name</label>
+                    <input type="text" id="lopGivenName" />
+                </div>
+                <div class="field">
+                    <label for="lopName2">name2</label>
+                    <input type="text" id="lopName2" />
+                </div>
+                <div class="field">
+                    <label for="lopEmail">email</label>
+                    <input type="text" id="lopEmail" />
+                </div>
+                <div class="field">
+                    <label for="lopWorkTelephone">work telephone</label>
+                    <input type="text" id="lopWorkTelephone" />
+                </div>
+                <div class="field">
+                    <label for="lopLocation">location</label>
+                    <input type="text" id="lopLocation" />
+                </div>
+                <div class="field">
+                    <label for="lopWebSite">web site</label>
+                    <input type="text" id="lopWebSite" />
+                </div>
+                <div class="field">
+                    <label for="lopType">type</label>
+                    <select id="lopType"></select>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="optionsAndOutput">
+
+        <div class="options">
+            <h2>Options</h2>
+            Show URIs: <input type="checkbox" form="lopForm" id="showUris" name="showUris" checked="checked" /><br />
+            Generation: <input type="radio" form="lopForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="lopForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="lopForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label>
+        </div>
+
+        <div class="output">
+            <h2>Code</h2>
+            <pre class="xml"><code id="sampleCode"></code></pre>
+
+            <h2>Preview</h2>
+            <div id="preview">
+                <span></span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+

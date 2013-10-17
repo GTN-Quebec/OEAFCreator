@@ -1,0 +1,499 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OEAF Creator - LOI</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="default.css"/>
+    <link rel="stylesheet" href="lib/styles/default.css"/>
+    <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+    <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/uuid.js"></script>
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script>
+    //<![CDATA[
+        function doInit() {
+            var loiUri = uuid.v4();
+            $( '#loiUri' ).val( 'urn:' + loiUri );
+            $( 'input' ).keyup( window.codeIt );
+            $( 'input' ).click( window.codeIt );
+            $( 'textarea' ).keyup( window.codeIt );
+            $( 'textarea' ).click( window.codeIt );
+            $( 'select' ).click( window.codeIt );
+            $( '#loiLocationLongitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
+            $( '#loiLocationLatitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
+            $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
+            $( '#loiProviderName' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
+            $( '#loiProviderEmail' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
+            $( '#loiProviderWorkTelephone' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
+            $( '#showUris' ).click( 
+                function() {
+                    if( $( this ).is( ':checked' ) ) 
+                        $( '.uri' ).removeClass( 'notDisplayed' );
+                    else
+                        $( '.uri' ).addClass( 'notDisplayed' );
+                }
+            );
+            initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
+            initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
+            doReset();
+        }
+
+        function getCode() {
+            var lang = 'eng';
+
+            var loiIdentifier = normalizeSpace( $( '#loiIdentifier' ).val() );
+            var loiTitle = normalizeSpace( $( '#loiTitle' ).val() );
+            var loiPublicationDate = normalizeSpace( $( '#loiPublicationDate' ).val() );
+            var loiDescription = $( '#loiDescription' ).val();
+            var loiGeolocation = normalizeSpace( $( '#loiGeolocation' ).val() );
+            var loiStartDate = normalizeSpace( $( '#loiStartDate' ).val() );
+            var loiEndDate = normalizeSpace( $( '#loiEndDate' ).val() );
+            var loiDuration = normalizeSpace( $( '#loiDuration' ).val() );
+            var loiPerformanceDate = normalizeSpace( $( '#loiPerformanceDate' ).val() );
+            var loiNumberOfPlaces = normalizeSpace( $( '#loiNumberOfPlaces' ).val() );
+            var loiCost = normalizeSpace( $( '#loiCost' ).val() );
+            var loiPerformanceLanguage = $( '#loiPerformanceLanguage' ).val();
+            var loiDeliveryMode = $( '#loiDeliveryMode' ).val();
+            var loiProvider = normalizeSpace( $( '#loiProvider' ).val() );
+            var loiRegistrationModalities = $( '#loiRegistrationModalities' ).val();
+            var loiLastMinuteInfos = $( '#loiLastMinuteInfos' ).val();
+            var loiLocationIsEmbedded = $( '#loiLocationIsEmbedded' ).is( ':checked' );
+            var loiLocationUri = normalizeSpace( $( '#loiLocationUri' ).val() );
+            var loiLocationLongitude = normalizeSpace( $( '#loiLocationLongitude' ).val() );
+            var loiLocationLatitude = normalizeSpace( $( '#loiLocationLatitude' ).val() );
+            var loiLocationDescription = $( '#loiLocationDescription' ).val();
+            var loiProviderIsEmbedded = $( '#loiProviderIsEmbedded' ).is( ':checked' );
+            var loiProviderUri = normalizeSpace( $( '#loiProviderUri' ).val() );
+            var loiProviderName = normalizeSpace( $( '#loiProviderName' ).val() );
+            var loiProviderEmail = normalizeSpace( $( '#loiProviderEmail' ).val() );
+            var loiProviderWorkTelephone = normalizeSpace( $( '#loiProviderWorkTelephone' ).val() );
+
+            var tagLoiIdentifier = getTag( 'loiIdentifier', lang );
+            var tagLoiTitle = getTag( 'loiTitle', lang );
+            var tagLoiPublicationDate = getTag( 'loiPublicationDate', lang );
+            var tagLoiDescription = getTag( 'loiDescription', lang );
+            var tagLoiGeolocation = getTag( 'loiGeolocation', lang );
+            var tagLoiStartDate = getTag( 'loiStartDate', lang );
+            var tagLoiEndDate = getTag( 'loiEndDate', lang );
+            var tagLoiDuration = getTag( 'loiDuration', lang );
+            var tagLoiPerformanceDate = getTag( 'loiPerformanceDate', lang );
+            var tagLoiNumberOfPlaces = getTag( 'loiNumberOfPlaces' );
+            var tagLoiCost = getTag( 'loiCost', lang );
+            var tagLoiPerformanceLanguage = getTag( 'loiPerformanceLanguage', lang );
+            var tagLoiDeliveryMode = getTag( 'loiDeliveryMode', lang );
+            var tagLoiProvider = getTag( 'loiProvider', lang );
+            var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
+            var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
+            var tagLoiLocationLongitude = getTag( 'loiLocationLongitude', lang );
+            var tagLoiLocationLatitude = getTag( 'loiLocationLatitude', lang );
+            var tagLoiLocationDescription = getTag( 'loiLocationDescription', lang );
+            var tagLoiProvider = getTag( 'loiProvider', lang );
+            var tagLoiProviderName = getTag( 'loiProviderName', lang );
+            var tagLoiProviderEmail = getTag( 'loiProviderEmail', lang );
+            var tagLoiProviderWorkTelephone = getTag( 'loiProviderWorkTelephone', lang );
+
+            var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
+            var tagNaturalPerson = getTag( 'naturalPerson', lang );
+
+            var extLocationStr = null;
+            var extProviderStr = null;
+
+            var str = '';
+            if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
+                str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                    'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
+                    'xmlns:mlr-2="http://standards.iso.org/iso-iec/19788/-1/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                    'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
+                    'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                    'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                //str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
+                //str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                //str += '    <mlr-8:describe>' + "\n";
+                str += '      <oeaf:learningOpportunityInstance';
+                if( loiUri != '' )
+                    str += ' rdf:about="' + $( '#loiUri' ).val() + '"';
+                str += '>' + "\n";
+                str += '        <rdf:type resource="oeaf:rc0003"/>' + "\n";
+                if( loiIdentifier != '' )
+                    str += '        <' + tagLoiIdentifier + '>' + loiIdentifier + '</' + tagLoiIdentifier + '>' + "\n";
+                if( loiTitle != '' )
+                    str += '        <' + tagLoiTitle + '>' + loiTitle + '</' + tagLoiTitle + '>' + "\n";
+                if( loiPublicationDate != '' )
+                    str += '        <' + tagLoiPublicationDate + '>' + loiPublicationDate + '</' + tagLoiPublicationDate + '>' + "\n";
+                if( loiDescription != '' )
+                    str += '        <' + tagLoiDescription + '>' + loiDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiDescription + '>' + "\n";
+                if( loiLocationUri != '' ) {
+                    if( loiLocationIsEmbedded ) {
+                        str += '        <' + tagLoiGeolocation + '>' + "\n";
+                        str += '          <' + tagGeographicalLocation + ' rdf:about="' + loiLocationUri + '">' + "\n";
+                        if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
+                            str += '            <' + tagLoiLocationLongitude + '>' + loiLocationLongitude + '</' + tagLoiLocationLongitude + ">\n";
+                            str += '            <' + tagLoiLocationLatitude + '>' + loiLocationLatitude + '</'+ tagLoiLocationLatitude + ">\n";
+                        }
+                        if( loiLocationDescription != '' )
+                            str += '            <' + tagLoiLocationDescription + '>' + loiLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiLocationDescription + ">\n";
+                        str += '          </' + tagGeographicalLocation + '>' + "\n";
+                        str += '        </' + tagLoiGeolocation + '>' + "\n";
+                    }
+                    else {
+                        str += '        <' + tagLoiGeolocation + ' rdf:resource="' + loiLocationUri + '"/>' + "\n";
+
+                        if( loiLocationLongitude != '' && loiLocationLatitude != '' || loiLocationDescription != '' ) {
+                            extLocationStr = '  <' + tagGeographicalLocation + ' rdf:about="' + loiLocationUri + '">' + "\n";
+                            if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
+                                extLocationStr += '    <' + tagLoiLocationLongitude + '>' + loiLocationLongitude + '</' + tagLoiLocationLongitude + ">\n";
+                                extLocationStr += '    <' + tagLoiLocationLatitude + '>' + loiLocationLatitude + '</'+ tagLoiLocationLatitude + ">\n";
+                            }
+                            if( loiLocationDescription != '' )
+                                extLocationStr += '    <' + tagLoiLocationDescription + '>' + loiLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiLocationDescription + ">\n";
+                            extLocationStr += '  </' + tagGeographicalLocation + '>' + "\n";
+                        }
+                    }
+                }
+                if( loiStartDate != '' )
+                    str += '        <' + tagLoiStartDate + '>' + loiStartDate + '</' + tagLoiStartDate + '>' + "\n";
+                if( loiEndDate != '' )
+                    str += '        <' + tagLoiEndDate + '>' + loiEndDate + '</' + tagLoiEndDate + '>' + "\n";
+                if( loiDuration != '' )
+                    str += '        <' + tagLoiDuration + '>' + loiDuration + '</' + tagLoiDuration + '>' + "\n";
+                if( loiPerformanceDate != '' )
+                    str += '        <' + tagLoiPerformanceDate + '>' + loiPerformanceDate + '</' + tagLoiPerformanceDate + '>' + "\n";
+                if( loiNumberOfPlaces != '' )
+                    str += '        <' + tagLoiNumberOfPlaces + '>' + loiNumberOfPlaces + '</' + tagLoiNumberOfPlaces + '>' + "\n";
+                if( loiCost != '' )
+                    str += '        <' + tagLoiCost + '>' + loiCost + '</' + tagLoiCost + '>' + "\n";
+                if( loiPerformanceLanguage != null ) {
+                    for( var i = 0; i < $( '#loiPerformanceLanguage' ).val().length; i++ ) {
+                        var langValue = $( '#loiPerformanceLanguage' ).val()[ i ]; 
+                        str += '        <' + tagLoiPerformanceLanguage + '>' + langValue + '</' + tagLoiPerformanceLanguage + '>' + "\n";
+                    }
+                }
+                if( loiProviderUri != '' ) {
+                    if( loiProviderIsEmbedded ) {
+                        str += '        <' + tagLoiProvider + '>' + "\n";
+                        str += '          <' + tagNaturalPerson + ' rdf:about="' + loiProviderUri + '">' + "\n";
+                        if( loiProviderName != '' )
+                            str += '            <' + tagLoiProviderName + '>' + loiProviderName + '</' + tagLoiProviderName + ">\n";
+                        if( loiProviderEmail != '' )
+                            str += '            <' + tagLoiProviderEmail + '>' + loiProviderEmail + '</' + tagLoiProviderEmail + ">\n";
+                        if( loiProviderWorkTelephone != '' )
+                            str += '            <' + tagLoiProviderWorkTelephone + '>' + loiProviderWorkTelephone + '</' + tagLoiProviderWorkTelephone + ">\n";
+                        str += '          </' + tagNaturalPerson + '>' + "\n";
+                        str += '        </' + tagLoiProvider + '>' + "\n";
+                    }
+                    else {
+                        str += '        <' + tagLoiProvider + ' rdf:resource="' + loiProviderUri + '"/>' + "\n";
+
+                        if( loiProviderName != '' ||  loiProviderEmail != '' || loiProviderWorkTelephone != '' ) {
+                            extProviderStr = '  <' + tagNaturalPerson + ' rdf:about="' + loiProviderUri + '">' + "\n";
+                            if( loiProviderName != '' )
+                                extProviderStr += '    <' + tagLoiProviderName + '>' + loiProviderName + '</' + tagLoiProviderName + ">\n";
+                            if( loiProviderEmail != '' )
+                                extProviderStr += '    <' + tagLoiProviderEmail + '>' + loiProviderEmail + '</' + tagLoiProviderEmail + ">\n";
+                            if( loiProviderWorkTelephone != '' )
+                                extProviderStr += '    <' + tagLoiProviderWorkTelephone + '>' + loiProviderWorkTelephone + '</' + tagLoiProviderWorkTelephone + ">\n";
+                            extProviderStr += '  </' + tagNaturalPerson + '>' + "\n";
+                        }
+                    }
+                }
+                if( loiDeliveryMode != null ) { 
+                    for( var i = 0; i < $( '#loiDeliveryMode' ).val().length; i++ ) {
+                        var deliveryModeValue = $( '#loiDeliveryMode' ).val()[ i ]; 
+                        if( deliveryModeValue != '' )
+                            str += '        <' + tagLoiDeliveryMode + '>' + deliveryModeValue + '</' + tagLoiDeliveryMode + '>' + "\n"; 
+                    }
+                }
+                if( loiRegistrationModalities != '' )
+                    str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + tagLoiRegistrationModalities + "\n";
+                if( loiLastMinuteInfos != '' )
+                    str += '        <' + tagLoiLastMinuteInfos + '>' + loiLastMinuteInfos + tagLoiLastMinuteInfos.replace( /\n/g, '\\n' ) + "\n";
+                str += '      </oeaf:learningOpportunityInstance>' + "\n";
+                //str += '    </mlr-8:describe>' + "\n";
+                //str += '  </mlr-8:MLR_Record>\n';
+
+                if( extLocationStr != null )
+                    str += extLocationStr;
+                if( extProviderStr != null )
+                    str += extProviderStr;
+
+                str += '</rdf:RDF>';
+            }
+            else { // RDFa HTML and XHTML
+                if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    str += '<!DOCTYPE html>' + "\n";
+                    str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+                else { // RDFa XHTML
+                    str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                    str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                        'version="XHTML+RDFa 1.1" ' + "\n" +
+                        //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                        //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                        'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                    str += '  <body prefix="' + "\n" +
+                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
+                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                }
+
+                str += '    <div';
+                if( loiUri != '' )
+                    str += ' resource="' + $( '#loiUri' ).val() + '"';
+                str += ' typeof="oeaf:rc0003">' + "\n";
+                if( loiTitle != '' ) {
+                    str += '      <b><span property="' + tagLoiTitle + '">' + loiTitle;
+                    if( loiIdentifier != '' ) 
+                        str += ' (<span property="' + tagLoiIdentifier + '">' + loiIdentifier + '</span>)';
+                    str += '</span></b><br/>' + "\n";
+                }
+                if( loiDescription != '' )
+                    str += '      <span property="' + tagLoiDescription + '">' + loiDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                if( loiPublicationDate != '' )
+                    str += '      Publication Date: <span property="' + tagLoiPublicationDate + '">' + loiPublicationDate + '</span><br/>' + "\n";
+                if( loiStartDate != '' && loiEndDate != '' )
+                    str += '      From: <span property="' + tagLoiStartDate + '">' + loiStartDate + '</span> to <span property="' + tagLoiEndDate + '">' + loiEndDate + '</span><br/>' + "\n";
+                if( loiDuration != '' )
+                    str += '      Duration: <span property="' + tagLoiDuration + '">' + loiDuration + '</span><br/>' + "\n";
+                if( loiPerformanceDate != '' )
+                    str += '      Performance Date: <span property="' + tagLoiPerformanceDate + '">' + loiPerformanceDate + '</span><br/>' + "\n";
+                if( loiNumberOfPlaces != '' )
+                    str += '      Number of places: <span property="' + tagLoiNumberOfPlaces + '">' + loiNumberOfPlaces + '</span><br/>' + "\n";
+                if( loiCost != '' )
+                    str += '      Cost: <span property="' + tagLoiCost + '">' + loiCost + '</span><br/>' + "\n";
+                if( loiPerformanceLanguage != null ) {
+                    var delimiter = '';
+                    str += '      Performance Language: ';
+                    for( var i = 0; i < $( '#loiPerformanceLanguage' ).val().length; i++ ) {
+                        var langValue = $( '#loiPerformanceLanguage' ).val()[ i ]; 
+                        str += delimiter + '<span property="' + tagLoiPerformanceLanguage + '" content="' + langValue + '">' + langTable[ langValue ] + '</span>'
+                        delimiter = ', ';
+                    }
+                    str += '<br/>' + "\n";
+                }
+                if( loiProviderUri != '' ) {
+                    if( loiProviderName != '' || loiProviderEmail != '' || loiProviderWorkTelephone != '' ) {
+                        str += '      <br/><br/>' + "\n";
+                        str += '      Provided by: <div style="display: inline-table;" property="' + tagLoiProvider + '" resource="' + loiProviderUri + '" typeof="' + tagNaturalPerson + '">';
+                        if( loiProviderName != '' )
+                            str += '<span property="' + tagLoiProviderName + '">' + loiProviderName + '</span> ';
+                        if( loiProviderEmail != '' )
+                            str += '(<a property="' + tagLoiProviderEmail + '" href="mailto:' + loiProviderEmail + '">' + loiProviderEmail + '</a>)<br/>' + "\n";
+                        if( loiProviderWorkTelephone != '' )
+                            str += 'Tel.: <span property="' + tagLoiProviderWorkTelephone + '">' + loiProviderWorkTelephone + '</span><br/>' + "\n";  
+                        str += '      </div>' + "\n";
+                    }
+                    else {
+                        str += '      <span property="' + tagLoiProvider + '" resource="' + loiProviderUri + '"/>' + "\n";
+                    }
+                }
+                if( loiDeliveryMode != null ) { 
+                    var deliveryModeHeader = "      <br/> \n      Delivery Modes: <ul>\n";
+                    for( var i = 0; i < $( '#loiDeliveryMode' ).val().length; i++ ) {
+                        var deliveryModeValue = $( '#loiDeliveryMode' ).val()[ i ]; 
+                        if( deliveryModeValue != '' ) {
+                            str += deliveryModeHeader; 
+                            str += '      <li><span property="' + tagLoiDeliveryMode + '" content="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
+                            deliveryModeHeader = '';
+                        }
+                    }
+                    if( deliveryModeHeader == '' )
+                        str += "</ul><br/>\n";
+                }
+                if( loiRegistrationModalities != '' ) {
+                    str += '      <br/><br/>' + "\n";
+                    str += '      Registration Modalities:<br/>' + "\n";
+                    str += '      <span property="' + tagLoiRegistrationModalities + '">' + loiRegistrationModalities.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                }
+                if( loiLastMinuteInfos != '' ) {
+                    str += '      <br/><br/>' + "\n";
+                    str += '      Last Minute Infos:<br/>' + "\n";
+                    str += '      <span property="' + tagLoiLastMinuteInfos + '">' + loiLastMinuteInfos.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                }
+                if( loiLocationUri != '' ) {
+                    if( loiLocationLongitude != '' && loiLocationLatitude != '' || loiLocationDescription != '' ) {
+                        str += '      <br/><br/>' + "\n";
+                        str += '      Location: <div style="display: inline-table;" property="' + tagLoiGeolocation + '" resource="' + loiLocationUri + '" typeof="' + tagGeographicalLocation + '">';
+                        if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
+                            str += 'Lat.: <span property="' + tagLoiLocationLatitude + '">' + loiLocationLatitude + '</span> ';
+                            str += 'Long.: <span property="' + tagLoiLocationLongitude + '">' + loiLocationLongitude + '</span><br/>' + "\n";
+                        }
+                        if( loiLocationDescription != '' ) 
+                            str += '        <span property="' + tagLoiLocationDescription + '">' + loiLocationDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                        str += '      </div>' + "\n";
+                    }
+                    else {
+                        str += '      <span property="' + tagLoiGeolocation + '" resource="' + loiLocationUri + '"/>' + "\n";
+                    }
+                }
+                str += '    </div>' + "\n";
+                str += '  </body>' + "\n";
+                str += '</html>' + "\n";
+            }
+            return( str );
+        }
+
+        $( window.doInit );
+    //]]>
+    </script>
+</head>
+<body>
+    <h1>OEAF Creator - LOI</h1>
+    <div class="inputs">
+        <form id="loiForm" action="" onreset="doReset();">
+            <fieldset>
+                <legend>Learning Opportunity Instance (LOI)</legend>
+                <div class="field uri">
+                    <label for="loiUri">uri</label>
+                    <input type="text" id="loiUri" />
+                </div>
+                <div class="field">
+                    <label for="loiIdentifier">identifier</label>
+                    <input type="text" id="loiIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="loiTitle">title</label>
+                    <input type="text" id="loiTitle" />
+                </div>
+                <div class="field">
+                    <label for="loiPublicationDate">publication date</label>
+                    <input type="text" id="loiPublicationDate" />
+                </div>
+                <div class="field">
+                    <label for="loiDescription">description</label>
+                    <textarea id="loiDescription" rows="12" cols="30"></textarea>
+                </div>
+                <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
+                    <legend>geolocation</legend>
+                    <div class="field">
+                        <label for="loiLocationIsEmbedded">embedded</label>
+                        <input type="checkbox" id="loiLocationIsEmbedded" name="loiLocationIsEmbedded" checked="checked" />
+                    </div>
+                    <div class="field uri">
+                        <label for="loiLocationUri">uri</label>
+                        <input type="text" id="loiLocationUri" />
+                    </div>
+                    <div class="field">
+                        <label for="loiLocationLongitude">longitude</label>
+                        <input type="text" id="loiLocationLongitude" />
+                    </div>
+                    <div class="field">
+                        <label for="loiLocationLatitude">latitude</label>
+                        <input type="text" id="loiLocationLatitude" />
+                    </div>
+                    <div class="field">
+                        <label for="loiLocationDescription">description</label>
+                        <textarea id="loiLocationDescription" rows="12" cols=30"></textarea>
+                    </div>
+                </fieldset>
+                <div class="field">
+                    <label for="loiStartDate">start date</label>
+                    <input type="text" id="loiStartDate" />
+                </div>
+                <div class="field">
+                    <label for="loiEndDate">end date</label>
+                    <input type="text" id="loiEndDate" />
+                </div>
+                <div class="field">
+                    <label for="loiDuration">duration</label>
+                    <input type="text" id="loiDuration" />
+                </div>
+                <div class="field">
+                    <label for="loiPerformanceDate">performance date</label>
+                    <input type="text" id="loiPerformanceDate" />
+                </div>
+                <div class="field">
+                    <label for="loiNumberOfPlaces">number of places</label>
+                    <input type="text" id="loiNumberOfPlaces" />
+                </div>
+                <div class="field">
+                    <label for="loiCost">cost</label>
+                    <input type="text" id="loiCost" />
+                </div>
+                <div class="field">
+                    <label for="loiPerformanceLanguage">performance language</label>
+                    <select id="loiPerformanceLanguage"></select>
+                </div>
+                <fieldset>
+                    <legend>provider</legend>
+                    <div class="field">
+                        <label for="loiProviderIsEmbedded">embedded</label>
+                        <input type="checkbox" id="loiProviderIsEmbedded" name="loiProviderIsEmbedded" checked="checked" />
+                    </div>
+                    <div class="field uri">
+                        <label for="loiProviderUri">uri</label>
+                        <input type="text" id="loiProviderUri" />
+                    </div>
+                    <div class="field">
+                        <label for="loiProviderName">name</label>
+                        <input type="text" id="loiProviderName" />
+                    </div>
+                    <div class="field">
+                        <label for="loiProviderEmail">email</label>
+                        <input type="text" id="loiProviderEmail" />
+                    </div>
+                    <div class="field">
+                        <label for="loiProviderWorkTelephone">work telephone</label>
+                        <input type="text" id="loiProviderWorkTelephone" />
+                    </div>
+                </fieldset>
+                <div class="field">
+                    <label for="loiDeliveryMode">delivery mode</label>
+                    <select id="loiDeliveryMode"></select>
+                </div>
+                <div class="field">
+                    <label for="loiRegistrationModalities">registration modalities</label>
+                    <textarea id="loiRegistrationModalities" rows="12" cols="30"></textarea>
+                </div>
+                <div class="field">
+                    <label for="loiLastMinuteInfos">last minute infos</label>
+                    <textarea id="loiLastMinuteInfos" rows="12" cols=30"></textarea>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="optionsAndOutput">
+
+        <div class="options">
+            <h2>Options</h2>
+            Show URIs: <input type="checkbox" form="loiForm" id="showUris" name="showUris" checked="checked" /><br />
+            Generation: <input type="radio" form="loiForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="loiForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="loiForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label>
+        </div>
+
+        <div class="output">
+            <h2>Code</h2>
+            <pre class="xml"><code id="sampleCode"></code></pre>
+
+            <h2>Preview</h2>
+            <div id="preview">
+                <span></span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

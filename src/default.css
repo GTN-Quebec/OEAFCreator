@@ -1,0 +1,98 @@
+body {
+    font-size: 16px;
+}
+
+label {
+    text-align:right; 
+    font-weight:bold; 
+    width:10em; 
+    padding-right:.2em;
+}
+
+div.field label:first-child {
+    float:left; 
+    clear:left;  
+}
+
+div.field { 
+    margin-bottom:.6em; 
+    font-size:smaller 
+}
+
+div.field input { 
+    width: 16.2em; 
+    line-height:2.3em 
+}
+
+div.submit { 
+    margin:1em 0 1em 7em 
+}
+
+.submit button,.submit input { 
+    margin-left:1em 
+}
+
+div.inputs { 
+    /*width:28em; */
+    width: 50%; 
+    float:left; 
+    margin-right:2em 
+}
+
+form { 
+    margin:0 
+}
+
+fieldset { 
+    margin-bottom: 10px 
+}
+
+h2 {
+    margin:.3em 0 .1em 0; 
+    font-size:1em 
+}
+
+div.optionsAndOutput { 
+    float:left; width:45%; 
+}
+
+div#preview { 
+    padding:.5em; 
+    background:#ccc; 
+    border:1px solid black; 
+    margin-right:2em; 
+    font-size:90% 
+}
+
+div.about { 
+    clear:both; 
+    padding-top:4em 
+}
+
+textarea{
+    font-family:sans-serif; 
+    font-size:12px;
+}
+
+div#warning {
+    font-weight:bold;
+    background-color: red;
+    display:none;
+}
+
+.notDisplayed {
+    display: none;
+}
+
+#sampleCode {
+    overflow: auto;
+    overflow-y: auto;
+}
+
+code {
+    border: solid 1px black;
+}
+
+div.output {
+    margin-top: 15px;
+}

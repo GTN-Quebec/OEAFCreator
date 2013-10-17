@@ -1,0 +1,10 @@
+Implement an editor for provider.  We should link to a uri in the CLO editor instead of embedding a sub-editor. 
+Implement smaller objects like Person, NaturalPerson, Organization, Geolocation
+Implement the links between objects (red links from the Global View (Fig. D.1, p.62, Profil_OEAF_v0.7.5))
+Should we prepend the number t010 before the vocabulary values in the form's list and prepend also some space to indent the hierarchical vocabularies.  As the items are sorted  (and that the number t010 would be taken into account), the items would be shown as declared in the specs.
+Maybe add an option to hide the header and footer boilerplate code.
+It would be nice to have a button that validate the resulting code.
+It would be nice to have a button that would copy the generated code into the clipboard.
+Add an option to use neutral uri instead or language-specific (either French, English, or another language) or both.
+What about the language attribute of the strings?  Should we set the language or not in the header of the html/xhtml? Should the form allow the input of strings in different languages (e.g.: 1 title in English and 1 title in French)? For now, I say no.
+Handle langstrings.
