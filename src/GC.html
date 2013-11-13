@@ -48,6 +48,7 @@
             var gcDescription = $( '#gcDescription' ).val();
             var gcOpportunityType = $( '#gcOpportunityType' ).val();
             var gcEducationalLevel = $( '#gcEducationalLevel' ).val();
+            var gcAssessmentType = $( '#gcAssessmentType' ).val();
             var gcObjective = $( '#gcObjective' ).val();
             var gcOutputQualification = $( '#gcOutputQualification' ).val();
 
@@ -122,11 +123,11 @@
                     } 
                 );
                 if( gcAssessmentType != null ) { 
-                    //for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
-                    //    var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
-                    //    if( assessmentTypeValue != '' )
-                    //        str += '        <' + tagGcAssessmentType + '>' + assessmentTypeValue + '</' + tagGcAssessmentType + '>' + "\n"; 
-                    //}
+                    for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
+                        var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
+                        if( assessmentTypeValue != '' )
+                            str += '        <' + tagGcAssessmentType + '>' + assessmentTypeValue + '</' + tagGcAssessmentType + '>' + "\n"; 
+                    }
                 }
                 if( gcObjective != '' )
                     str += '        <' + tagGcObjective + '>' + gcObjective.replace( /\n/g, '\\n' ) + '</' + tagGcObjective + '>' + "\n";
