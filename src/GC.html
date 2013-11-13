@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="lib/styles/default.css"/>
     <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
     <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
     <script type="text/javascript" src="lib/uuid.js"></script>
     <script type="text/javascript" src="lib/highlight.pack.js"></script>
     <script type="text/javascript" src="util.js"></script>
     <script>
     //<![CDATA[
         function doInit() {
+            var clip = new ZeroClipboard( $( '#gcCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var gcUri = uuid.v4();
             $( '#gcUri' ).val( 'urn:' + gcUri );
             $( 'input' ).keyup( window.codeIt );
@@ -120,11 +122,11 @@
                     } 
                 );
                 if( gcAssessmentType != null ) { 
-                    for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
-                        var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
-                        if( assessmentTypeValue != '' )
-                            str += '        <' + tagGcAssessmentType + '>' + assessmentTypeValue + '</' + tagGcAssessmentType + '>' + "\n"; 
-                    }
+                    //for( var i = 0; i < $( '#gcAssessmentType' ).val().length; i++ ) {
+                    //    var assessmentTypeValue = $( '#gcAssessmentType' ).val()[ i ]; 
+                    //    if( assessmentTypeValue != '' )
+                    //        str += '        <' + tagGcAssessmentType + '>' + assessmentTypeValue + '</' + tagGcAssessmentType + '>' + "\n"; 
+                    //}
                 }
                 if( gcObjective != '' )
                     str += '        <' + tagGcObjective + '>' + gcObjective.replace( /\n/g, '\\n' ) + '</' + tagGcObjective + '>' + "\n";
@@ -354,6 +356,7 @@
         <div class="output">
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="gcCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
 
             <h2>Preview</h2>
             <div id="preview">

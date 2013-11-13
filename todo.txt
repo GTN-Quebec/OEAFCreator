@@ -1,3 +1,4 @@
+In Chromium, there is a problem with length property when dealing with gcAssessmentType when generating RDF in getCode().
 Implement an editor for provider.  We should link to a uri in the CLO editor instead of embedding a sub-editor. 
 Implement smaller objects like Person, NaturalPerson, Organization, Geolocation
 Implement the links between objects (red links from the Global View (Fig. D.1, p.62, Profil_OEAF_v0.7.5))

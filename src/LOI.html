@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="lib/styles/default.css"/>
     <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
     <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
     <script type="text/javascript" src="lib/uuid.js"></script>
     <script type="text/javascript" src="lib/highlight.pack.js"></script>
     <script type="text/javascript" src="util.js"></script>
     <script>
     //<![CDATA[
         function doInit() {
+            var clip = new ZeroClipboard( $( '#loiCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var loiUri = uuid.v4();
             $( '#loiUri' ).val( 'urn:' + loiUri );
             $( 'input' ).keyup( window.codeIt );
@@ -487,6 +489,7 @@
         <div class="output">
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="loiCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
 
             <h2>Preview</h2>
             <div id="preview">
