@@ -64,8 +64,7 @@
                 str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
                 str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
                     'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
-                    'xmlns:mlr-2="http://standards.iso.org/iso-iec/19788/-1/ed-1/en/" ' + "\n\t" +
-                    'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    //'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                     'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                     'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                     'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
@@ -96,7 +95,7 @@
                     str += '        <' + tagLopLocation + '>' + lopLocation + '</' + tagLopLocation + '>' + "\n";
                 if( lopWebSite != '' )
                     str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
-                if( lopType != null )
+                if( lopType != null && lopType != '' )
                     str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
                 str += '      </oeaf:learningOpportunityProvider>' + "\n";
                 //str += '    </mlr-8:describe>' + "\n";
@@ -112,8 +111,7 @@
                         //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
                         '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                         '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
-                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                         '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                         '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                         '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
@@ -131,8 +129,7 @@
                         //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
                         '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                         '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        '    mlr-2: http:standards.iso.org/iso-iec/19788/-1/ed-1/en/' + "\n" +
-                        '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                        //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                         '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                         '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                         '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
@@ -170,7 +167,7 @@
                     str += '      Loc.: <span property="' + tagLopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
                 if( lopWebSite != '' )
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
-                if( lopType != null )
+                if( lopType != null && lopType != '' )
                     str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
                 str += '    </div>' + "\n";
                 str += '  </body>' + "\n";
