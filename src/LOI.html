@@ -265,10 +265,10 @@
                     str += ' resource="' + $( '#loiUri' ).val() + '"';
                 str += ' typeof="oeaf:rc0003">' + "\n";
                 if( loiTitle != '' ) {
-                    str += '      <b><span property="' + tagLoiTitle + '">' + loiTitle;
+                    str += '      <b><span property="' + tagLoiTitle + '">' + loiTitle + '</span>';
                     if( loiIdentifier != '' ) 
                         str += ' (<span property="' + tagLoiIdentifier + '">' + loiIdentifier + '</span>)';
-                    str += '</span></b><br/>' + "\n";
+                    str += '</b><br/>' + "\n";
                 }
                 if( loiDescription != '' )
                     str += '      <span property="' + tagLoiDescription + '">' + loiDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";

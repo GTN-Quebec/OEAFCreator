@@ -144,7 +144,10 @@
                     str += ' resource="' + $( '#lopUri' ).val() + '"';
                 str += ' typeof="oeaf:rc0001">' + "\n";
                 if( lopName != '' ) {
-                    str += '      <b><span property="' + tagLopName + '">' + lopName + '</span></b>';
+                    str += '      <b><span property="' + tagLopName + '">' + lopName + '</span>';
+                    if( lopIdentifier != '' ) 
+                        str += ' (<span property="' + tagLopIdentifier + '">' + lopIdentifier + '</span>)';
+                    str += '</b><br/>' + "\n";
                     if( lopEmail != '' ) 
                         str += ' (<a property="' + tagLopEmail + '" href="mailto:' + lopEmail + '">' + lopEmail + '</a>)';
                     str += '<br/>' + "\n";

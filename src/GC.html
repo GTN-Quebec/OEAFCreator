@@ -179,10 +179,10 @@
                     str += ' resource="' + $( '#gcUri' ).val() + '"';
                 str += ' typeof="oeaf:rc0002">' + "\n";
                 if( gcTitle != '' ) {
-                    str += '      <b><span property="' + tagGcTitle + '">' + gcTitle;
+                    str += '      <b><span property="' + tagGcTitle + '">' + gcTitle + '</span>';
                     if( gcIdentifier != '' ) 
                         str += ' (<span property="' + tagGcIdentifier + '">' + gcIdentifier + '</span>)';
-                    str += '</span></b><br/>' + "\n";
+                    str += '</b><br/>' + "\n";
                 }
                 if( gcDescription != '' )
                     str += '      <span property="' + tagGcDescription + '">' + gcDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
