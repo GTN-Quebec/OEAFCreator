@@ -83,7 +83,7 @@
                 if( gcUri != '' )
                     str += ' rdf:about="' + $( '#gcUri' ).val() + '"';
                 str += '>' + "\n";
-                str += '        <rdf:type resource="oeaf:rc0002"/>' + "\n";
+                str += '        <rdf:type rdf:resource="oeaf:rc0002"/>' + "\n";
                 if( gcIdentifier != '' )
                     str += '        <' + tagGcIdentifier + '>' + gcIdentifier + '</' + tagGcIdentifier + '>' + "\n";
                 if( gcTitle != '' )
@@ -134,8 +134,8 @@
                 if( gcOutputQualification != '' )
                     str += '        <' + tagGcOutputQualification + '>' + gcOutputQualification.replace( /\n/g, '\\n' ) + '</' + tagGcOutputQualification + '>' + "\n";
                 str += '      </oeaf:genericComponent>' + "\n";
-                str += '    </mlr-8:describe>' + "\n";
-                str += '  </mlr-8:MLR_Record>\n';
+                //str += '    </mlr-8:describe>' + "\n";
+                //str += '  </mlr-8:MLR_Record>\n';
                 str += '</rdf:RDF>';
             }
             else { // RDFa HTML and XHTML
@@ -357,7 +357,23 @@
         <div class="output">
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="validationButton" type="submit">Validate</button>
             <button id="gcCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+
+            <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
+                <input type="hidden" id="RDF" name="RDF"/>
+                <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
+                <input type="hidden" name="FORMAT" value="PNG_EMBED"/>
+            </form>
+
+            <form id="rdfaValidation" action="http://www.w3.org/2012/pyRdfa/extract" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="text" name="text"/>
+                <input type="hidden" name="host-language_text"/>
+                <input type="hidden" name="rdfa-lite_text" value="false"/>
+                <input type="hidden" name="vocab-expansion_text" value="false"/>
+                <input type="hidden" name="embedded-rdf_text" value="true"/>
+                <input type="hidden" name="validate" value="yes"/>
+            </form>
 
             <h2>Preview</h2>
             <div id="preview">

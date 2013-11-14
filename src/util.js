@@ -469,8 +469,18 @@ function codeIt() {
     hljs.tabReplace = '    ';
     hljs.highlightBlock( $( '#sampleCode' ).get( 0 ) );
 
-    if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) // RDF
+    if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
         $( '#preview' ).html( '' );
-    else // RDFa HTML and RDFa XHTML
+        $( '#RDF' ).val( code );
+        $( '#validationButton' ).attr( 'form', 'rdfValidation' );
+    }
+    else { // RDFa HTML and RDFa XHTML
         $( '#preview' ).html( code );
+        $( '#text' ).val( code );
+        $( '#validationButton' ).attr( 'form', 'rdfaValidation' );
+        if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) // RDFa HTML
+            $( '#host-language_text' ).val( 'html' );
+        else // RDFa XHTML
+            $( '#host-language_text' ).val( 'xhtml' );
+    }
 }

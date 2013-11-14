@@ -80,7 +80,7 @@
             var tagLoiEndDate = getTag( 'loiEndDate', lang );
             var tagLoiDuration = getTag( 'loiDuration', lang );
             var tagLoiPerformanceDate = getTag( 'loiPerformanceDate', lang );
-            var tagLoiNumberOfPlaces = getTag( 'loiNumberOfPlaces' );
+            var tagLoiNumberOfPlaces = getTag( 'loiNumberOfPlaces', lang );
             var tagLoiCost = getTag( 'loiCost', lang );
             var tagLoiPerformanceLanguage = getTag( 'loiPerformanceLanguage', lang );
             var tagLoiDeliveryMode = getTag( 'loiDeliveryMode', lang );
@@ -119,7 +119,7 @@
                 if( loiUri != '' )
                     str += ' rdf:about="' + $( '#loiUri' ).val() + '"';
                 str += '>' + "\n";
-                str += '        <rdf:type resource="oeaf:rc0003"/>' + "\n";
+                str += '        <rdf:type rdf:resource="oeaf:rc0003"/>' + "\n";
                 if( loiIdentifier != '' )
                     str += '        <' + tagLoiIdentifier + '>' + loiIdentifier + '</' + tagLoiIdentifier + '>' + "\n";
                 if( loiTitle != '' )
@@ -210,9 +210,9 @@
                     }
                 }
                 if( loiRegistrationModalities != '' )
-                    str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + tagLoiRegistrationModalities + "\n";
+                    str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagLoiRegistrationModalities + '>' + "\n";
                 if( loiLastMinuteInfos != '' )
-                    str += '        <' + tagLoiLastMinuteInfos + '>' + loiLastMinuteInfos + tagLoiLastMinuteInfos.replace( /\n/g, '\\n' ) + "\n";
+                    str += '        <' + tagLoiLastMinuteInfos + '>' + loiLastMinuteInfos.replace( /\n/g, '\\n' ) + '</' + tagLoiLastMinuteInfos + '>' + "\n";
                 str += '      </oeaf:learningOpportunityInstance>' + "\n";
                 //str += '    </mlr-8:describe>' + "\n";
                 //str += '  </mlr-8:MLR_Record>\n';
@@ -489,7 +489,23 @@
         <div class="output">
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="validationButton" type="submit">Validate</button>
             <button id="loiCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+
+            <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
+                <input type="hidden" id="RDF" name="RDF"/>
+                <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
+                <input type="hidden" name="FORMAT" value="PNG_EMBED"/>
+            </form>
+
+            <form id="rdfaValidation" action="http://www.w3.org/2012/pyRdfa/extract" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="text" name="text"/>
+                <input type="hidden" name="host-language_text"/>
+                <input type="hidden" name="rdfa-lite_text" value="false"/>
+                <input type="hidden" name="vocab-expansion_text" value="false"/>
+                <input type="hidden" name="embedded-rdf_text" value="true"/>
+                <input type="hidden" name="validate" value="yes"/>
+            </form>
 
             <h2>Preview</h2>
             <div id="preview">

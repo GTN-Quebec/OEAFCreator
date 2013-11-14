@@ -70,14 +70,14 @@
                     'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                     'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                     'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-            //    str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
-            //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-            //    str += '    <mlr-8:describe>' + "\n";
+                //    XMLSchematr += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
+                //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                //    str += '    <mlr-8:describe>' + "\n";
                 str += '      <oeaf:learningOpportunityProvider';
                 if( lopUri != '' )
                     str += ' rdf:about="' + $( '#lopUri' ).val() + '"';
                 str += '>' + "\n";
-                str += '        <rdf:type resource="oeaf:rc0001"/>' + "\n";
+                str += '        <rdf:type rdf:resource="oeaf:rc0001"/>' + "\n";
                 if( lopIdentifier != '' )
                     str += '        <' + tagLopIdentifier + '>' + lopIdentifier + '</' + tagLopIdentifier + '>' + "\n";
                 if( lopName != '' )
@@ -99,8 +99,8 @@
                 if( lopType != null )
                     str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
                 str += '      </oeaf:learningOpportunityProvider>' + "\n";
-                str += '    </mlr-8:describe>' + "\n";
-                str += '  </mlr-8:MLR_Record>\n';
+                //str += '    </mlr-8:describe>' + "\n";
+                //str += '  </mlr-8:MLR_Record>\n';
                 str += '</rdf:RDF>';
             }
             else { // RDFa HTML and XHTML
@@ -247,7 +247,23 @@
         <div class="output">
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="validationButton" type="submit">Validate</button>
             <button id="lopCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+
+            <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
+                <input type="hidden" id="RDF" name="RDF"/>
+                <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
+                <input type="hidden" name="FORMAT" value="PNG_EMBED"/>
+            </form>
+
+            <form id="rdfaValidation" action="http://www.w3.org/2012/pyRdfa/extract" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="text" name="text"/>
+                <input type="hidden" name="host-language_text"/>
+                <input type="hidden" name="rdfa-lite_text" value="false"/>
+                <input type="hidden" name="vocab-expansion_text" value="false"/>
+                <input type="hidden" name="embedded-rdf_text" value="true"/>
+                <input type="hidden" name="validate" value="yes"/>
+            </form>
 
             <h2>Preview</h2>
             <div id="preview">
