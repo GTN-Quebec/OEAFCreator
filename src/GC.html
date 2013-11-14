@@ -80,10 +80,10 @@
             //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
             //    str += '    <mlr-8:describe>' + "\n";
                 str += '      <oeaf:genericComponent';
-                str += '        <rdf:type resource="oeaf:rc0002"/>' + "\n";
                 if( gcUri != '' )
                     str += ' rdf:about="' + $( '#gcUri' ).val() + '"';
                 str += '>' + "\n";
+                str += '        <rdf:type resource="oeaf:rc0002"/>' + "\n";
                 if( gcIdentifier != '' )
                     str += '        <' + tagGcIdentifier + '>' + gcIdentifier + '</' + tagGcIdentifier + '>' + "\n";
                 if( gcTitle != '' )

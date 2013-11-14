@@ -250,6 +250,24 @@ var tagTable = {
         '--': 'mlr-9:des1000',
         'eng': 'mlr-9:workTelephone',
         'fra': 'mlr-9:téléphoneTravail'
+    },
+
+    // Geolocation
+    
+    'geoLocLongitude': {
+        '--': 'mlr-9:des1400',
+        'eng': 'mlr-9:longitude',
+        'fra': 'mlr-9:longitude'
+    },
+    'geoLocLatitude': {
+        '--': 'mlr-9:des1500',
+        'eng': 'mlr-9:latitude',
+        'fra': 'mlr-9:latitude'
+    },
+    'geoLocDescription': {
+        '--': 'mlr-9:des1700',
+        'eng': 'mlr-9:description',
+        'fra': 'mlr-9:description'
     }
 
 };
