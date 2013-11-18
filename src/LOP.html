@@ -30,12 +30,21 @@
                         $( '.uri' ).addClass( 'notDisplayed' );
                 }
             );
+            $( '#genMainElementOnly' ).click( 
+                function() {
+                    if( $( this ).is( ':checked' ) ) 
+                        $( '#validationButton' ).addClass( 'notDisplayed' );
+                    else
+                        $( '#validationButton' ).removeClass( 'notDisplayed' );
+                }
+            );
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
             doReset();
         }
 
         function getCode() {
             var lang = 'eng';
+            var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
             var lopIdentifier = normalizeSpace( $( '#lopIdentifier' ).val() );
             var lopName = normalizeSpace( $( '#lopName' ).val() );
@@ -61,17 +70,21 @@
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
-                str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
-                    'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
-                    //'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
-                    'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
-                    'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
-                    'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
-                    'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                //    XMLSchematr += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
-                //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                //    str += '    <mlr-8:describe>' + "\n";
+
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                    str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                        'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
+                        //'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                        'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                        'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
+                        'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                        'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                    //    XMLSchematr += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
+                    //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    //    str += '    <mlr-8:describe>' + "\n";
+                }
+
                 str += '      <oeaf:learningOpportunityProvider';
                 if( lopUri != '' )
                     str += ' rdf:about="' + $( '#lopUri' ).val() + '"';
@@ -98,42 +111,47 @@
                 if( lopType != null && lopType != '' )
                     str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
                 str += '      </oeaf:learningOpportunityProvider>' + "\n";
-                //str += '    </mlr-8:describe>' + "\n";
-                //str += '  </mlr-8:MLR_Record>\n';
-                str += '</rdf:RDF>';
+
+                if( isPrologueAndEpilogueRequired ) {
+                    //str += '    </mlr-8:describe>' + "\n";
+                    //str += '  </mlr-8:MLR_Record>\n';
+                    str += '</rdf:RDF>';
+                }
             }
             else { // RDFa HTML and XHTML
-                if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
-                    str += '<!DOCTYPE html>' + "\n";
-                    str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                    str += '  <body prefix="' + "\n" +
-                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
-                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
-                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
-                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
-                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
-                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
-                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
-                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
-                }
-                else { // RDFa XHTML
-                    str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
-                    str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
-                        'version="XHTML+RDFa 1.1" ' + "\n" +
-                        //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
-                        //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
-                        'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                    str += '  <body prefix="' + "\n" +
-                        //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
-                        //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
-                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
-                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
-                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
-                        '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
-                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
-                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                if( isPrologueAndEpilogueRequired ) {
+                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                        str += '<!DOCTYPE html>' + "\n";
+                        str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                            //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                    else { // RDFa XHTML
+                        str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                        str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                            'version="XHTML+RDFa 1.1" ' + "\n" +
+                            //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                            //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                            'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
+                            //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
                 }
 
                 str += '    <div';
@@ -170,8 +188,11 @@
                 if( lopType != null && lopType != '' )
                     str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
                 str += '    </div>' + "\n";
-                str += '  </body>' + "\n";
-                str += '</html>' + "\n";
+
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '  </body>' + "\n";
+                    str += '</html>' + "\n";
+                }
             }
             return( str );
         }
@@ -241,7 +262,8 @@
             Show URIs: <input type="checkbox" form="lopForm" id="showUris" name="showUris" checked="checked" /><br />
             Generation: <input type="radio" form="lopForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="lopForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
-            <input type="radio" form="lopForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label>
+            <input type="radio" form="lopForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 
         <div class="output">

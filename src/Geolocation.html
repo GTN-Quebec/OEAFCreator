@@ -32,11 +32,20 @@
                         $( '.uri' ).addClass( 'notDisplayed' );
                 }
             );
+            $( '#genMainElementOnly' ).click( 
+                function() {
+                    if( $( this ).is( ':checked' ) ) 
+                        $( '#validationButton' ).addClass( 'notDisplayed' );
+                    else
+                        $( '#validationButton' ).removeClass( 'notDisplayed' );
+                }
+            );
             doReset();
         }
 
         function getCode() {
             var lang = 'eng';
+            var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
             var geoLocUri = normalizeSpace( $( '#geoLocUri' ).val() );
             var geoLocLongitude = normalizeSpace( $( '#geoLocLongitude' ).val() );
@@ -49,10 +58,13 @@
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
-                str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
-                    'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
-                    'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                    str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                        'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                        'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                }
                 str += '  <mlr-9:geolocation';
                 if( geoLocUri != '' )
                     str += ' rdf:about="' + $( '#geoLocUri' ).val() + '"';
@@ -64,32 +76,35 @@
                 if( geoLocDescription != '' )
                     str += '    <' + tagGeoLocDescription + '>' + geoLocDescription.replace( /\n/g, '\\n' ) + '</' + tagGeoLocDescription + '>' + "\n";
                 str += '  </mlr-9:geolocation>' + "\n";
-                str += '</rdf:RDF>';
+                if( isPrologueAndEpilogueRequired ) 
+                    str += '</rdf:RDF>';
             }
             else { // RDFa HTML and XHTML
-                if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
-                    str += '<!DOCTYPE html>' + "\n";
-                    str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                    str += '  <body prefix="' + "\n" +
-                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
-                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
-                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
-                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
-                }
-                else { // RDFa XHTML
-                    str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
-                    str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
-                        'version="XHTML+RDFa 1.1" ' + "\n" +
-                        //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
-                        //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
-                        'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                    str += '  <body prefix="' + "\n" +
-                        '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
-                        '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                        '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
-                        '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
-                        '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                if( isPrologueAndEpilogueRequired ) {
+                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                        str += '<!DOCTYPE html>' + "\n";
+                        str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                    else { // RDFa XHTML
+                        str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                        str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                            'version="XHTML+RDFa 1.1" ' + "\n" +
+                            //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                            //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                            'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
                 }
 
                 str += '    <div';
@@ -106,8 +121,11 @@
                     str += '      </div>' + "\n";
                 }
                 str += '    </div>' + "\n";
-                str += '  </body>' + "\n";
-                str += '</html>' + "\n";
+                
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '  </body>' + "\n";
+                    str += '</html>' + "\n";
+                }
             }
             return( str );
         }
@@ -149,7 +167,8 @@
             Show URIs: <input type="checkbox" form="geoLocForm" id="showUris" name="showUris" checked="checked" /><br />
             Generation: <input type="radio" form="geoLocForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="geoLocForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
-            <input type="radio" form="geoLocForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label>
+            <input type="radio" form="geoLocForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 
         <div class="output">
