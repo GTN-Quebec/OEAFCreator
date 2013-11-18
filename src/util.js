@@ -481,6 +481,30 @@ function doDefaultInit() {
                 $( '#validationButton' ).removeClass( 'notDisplayed' );
         }
     );
+    $( '#outputTypeRdf' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '#previewSection' ).addClass( 'notDisplayed' );
+            else
+                $( '#previewSection' ).removeClass( 'notDisplayed' );
+        }
+    );
+    $( '#outputTypeRdfaHtml' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '#previewSection' ).removeClass( 'notDisplayed' );
+            else
+                $( '#previewSection' ).addClass( 'notDisplayed' );
+        }
+    );
+    $( '#outputTypeRdfaXhtml' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '#previewSection' ).removeClass( 'notDisplayed' );
+            else
+                $( '#previewSection' ).addClass( 'notDisplayed' );
+        }
+    );
 }
 
 function doReset() {

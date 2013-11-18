@@ -3,7 +3,6 @@ Implement smaller objects like Person, NaturalPerson, Organization
 Implement the links between objects (red links from the Global View (Fig. D.1, p.62, Profil_OEAF_v0.7.5))
 Implement an editor for relations between objects (6.2.1).
 Should we prepend the number t010 before the vocabulary values in the form's list and prepend also some space to indent the hierarchical vocabularies.  As the items are sorted  (and that the number t010 would be taken into account), the items would be shown as declared in the specs.
-Hide preview section when RDF is selected.
 Text fields will long text values (like description) should be surrounded by CDATA tags to prevent problems when special characters are inserted (like <>&).
 Remove ShowURIs option for geolocation.
 Add an option to use neutral uri instead or language-specific (either French, English, or another language) or both.
