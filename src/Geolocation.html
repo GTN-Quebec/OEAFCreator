@@ -14,32 +14,13 @@
     <script>
     //<![CDATA[
         function doInit() {
+            doDefaultInit();
             var clip = new ZeroClipboard( $( '#geoLocCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var geoLocUri = uuid.v4();
             $( '#geoLocUri' ).val( 'urn:' + geoLocUri );
-            $( 'input' ).keyup( window.codeIt );
-            $( 'input' ).click( window.codeIt );
-            $( 'textarea' ).keyup( window.codeIt );
-            $( 'textarea' ).click( window.codeIt );
             $( '#geoLocLongitude' ).keyup( setUriIfNeeded( '#geoLocUri', '#geoLocGeolocation' ) );
             $( '#geoLocLatitude' ).keyup( setUriIfNeeded( '#geoLocUri', '#geoLocGeolocation' ) );
             $( '#geoLocDescription' ).keyup( setUriIfNeeded( '#geoLocUri', '#geoLocGeolocation' ) );
-            $( '#showUris' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '.uri' ).removeClass( 'notDisplayed' );
-                    else
-                        $( '.uri' ).addClass( 'notDisplayed' );
-                }
-            );
-            $( '#genMainElementOnly' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '#validationButton' ).addClass( 'notDisplayed' );
-                    else
-                        $( '#validationButton' ).removeClass( 'notDisplayed' );
-                }
-            );
             doReset();
         }
 

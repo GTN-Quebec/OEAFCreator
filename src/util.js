@@ -459,6 +459,30 @@ function addField( fieldName ) {
     );
 }
 
+function doDefaultInit() {
+    $( 'input' ).keyup( window.codeIt );
+    $( 'input' ).click( window.codeIt );
+    $( 'textarea' ).keyup( window.codeIt );
+    $( 'textarea' ).click( window.codeIt );
+    $( 'select' ).click( window.codeIt );
+    $( '#showUris' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '.uri' ).removeClass( 'notDisplayed' );
+            else
+                $( '.uri' ).addClass( 'notDisplayed' );
+        }
+    );
+    $( '#genMainElementOnly' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '#validationButton' ).addClass( 'notDisplayed' );
+            else
+                $( '#validationButton' ).removeClass( 'notDisplayed' );
+        }
+    );
+}
+
 function doReset() {
     codeIt();
 }

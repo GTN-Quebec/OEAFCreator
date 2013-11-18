@@ -14,30 +14,10 @@
     <script>
     //<![CDATA[
         function doInit() {
+            doDefaultInit();
             var clip = new ZeroClipboard( $( '#gcCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var gcUri = uuid.v4();
             $( '#gcUri' ).val( 'urn:' + gcUri );
-            $( 'input' ).keyup( window.codeIt );
-            $( 'input' ).click( window.codeIt );
-            $( 'textarea' ).keyup( window.codeIt );
-            $( 'textarea' ).click( window.codeIt );
-            $( 'select' ).click( window.codeIt );
-            $( '#showUris' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '.uri' ).removeClass( 'notDisplayed' );
-                    else
-                        $( '.uri' ).addClass( 'notDisplayed' );
-                }
-            );
-            $( '#genMainElementOnly' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '#validationButton' ).addClass( 'notDisplayed' );
-                    else
-                        $( '#validationButton' ).removeClass( 'notDisplayed' );
-                }
-            );
             $( "#gcAddSubject" ).click( addField( 'gcSubject' ) );
             $( "#gcAddPrerequisite" ).click( addField( 'gcPrerequisite' ) );
             initOptionElements( opportunityTypeTable, '#gcOpportunityType', true, false, false );

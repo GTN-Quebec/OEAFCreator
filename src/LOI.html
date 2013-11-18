@@ -14,36 +14,16 @@
     <script>
     //<![CDATA[
         function doInit() {
+            doDefaultInit();
             var clip = new ZeroClipboard( $( '#loiCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var loiUri = uuid.v4();
             $( '#loiUri' ).val( 'urn:' + loiUri );
-            $( 'input' ).keyup( window.codeIt );
-            $( 'input' ).click( window.codeIt );
-            $( 'textarea' ).keyup( window.codeIt );
-            $( 'textarea' ).click( window.codeIt );
-            $( 'select' ).click( window.codeIt );
             $( '#loiLocationLongitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationLatitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiProviderName' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
             $( '#loiProviderEmail' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
             $( '#loiProviderWorkTelephone' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
-            $( '#showUris' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '.uri' ).removeClass( 'notDisplayed' );
-                    else
-                        $( '.uri' ).addClass( 'notDisplayed' );
-                }
-            );
-            $( '#genMainElementOnly' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '#validationButton' ).addClass( 'notDisplayed' );
-                    else
-                        $( '#validationButton' ).removeClass( 'notDisplayed' );
-                }
-            );
             initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
             initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
             doReset();

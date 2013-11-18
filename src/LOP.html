@@ -14,30 +14,10 @@
     <script>
     //<![CDATA[
         function doInit() {
+            doDefaultInit();
             var clip = new ZeroClipboard( $( '#lopCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var lopUri = uuid.v4();
             $( '#lopUri' ).val( 'urn:' + lopUri );
-            $( 'input' ).keyup( window.codeIt );
-            $( 'input' ).click( window.codeIt );
-            $( 'textarea' ).keyup( window.codeIt );
-            $( 'textarea' ).click( window.codeIt );
-            $( 'select' ).click( window.codeIt );
-            $( '#showUris' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '.uri' ).removeClass( 'notDisplayed' );
-                    else
-                        $( '.uri' ).addClass( 'notDisplayed' );
-                }
-            );
-            $( '#genMainElementOnly' ).click( 
-                function() {
-                    if( $( this ).is( ':checked' ) ) 
-                        $( '#validationButton' ).addClass( 'notDisplayed' );
-                    else
-                        $( '#validationButton' ).removeClass( 'notDisplayed' );
-                }
-            );
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
             doReset();
         }
