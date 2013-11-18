@@ -1,0 +1,227 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OEAF Creator - Natural Person</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="default.css"/>
+    <link rel="stylesheet" href="lib/styles/default.css"/>
+    <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+    <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
+    <script type="text/javascript" src="lib/uuid.js"></script>
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script>
+    //<![CDATA[
+        function doInit() {
+            doDefaultInit();
+            var clip = new ZeroClipboard( $( '#npCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            var npUri = uuid.v4();
+            $( '#npUri' ).val( 'urn:' + npUri );
+            //$( '#npLongitude' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
+            //$( '#npLatitude' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
+            //$( '#npDescription' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
+            doReset();
+        }
+
+        function getCode() {
+            var lang = 'eng';
+            var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
+
+            var npUri = normalizeSpace( $( '#npUri' ).val() );
+            var npIdentifier = normalizeSpace( $( '#npIdentifier' ).val() );
+            var npName = normalizeSpace( $( '#npName' ).val() );
+            var npFamilyName = normalizeSpace( $( '#npFamilyName' ).val() );
+            var npGivenName = normalizeSpace( $( '#npGivenName' ).val() );
+            var npName2 = normalizeSpace( $( '#npName2' ).val() );
+            var npEmail = normalizeSpace( $( '#npEmail' ).val() );
+            var npWorkTelephone = normalizeSpace( $( '#npWorkTelephone' ).val() );
+            var npWebSite = normalizeSpace( $( '#npWebSite' ).val() );
+
+            var tagNpIdentifier = getTag( 'npIdentifier', lang );
+            var tagNpName = getTag( 'npName', lang );
+            var tagNpFamilyName = getTag( 'npFamilyName', lang );
+            var tagNpGivenName = getTag( 'npGivenName', lang );
+            var tagNpName2 = getTag( 'npName2', lang );
+            var tagNpEmail = getTag( 'npEmail', lang );
+            var tagNpWorkTelephone = getTag( 'npWorkTelephone', lang );
+            var tagNpWebSite = getTag( 'npWebSite', lang );
+
+            var str = '';
+            if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
+
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                    str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                        'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                        'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                }
+                str += '  <mlr-9:naturalPerson';
+                if( npUri != '' )
+                    str += ' rdf:about="' + $( '#npUri' ).val() + '"';
+                str += '>' + "\n";
+                if( npIdentifier != '' )
+                    str += '        <' + tagNpIdentifier + '>' + npIdentifier + '</' + tagNpIdentifier + '>' + "\n";
+                if( npName != '' )
+                    str += '        <' + tagNpName + '>' + npName + '</' + tagNpName + '>' + "\n";
+                if( npFamilyName != '' )
+                    str += '        <' + tagNpFamilyName + '>' + npFamilyName + '</' + tagNpFamilyName + '>' + "\n";
+                if( npGivenName != '' )
+                    str += '        <' + tagNpGivenName + '>' + npGivenName + '</' + tagNpGivenName + '>' + "\n";
+                if( npName2 != '' )
+                    str += '        <' + tagNpName2 + '>' + npName2 + '</' + tagNpName2 + '>' + "\n";
+                if( npEmail != '' )
+                    str += '        <' + tagNpEmail + '>' + npEmail + '</' + tagNpEmail + '>' + "\n";
+                if( npWorkTelephone != '' )
+                    str += '        <' + tagNpWorkTelephone + '>' + npWorkTelephone + '</' + tagNpWorkTelephone + '>' + "\n";
+                if( npWebSite != '' )
+                    str += '        <' + tagNpWebSite + '>' + npWebSite + '</' + tagNpWebSite + '>' + "\n";
+                str += '  </mlr-9:naturalPerson>' + "\n";
+                if( isPrologueAndEpilogueRequired ) 
+                    str += '</rdf:RDF>';
+            }
+            else { // RDFa HTML and XHTML
+                if( isPrologueAndEpilogueRequired ) {
+                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                        str += '<!DOCTYPE html>' + "\n";
+                        str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                    else { // RDFa XHTML
+                        str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                        str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                            'version="XHTML+RDFa 1.1" ' + "\n" +
+                            //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                            //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                            'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                }
+
+                str += '    <div';
+                if( npUri != '' )
+                    str += ' resource="' + $( '#npUri' ).val() + '">' + "\n";
+                //if( npLongitude != '' && npLatitude != '' || npDescription != '' ) {
+                //    str += '      Location: <div style="display: inline-table;">';
+                //    if( npLongitude != '' && npLatitude != '' ) {
+                //        str += 'Lat.: <span property="' + tagGeoLocLatitude + '">' + npLatitude + '</span> ';
+                //        str += 'Long.: <span property="' + tagGeoLocLongitude + '">' + npLongitude + '</span><br/>' + "\n";
+                //    }
+                //    if( npDescription != '' ) 
+                //        str += '        <span property="' + tagGeoLocDescription + '">' + npDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                //    str += '      </div>' + "\n";
+                //}
+                str += '    </div>' + "\n";
+                
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '  </body>' + "\n";
+                    str += '</html>' + "\n";
+                }
+            }
+            return( str );
+        }
+
+        $( window.doInit );
+    //]]>
+    </script>
+</head>
+<body>
+    <h1>OEAF Creator - Natural Person</h1>
+    <div class="inputs">
+        <form id="npForm" action="" onreset="doReset();">
+            <fieldset>
+                <legend>Natural Person</legend>
+                <div class="field uri">
+                    <label for="npUri">uri</label>
+                    <input type="text" id="npUri" />
+                </div>
+                <div class="field">
+                    <label for="npIdentifier">identifier</label>
+                    <input type="text" id="npIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="npName">name</label>
+                    <input type="text" id="npName" />
+                </div>
+                <div class="field">
+                    <label for="npFamilyName">family name</label>
+                    <input type="text" id="npFamilyName" />
+                </div>
+                <div class="field">
+                    <label for="npGivenName">given name</label>
+                    <input type="text" id="npGivenName" />
+                </div>
+                <div class="field">
+                    <label for="npName2">name2</label>
+                    <input type="text" id="npName2" />
+                </div>
+                <div class="field">
+                    <label for="npEmail">email</label>
+                    <input type="text" id="npEmail" />
+                </div>
+                <div class="field">
+                    <label for="npWorkTelephone">work telephone</label>
+                    <input type="text" id="npWorkTelephone" />
+                </div>
+                <div class="field">
+                    <label for="npWebSite">web site</label>
+                    <input type="text" id="npWebSite" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="optionsAndOutput">
+
+        <div class="options">
+            <h2>Options</h2>
+            Show URIs: <input type="checkbox" form="npForm" id="showUris" name="showUris" checked="checked" /><br />
+            Generation: <input type="radio" form="npForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="npForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="npForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
+        </div>
+
+        <div class="output">
+            <h2>Code</h2>
+            <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="validationButton" type="submit">Validate</button>
+            <button id="npCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+            
+            <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
+                <input type="hidden" id="RDF" name="RDF"/>
+                <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
+                <input type="hidden" name="FORMAT" value="PNG_EMBED"/>
+            </form>
+
+            <form id="rdfaValidation" action="http://www.w3.org/2012/pyRdfa/extract" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="text" name="text"/>
+                <input type="hidden" name="host-language_text"/>
+                <input type="hidden" name="rdfa-lite_text" value="false"/>
+                <input type="hidden" name="vocab-expansion_text" value="false"/>
+                <input type="hidden" name="embedded-rdf_text" value="true"/>
+                <input type="hidden" name="validate" value="yes"/>
+            </form>
+
+            <div id="previewSection" class="notDisplayed">
+                <h2>Preview</h2>
+                <div id="preview">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+

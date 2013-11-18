@@ -268,6 +268,49 @@ var tagTable = {
         '--': 'mlr-9:des1700',
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
+    },
+
+    // Natural Person
+    
+    'npIdentifier': {
+        '--': 'mlr-9:des0100',
+        'eng': 'mlr-9:identifier',
+        'fra': 'mlr-9:identifiant'
+    },
+    'npName': {
+        '--': 'mlr-9:des0200',
+        'eng': 'mlr-9:name',
+        'fra': 'mlr-9:nom'
+    },
+    'npFamilyName': { 
+        '--': 'mlr-9:des0300',
+        'eng': 'mlr-9:familyName',
+        'fra': 'mlr-9:nomDeFamille'
+    },
+    'npGivenName': { 
+        '--': 'mlr-9:des0400',
+        'eng': 'mlr-9:givenName',
+        'fra': 'mlr-9:prénom'
+    },
+    'npName2': { 
+        '--': 'mlr-9:des0500',
+        'eng': 'mlr-9:name_2',
+        'fra': 'mlr-9:nom_2'
+    },
+    'npEmail': { 
+        '--': 'mlr-9:des0900',
+        'eng': 'mlr-9:email',
+        'fra': 'mlr-9:courriel'
+    },
+    'npWorkTelephone': { 
+        '--': 'mlr-9:des1000',
+        'eng': 'mlr-9:workTelephone',
+        'fra': 'mlr-9:téléphoneAuTravail'
+    },
+    'npWebSite': { 
+        '--': 'mlr-9:des1800',
+        'eng': 'mlr-9:webSite',
+        'fra': 'mlr-9:siteWeb'
     }
 
 };
