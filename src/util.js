@@ -311,6 +311,69 @@ var tagTable = {
         '--': 'mlr-9:des1800',
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
+    },
+
+    // Organization
+    
+    'orgIdentifier': {
+        '--': 'mlr-9:des0100',
+        'eng': 'mlr-9:identifier',
+        'fra': 'mlr-9:identifiant'
+    },
+    'orgName': {
+        '--': 'mlr-9:des0200',
+        'eng': 'mlr-9:name',
+        'fra': 'mlr-9:nom'
+    },
+    'orgFamilyName': { 
+        '--': 'mlr-9:des0300',
+        'eng': 'mlr-9:familyName',
+        'fra': 'mlr-9:nomDeFamille'
+    },
+    'orgGivenName': { 
+        '--': 'mlr-9:des0400',
+        'eng': 'mlr-9:givenName',
+        'fra': 'mlr-9:prénom'
+    },
+    'orgName2': { 
+        '--': 'mlr-9:des0500',
+        'eng': 'mlr-9:name_2',
+        'fra': 'mlr-9:nom_2'
+    },
+    'orgEmail': { 
+        '--': 'mlr-9:des0900',
+        'eng': 'mlr-9:email',
+        'fra': 'mlr-9:courriel'
+    },
+    'orgWorkTelephone': { 
+        '--': 'mlr-9:des1000',
+        'eng': 'mlr-9:workTelephone',
+        'fra': 'mlr-9:téléphoneAuTravail'
+    },
+    'orgWebSite': { 
+        '--': 'mlr-9:des1800',
+        'eng': 'mlr-9:webSite',
+        'fra': 'mlr-9:siteWeb'
+    },
+    'orgGeolocation': { 
+        '--': 'oeaf:sed2000',
+        'eng': 'oeaf:geolocation',
+        'fra': 'oeaf:géolocalisation'
+    },
+    'orgLocationLongitude': {
+        '--': 'mlr-9:des1400',
+        'eng': 'mlr-9:longitude',
+        'fra': 'mlr-9:longitude'
+    },
+    'orgLocationLatitude': {
+        '--': 'mlr-9:des1500',
+        'eng': 'mlr-9:latitude',
+        'fra': 'mlr-9:latitude'
+    },
+    'orgLocationDescription': {
+        '--': 'mlr-9:des1700',
+        'eng': 'mlr-9:description',
+        'fra': 'mlr-9:description'
     }
 
 };

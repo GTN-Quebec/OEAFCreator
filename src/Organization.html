@@ -1,0 +1,326 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>OEAF Creator - Organization</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="default.css"/>
+    <link rel="stylesheet" href="lib/styles/default.css"/>
+    <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+    <!--script type="text/javascript" src="lib/jquery-1.10.2.js"></script-->
+    <script type="text/javascript" src="lib/ZeroClipboard.min.js"></script>
+    <script type="text/javascript" src="lib/uuid.js"></script>
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+    <script type="text/javascript" src="util.js"></script>
+    <script>
+    //<![CDATA[
+        function doInit() {
+            doDefaultInit();
+            var clip = new ZeroClipboard( $( '#orgCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            var orgUri = uuid.v4();
+            $( '#orgUri' ).val( 'urn:' + orgUri );
+            doReset();
+        }
+
+        function getCode() {
+            var lang = 'eng';
+            var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
+
+            var orgUri = normalizeSpace( $( '#orgUri' ).val() );
+            var orgIdentifier = normalizeSpace( $( '#orgIdentifier' ).val() );
+            var orgName = normalizeSpace( $( '#orgName' ).val() );
+            var orgFamilyName = normalizeSpace( $( '#orgFamilyName' ).val() );
+            var orgGivenName = normalizeSpace( $( '#orgGivenName' ).val() );
+            var orgName2 = normalizeSpace( $( '#orgName2' ).val() );
+            var orgEmail = normalizeSpace( $( '#orgEmail' ).val() );
+            var orgWorkTelephone = normalizeSpace( $( '#orgWorkTelephone' ).val() );
+            var orgWebSite = normalizeSpace( $( '#orgWebSite' ).val() );
+            var orgLocationIsEmbedded = $( '#orgLocationIsEmbedded' ).is( ':checked' );
+            var orgLocationUri = normalizeSpace( $( '#orgLocationUri' ).val() );
+            var orgLocationLongitude = normalizeSpace( $( '#orgLocationLongitude' ).val() );
+            var orgLocationLatitude = normalizeSpace( $( '#orgLocationLatitude' ).val() );
+            var orgLocationDescription = $( '#orgLocationDescription' ).val();
+
+            var tagOrgIdentifier = getTag( 'orgIdentifier', lang );
+            var tagOrgName = getTag( 'orgName', lang );
+            var tagOrgFamilyName = getTag( 'orgFamilyName', lang );
+            var tagOrgGivenName = getTag( 'orgGivenName', lang );
+            var tagOrgName2 = getTag( 'orgName2', lang );
+            var tagOrgEmail = getTag( 'orgEmail', lang );
+            var tagOrgWorkTelephone = getTag( 'orgWorkTelephone', lang );
+            var tagOrgWebSite = getTag( 'orgWebSite', lang );
+            var tagOrgGeolocation = getTag( 'orgGeolocation', lang );
+            var tagOrgLocationLongitude = getTag( 'orgLocationLongitude', lang );
+            var tagOrgLocationLatitude = getTag( 'orgLocationLatitude', lang );
+            var tagOrgLocationDescription = getTag( 'orgLocationDescription', lang );
+
+            var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
+
+            var extLocationStr = null;
+
+            var str = '';
+            if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
+
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
+                    str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                        'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
+                        'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
+                        'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                }
+                str += '  <mlr-9:organization';
+                if( orgUri != '' )
+                    str += ' rdf:about="' + $( '#orgUri' ).val() + '"';
+                str += '>' + "\n";
+                if( orgIdentifier != '' )
+                    str += '        <' + tagOrgIdentifier + '>' + orgIdentifier + '</' + tagOrgIdentifier + '>' + "\n";
+                if( orgName != '' )
+                    str += '        <' + tagOrgName + '>' + orgName + '</' + tagOrgName + '>' + "\n";
+                if( orgFamilyName != '' )
+                    str += '        <' + tagOrgFamilyName + '>' + orgFamilyName + '</' + tagOrgFamilyName + '>' + "\n";
+                if( orgGivenName != '' )
+                    str += '        <' + tagOrgGivenName + '>' + orgGivenName + '</' + tagOrgGivenName + '>' + "\n";
+                if( orgName2 != '' )
+                    str += '        <' + tagOrgName2 + '>' + orgName2 + '</' + tagOrgName2 + '>' + "\n";
+                if( orgEmail != '' )
+                    str += '        <' + tagOrgEmail + '>' + orgEmail + '</' + tagOrgEmail + '>' + "\n";
+                if( orgWorkTelephone != '' )
+                    str += '        <' + tagOrgWorkTelephone + '>' + orgWorkTelephone + '</' + tagOrgWorkTelephone + '>' + "\n";
+                if( orgWebSite != '' )
+                    str += '        <' + tagOrgWebSite + '>' + orgWebSite + '</' + tagOrgWebSite + '>' + "\n";
+                if( orgLocationUri != '' ) {
+                    if( orgLocationIsEmbedded ) {
+                        str += '        <' + tagOrgGeolocation + '>' + "\n";
+                        str += '          <' + tagGeographicalLocation + ' rdf:about="' + orgLocationUri + '">' + "\n";
+                        if( orgLocationLongitude != '' && orgLocationLatitude != '' ) {
+                            str += '            <' + tagOrgLocationLongitude + '>' + orgLocationLongitude + '</' + tagOrgLocationLongitude + ">\n";
+                            str += '            <' + tagOrgLocationLatitude + '>' + orgLocationLatitude + '</'+ tagOrgLocationLatitude + ">\n";
+                        }
+                        if( orgLocationDescription != '' )
+                            str += '            <' + tagOrgLocationDescription + '>' + orgLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagOrgLocationDescription + ">\n";
+                        str += '          </' + tagGeographicalLocation + '>' + "\n";
+                        str += '        </' + tagOrgGeolocation + '>' + "\n";
+                    }
+                    else {
+                        str += '        <' + tagOrgGeolocation + ' rdf:resource="' + orgLocationUri + '"/>' + "\n";
+
+                        if( orgLocationLongitude != '' && orgLocationLatitude != '' || orgLocationDescription != '' ) {
+                            extLocationStr = '  <' + tagGeographicalLocation + ' rdf:about="' + orgLocationUri + '">' + "\n";
+                            if( orgLocationLongitude != '' && orgLocationLatitude != '' ) {
+                                extLocationStr += '    <' + tagOrgLocationLongitude + '>' + orgLocationLongitude + '</' + tagOrgLocationLongitude + ">\n";
+                                extLocationStr += '    <' + tagOrgLocationLatitude + '>' + orgLocationLatitude + '</'+ tagOrgLocationLatitude + ">\n";
+                            }
+                            if( orgLocationDescription != '' )
+                                extLocationStr += '    <' + tagOrgLocationDescription + '>' + orgLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagOrgLocationDescription + ">\n";
+                            extLocationStr += '  </' + tagGeographicalLocation + '>' + "\n";
+                        }
+                    }
+                }
+                str += '  </mlr-9:organization>' + "\n";
+
+                if( extLocationStr != null )
+                    str += extLocationStr;
+
+                if( isPrologueAndEpilogueRequired ) 
+                    str += '</rdf:RDF>';
+            }
+            else { // RDFa HTML and XHTML
+                if( isPrologueAndEpilogueRequired ) {
+                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                        str += '<!DOCTYPE html>' + "\n";
+                        str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                    else { // RDFa XHTML
+                        str += '<?xml version="1.0" encoding="UTF-8"?>' + "\n";
+                        str += '<html xmlns="http://www.w3.org/1999/xhtml" ' + "\n" +
+                            'version="XHTML+RDFa 1.1" ' + "\n" +
+                            //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
+                            //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
+                            'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '  <body prefix="' + "\n" +
+                            '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
+                            '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
+                            '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
+                    }
+                }
+
+                str += '    <div';
+                if( orgUri != '' )
+                    str += ' resource="' + $( '#orgUri' ).val() + '"';
+                str += ' typeof="mlr-9:rc0002">' + "\n";
+                if( orgName != '' ) {
+                    str += '      <b><span property="' + tagOrgName + '">' + orgName + '</span>';
+                    if( orgIdentifier != '' ) 
+                        str += ' (<span property="' + tagOrgIdentifier + '">' + orgIdentifier + '</span>)';
+                    str += '</b><br/>' + "\n";
+                    if( orgEmail != '' ) 
+                        str += ' (<a property="' + tagOrgEmail + '" href="mailto:' + orgEmail + '">' + orgEmail + '</a>)';
+                    str += '<br/>' + "\n";
+                }
+                if( orgFamilyName != '' || orgGivenName != '' ) {
+                    str += '      ';
+                    if( orgFamilyName != '' )
+                        str += '<b><span property="' + tagOrgFamilyName + '">' + orgFamilyName + '</span></b>';
+                    if( orgFamilyName != '' && orgGivenName != '' )
+                        str += ', ';
+                    if( orgGivenName != '' )
+                        str += '<b><span property="' + tagOrgGivenName + '">' + orgGivenName + '</span></b>';
+                    str += '<br/>' + "\n";
+                }
+                if( orgName2 != '' )
+                    str += '      <b><span property="' + tagOrgName2 + '">' + orgName2 + '</span></b><br/>' + "\n";
+                if( orgWorkTelephone != '' )
+                    str += '      Tel.: <span property="' + tagOrgWorkTelephone + '">' + orgWorkTelephone + '</span><br/>' + "\n";  
+                if( orgWebSite != '' )
+                    str += '      Web Site: <a property="' + tagOrgWebSite + '" href="' + orgWebSite + '">' + orgWebSite + '</a><br/>' + "\n";
+                if( orgLocationUri != '' ) {
+                    if( orgLocationLongitude != '' && orgLocationLatitude != '' || orgLocationDescription != '' ) {
+                        str += '      <br/><br/>' + "\n";
+                        str += '      Location: <div style="display: inline-table;" property="' + tagOrgGeolocation + '" resource="' + orgLocationUri + '" typeof="' + tagGeographicalLocation + '">';
+                        if( orgLocationLongitude != '' && orgLocationLatitude != '' ) {
+                            str += 'Lat.: <span property="' + tagOrgLocationLatitude + '">' + orgLocationLatitude + '</span> ';
+                            str += 'Long.: <span property="' + tagOrgLocationLongitude + '">' + orgLocationLongitude + '</span><br/>' + "\n";
+                        }
+                        if( orgLocationDescription != '' ) 
+                            str += '        <span property="' + tagOrgLocationDescription + '">' + orgLocationDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                        str += '      </div>' + "\n";
+                    }
+                    else {
+                        str += '      <span property="' + tagOrgGeolocation + '" resource="' + orgLocationUri + '"/>' + "\n";
+                    }
+                }
+                str += '    </div>' + "\n";
+                
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '  </body>' + "\n";
+                    str += '</html>' + "\n";
+                }
+            }
+            return( str );
+        }
+
+        $( window.doInit );
+    //]]>
+    </script>
+</head>
+<body>
+    <h1>OEAF Creator - Organization</h1>
+    <div class="inputs">
+        <form id="orgForm" action="" onreset="doReset();">
+            <fieldset>
+                <legend>Organization</legend>
+                <div class="field uri">
+                    <label for="orgUri">uri</label>
+                    <input type="text" id="orgUri" />
+                </div>
+                <div class="field">
+                    <label for="orgIdentifier">identifier</label>
+                    <input type="text" id="orgIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="orgName">name</label>
+                    <input type="text" id="orgName" />
+                </div>
+                <div class="field">
+                    <label for="orgFamilyName">family name</label>
+                    <input type="text" id="orgFamilyName" />
+                </div>
+                <div class="field">
+                    <label for="orgGivenName">given name</label>
+                    <input type="text" id="orgGivenName" />
+                </div>
+                <div class="field">
+                    <label for="orgName2">name2</label>
+                    <input type="text" id="orgName2" />
+                </div>
+                <div class="field">
+                    <label for="orgEmail">email</label>
+                    <input type="text" id="orgEmail" />
+                </div>
+                <div class="field">
+                    <label for="orgWorkTelephone">work telephone</label>
+                    <input type="text" id="orgWorkTelephone" />
+                </div>
+                <div class="field">
+                    <label for="orgWebSite">web site</label>
+                    <input type="text" id="orgWebSite" />
+                </div>
+                <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
+                    <legend>geolocation</legend>
+                    <div class="field">
+                        <label for="orgLocationIsEmbedded">embedded</label>
+                        <input type="checkbox" id="orgLocationIsEmbedded" name="orgLocationIsEmbedded" checked="checked" />
+                    </div>
+                    <div class="field uri">
+                        <label for="orgLocationUri">uri</label>
+                        <input type="text" id="orgLocationUri" />
+                    </div>
+                    <div class="field">
+                        <label for="orgLocationLongitude">longitude</label>
+                        <input type="text" id="orgLocationLongitude" />
+                    </div>
+                    <div class="field">
+                        <label for="orgLocationLatitude">latitude</label>
+                        <input type="text" id="orgLocationLatitude" />
+                    </div>
+                    <div class="field">
+                        <label for="orgLocationDescription">description</label>
+                        <textarea id="orgLocationDescription" rows="12" cols=30"></textarea>
+                    </div>
+                </fieldset>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="optionsAndOutput">
+
+        <div class="options">
+            <h2>Options</h2>
+            Show URIs: <input type="checkbox" form="orgForm" id="showUris" name="showUris" checked="checked" /><br />
+            Generation: <input type="radio" form="orgForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="orgForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="orgForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
+        </div>
+
+        <div class="output">
+            <h2>Code</h2>
+            <pre class="xml"><code id="sampleCode"></code></pre>
+            <button id="validationButton" type="submit">Validate</button>
+            <button id="orgCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+            
+            <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
+                <input type="hidden" id="RDF" name="RDF"/>
+                <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
+                <input type="hidden" name="FORMAT" value="PNG_EMBED"/>
+            </form>
+
+            <form id="rdfaValidation" action="http://www.w3.org/2012/pyRdfa/extract" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="text" name="text"/>
+                <input type="hidden" name="host-language_text"/>
+                <input type="hidden" name="rdfa-lite_text" value="false"/>
+                <input type="hidden" name="vocab-expansion_text" value="false"/>
+                <input type="hidden" name="embedded-rdf_text" value="true"/>
+                <input type="hidden" name="validate" value="yes"/>
+            </form>
+
+            <div id="previewSection" class="notDisplayed">
+                <h2>Preview</h2>
+                <div id="preview">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
