@@ -18,9 +18,6 @@
             var clip = new ZeroClipboard( $( '#npCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
-            //$( '#npLongitude' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
-            //$( '#npLatitude' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
-            //$( '#npDescription' ).keyup( setUriIfNeeded( '#npUri', '#npGeolocation' ) );
             doReset();
         }
 
@@ -110,17 +107,33 @@
 
                 str += '    <div';
                 if( npUri != '' )
-                    str += ' resource="' + $( '#npUri' ).val() + '">' + "\n";
-                //if( npLongitude != '' && npLatitude != '' || npDescription != '' ) {
-                //    str += '      Location: <div style="display: inline-table;">';
-                //    if( npLongitude != '' && npLatitude != '' ) {
-                //        str += 'Lat.: <span property="' + tagGeoLocLatitude + '">' + npLatitude + '</span> ';
-                //        str += 'Long.: <span property="' + tagGeoLocLongitude + '">' + npLongitude + '</span><br/>' + "\n";
-                //    }
-                //    if( npDescription != '' ) 
-                //        str += '        <span property="' + tagGeoLocDescription + '">' + npDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
-                //    str += '      </div>' + "\n";
-                //}
+                    str += ' resource="' + $( '#npUri' ).val() + '"';
+                str += ' typeof="mlr-9:rc0001">' + "\n";
+                if( npName != '' ) {
+                    str += '      <b><span property="' + tagNpName + '">' + npName + '</span>';
+                    if( npIdentifier != '' ) 
+                        str += ' (<span property="' + tagNpIdentifier + '">' + npIdentifier + '</span>)';
+                    str += '</b><br/>' + "\n";
+                    if( npEmail != '' ) 
+                        str += ' (<a property="' + tagNpEmail + '" href="mailto:' + npEmail + '">' + npEmail + '</a>)';
+                    str += '<br/>' + "\n";
+                }
+                if( npFamilyName != '' || npGivenName != '' ) {
+                    str += '      ';
+                    if( npFamilyName != '' )
+                        str += '<b><span property="' + tagNpFamilyName + '">' + npFamilyName + '</span></b>';
+                    if( npFamilyName != '' && npGivenName != '' )
+                        str += ', ';
+                    if( npGivenName != '' )
+                        str += '<b><span property="' + tagNpGivenName + '">' + npGivenName + '</span></b>';
+                    str += '<br/>' + "\n";
+                }
+                if( npName2 != '' )
+                    str += '      <b><span property="' + tagNpName2 + '">' + npName2 + '</span></b><br/>' + "\n";
+                if( npWorkTelephone != '' )
+                    str += '      Tel.: <span property="' + tagNpWorkTelephone + '">' + npWorkTelephone + '</span><br/>' + "\n";  
+                if( npWebSite != '' )
+                    str += '      Web Site: <a property="' + tagNpWebSite + '" href="' + npWebSite + '">' + npWebSite + '</a><br/>' + "\n";
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {

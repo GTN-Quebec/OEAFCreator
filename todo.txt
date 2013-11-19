@@ -1,5 +1,6 @@
 Implement an editor for provider.  We should link to a uri in the CLO editor instead of embedding a sub-editor. 
-Implement smaller objects like Person, NaturalPerson, Organization
+Implement smaller objects like Person, Organization
+Check if type attribute is properly set for RDF.  It is OK for RDFa but not for RDF, I think.
 Implement the links between objects (red links from the Global View (Fig. D.1, p.62, Profil_OEAF_v0.7.5))
 Implement an editor for relations between objects (6.2.1).
 Should we prepend the number t010 before the vocabulary values in the form's list and prepend also some space to indent the hierarchical vocabularies.  As the items are sorted  (and that the number t010 would be taken into account), the items would be shown as declared in the specs.
