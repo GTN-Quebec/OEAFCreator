@@ -16,8 +16,13 @@
         function doInit() {
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#loiCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            
+            var loiMLRRecordUri = uuid.v4();
+            $( '#loiMLRRecordUri' ).val( 'urn:' + loiMLRRecordUri );
+            
             var loiUri = uuid.v4();
             $( '#loiUri' ).val( 'urn:' + loiUri );
+
             $( '#loiLocationLongitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationLatitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
@@ -98,14 +103,14 @@
                     str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
                         'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
                         'xmlns:mlr-2="http://standards.iso.org/iso-iec/19788/-1/ed-1/en/" ' + "\n\t" +
-                        //'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                        'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                         'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    //str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
-                    //str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                    //str += '    <mlr-8:describe>' + "\n";
+                    str += '  <mlr-8:MLR_Record rdf:about="' + $( '#loiMLRRecordUri' ).val() + '">\n';
+                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    str += '    <mlr-8:describe>' + "\n";
                 }
 
                 str += '      <oeaf:learningOpportunityInstance';
@@ -209,8 +214,8 @@
                 str += '      </oeaf:learningOpportunityInstance>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
-                    //str += '    </mlr-8:describe>' + "\n";
-                    //str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </mlr-8:describe>' + "\n";
+                    str += '  </mlr-8:MLR_Record>\n';
                 }
 
                 if( extLocationStr != null )
@@ -257,6 +262,12 @@
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
+                    str += '    <div';
+                    if( loiMLRRecordUri != '' )
+                        str += ' resource="' + $( '#loiMLRRecordUri' ).val() + '"';
+                    str += ' typeof="mlr-8:rc0001">' + "\n";
+                    if( loiUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#loiUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -351,6 +362,7 @@
                 str += '    </div>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
+                    str += '    </div>' + "\n";
                     str += '  </body>' + "\n";
                     str += '</html>' + "\n";
                 }
@@ -367,113 +379,120 @@
     <div class="inputs">
         <form id="loiForm" action="" onreset="doReset();">
             <fieldset>
-                <legend>Learning Opportunity Instance (LOI)</legend>
+                <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="loiUri">uri</label>
-                    <input type="text" id="loiUri" />
-                </div>
-                <div class="field">
-                    <label for="loiIdentifier">identifier</label>
-                    <input type="text" id="loiIdentifier" />
-                </div>
-                <div class="field">
-                    <label for="loiTitle">title</label>
-                    <input type="text" id="loiTitle" />
-                </div>
-                <div class="field">
-                    <label for="loiPublicationDate">publication date</label>
-                    <input type="text" id="loiPublicationDate" />
-                </div>
-                <div class="field">
-                    <label for="loiDescription">description</label>
-                    <textarea id="loiDescription" rows="12" cols="30"></textarea>
-                </div>
-                <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
-                    <legend>geolocation</legend>
-                    <div class="field">
-                        <label for="loiLocationIsEmbedded">embedded</label>
-                        <input type="checkbox" id="loiLocationIsEmbedded" name="loiLocationIsEmbedded" checked="checked" />
-                    </div>
-                    <div class="field uri">
-                        <label for="loiLocationUri">uri</label>
-                        <input type="text" id="loiLocationUri" />
-                    </div>
-                    <div class="field">
-                        <label for="loiLocationLongitude">longitude</label>
-                        <input type="text" id="loiLocationLongitude" />
-                    </div>
-                    <div class="field">
-                        <label for="loiLocationLatitude">latitude</label>
-                        <input type="text" id="loiLocationLatitude" />
-                    </div>
-                    <div class="field">
-                        <label for="loiLocationDescription">description</label>
-                        <textarea id="loiLocationDescription" rows="12" cols=30"></textarea>
-                    </div>
-                </fieldset>
-                <div class="field">
-                    <label for="loiStartDate">start date</label>
-                    <input type="text" id="loiStartDate" />
-                </div>
-                <div class="field">
-                    <label for="loiEndDate">end date</label>
-                    <input type="text" id="loiEndDate" />
-                </div>
-                <div class="field">
-                    <label for="loiDuration">duration</label>
-                    <input type="text" id="loiDuration" />
-                </div>
-                <div class="field">
-                    <label for="loiPerformanceDate">performance date</label>
-                    <input type="text" id="loiPerformanceDate" />
-                </div>
-                <div class="field">
-                    <label for="loiNumberOfPlaces">number of places</label>
-                    <input type="text" id="loiNumberOfPlaces" />
-                </div>
-                <div class="field">
-                    <label for="loiCost">cost</label>
-                    <input type="text" id="loiCost" />
-                </div>
-                <div class="field">
-                    <label for="loiPerformanceLanguage">performance language</label>
-                    <select id="loiPerformanceLanguage"></select>
+                    <label for="loiMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="loiMLRRecordUri" />
                 </div>
                 <fieldset>
-                    <legend>provider</legend>
-                    <div class="field">
-                        <label for="loiProviderIsEmbedded">embedded</label>
-                        <input type="checkbox" id="loiProviderIsEmbedded" name="loiProviderIsEmbedded" checked="checked" />
-                    </div>
+                    <legend>Learning Opportunity Instance (LOI)</legend>
                     <div class="field uri">
-                        <label for="loiProviderUri">uri</label>
-                        <input type="text" id="loiProviderUri" />
+                        <label for="loiUri">uri</label>
+                        <input type="text" id="loiUri" />
                     </div>
                     <div class="field">
-                        <label for="loiProviderName">name</label>
-                        <input type="text" id="loiProviderName" />
+                        <label for="loiIdentifier">identifier</label>
+                        <input type="text" id="loiIdentifier" />
                     </div>
                     <div class="field">
-                        <label for="loiProviderEmail">email</label>
-                        <input type="text" id="loiProviderEmail" />
+                        <label for="loiTitle">title</label>
+                        <input type="text" id="loiTitle" />
                     </div>
                     <div class="field">
-                        <label for="loiProviderWorkTelephone">work telephone</label>
-                        <input type="text" id="loiProviderWorkTelephone" />
+                        <label for="loiPublicationDate">publication date</label>
+                        <input type="text" id="loiPublicationDate" />
+                    </div>
+                    <div class="field">
+                        <label for="loiDescription">description</label>
+                        <textarea id="loiDescription" rows="12" cols="30"></textarea>
+                    </div>
+                    <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
+                        <legend>geolocation</legend>
+                        <div class="field">
+                            <label for="loiLocationIsEmbedded">embedded</label>
+                            <input type="checkbox" id="loiLocationIsEmbedded" name="loiLocationIsEmbedded" checked="checked" />
+                        </div>
+                        <div class="field uri">
+                            <label for="loiLocationUri">uri</label>
+                            <input type="text" id="loiLocationUri" />
+                        </div>
+                        <div class="field">
+                            <label for="loiLocationLongitude">longitude</label>
+                            <input type="text" id="loiLocationLongitude" />
+                        </div>
+                        <div class="field">
+                            <label for="loiLocationLatitude">latitude</label>
+                            <input type="text" id="loiLocationLatitude" />
+                        </div>
+                        <div class="field">
+                            <label for="loiLocationDescription">description</label>
+                            <textarea id="loiLocationDescription" rows="12" cols=30"></textarea>
+                        </div>
+                    </fieldset>
+                    <div class="field">
+                        <label for="loiStartDate">start date</label>
+                        <input type="text" id="loiStartDate" />
+                    </div>
+                    <div class="field">
+                        <label for="loiEndDate">end date</label>
+                        <input type="text" id="loiEndDate" />
+                    </div>
+                    <div class="field">
+                        <label for="loiDuration">duration</label>
+                        <input type="text" id="loiDuration" />
+                    </div>
+                    <div class="field">
+                        <label for="loiPerformanceDate">performance date</label>
+                        <input type="text" id="loiPerformanceDate" />
+                    </div>
+                    <div class="field">
+                        <label for="loiNumberOfPlaces">number of places</label>
+                        <input type="text" id="loiNumberOfPlaces" />
+                    </div>
+                    <div class="field">
+                        <label for="loiCost">cost</label>
+                        <input type="text" id="loiCost" />
+                    </div>
+                    <div class="field">
+                        <label for="loiPerformanceLanguage">performance language</label>
+                        <select id="loiPerformanceLanguage"></select>
+                    </div>
+                    <fieldset>
+                        <legend>provider</legend>
+                        <div class="field">
+                            <label for="loiProviderIsEmbedded">embedded</label>
+                            <input type="checkbox" id="loiProviderIsEmbedded" name="loiProviderIsEmbedded" checked="checked" />
+                        </div>
+                        <div class="field uri">
+                            <label for="loiProviderUri">uri</label>
+                            <input type="text" id="loiProviderUri" />
+                        </div>
+                        <div class="field">
+                            <label for="loiProviderName">name</label>
+                            <input type="text" id="loiProviderName" />
+                        </div>
+                        <div class="field">
+                            <label for="loiProviderEmail">email</label>
+                            <input type="text" id="loiProviderEmail" />
+                        </div>
+                        <div class="field">
+                            <label for="loiProviderWorkTelephone">work telephone</label>
+                            <input type="text" id="loiProviderWorkTelephone" />
+                        </div>
+                    </fieldset>
+                    <div class="field">
+                        <label for="loiDeliveryMode">delivery mode</label>
+                        <select id="loiDeliveryMode"></select>
+                    </div>
+                    <div class="field">
+                        <label for="loiRegistrationModalities">registration modalities</label>
+                        <textarea id="loiRegistrationModalities" rows="12" cols="30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="loiLastMinuteInfos">last minute infos</label>
+                        <textarea id="loiLastMinuteInfos" rows="12" cols=30"></textarea>
                     </div>
                 </fieldset>
-                <div class="field">
-                    <label for="loiDeliveryMode">delivery mode</label>
-                    <select id="loiDeliveryMode"></select>
-                </div>
-                <div class="field">
-                    <label for="loiRegistrationModalities">registration modalities</label>
-                    <textarea id="loiRegistrationModalities" rows="12" cols="30"></textarea>
-                </div>
-                <div class="field">
-                    <label for="loiLastMinuteInfos">last minute infos</label>
-                    <textarea id="loiLastMinuteInfos" rows="12" cols=30"></textarea>
-                </div>
             </fieldset>
         </form>
     </div>

@@ -16,8 +16,13 @@
         function doInit() {
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#gcCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+
+            var gcMLRRecordUri = uuid.v4();
+            $( '#gcMLRRecordUri' ).val( 'urn:' + gcMLRRecordUri );
+
             var gcUri = uuid.v4();
             $( '#gcUri' ).val( 'urn:' + gcUri );
+
             $( "#gcAddSubject" ).click( addField( 'gcSubject' ) );
             $( "#gcAddPrerequisite" ).click( addField( 'gcPrerequisite' ) );
             initOptionElements( opportunityTypeTable, '#gcOpportunityType', true, false, false );
@@ -67,9 +72,9 @@
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                //    str += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
-                //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                //    str += '    <mlr-8:describe>' + "\n";
+                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#gcMLRRecordUri' ).val() + '">\n';
+                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    str += '    <mlr-8:describe>' + "\n";
                 }
                 str += '      <oeaf:genericComponent';
                 if( gcUri != '' )
@@ -127,8 +132,8 @@
                     str += '        <' + tagGcOutputQualification + '>' + gcOutputQualification.replace( /\n/g, '\\n' ) + '</' + tagGcOutputQualification + '>' + "\n";
                 str += '      </oeaf:genericComponent>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
-                    //str += '    </mlr-8:describe>' + "\n";
-                    //str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </mlr-8:describe>' + "\n";
+                    str += '  </mlr-8:MLR_Record>\n';
                     str += '</rdf:RDF>';
                 }
             }
@@ -168,6 +173,12 @@
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
+                    str += '    <div';
+                    if( gcMLRRecordUri != '' )
+                        str += ' resource="' + $( '#gcMLRRecordUri' ).val() + '"';
+                    str += ' typeof="mlr-8:rc0001">' + "\n";
+                    if( gcUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#gcUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -266,6 +277,7 @@
                 }
                 str += '    </div>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
+                    str += '    </div>' + "\n";
                     str += '  </body>' + "\n";
                     str += '</html>' + "\n";
                 }
@@ -281,63 +293,70 @@
     <h1>OEAF Creator - GC</h1>
     <div class="inputs">
         <form id="gcForm" action="" onreset="doReset();">
-            <fieldset id="allo">
-                <legend>Generic Component (GC)</legend>
+            <fieldset>
+                <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="gcUri">uri</label>
-                    <input type="text" id="gcUri" />
+                    <label for="gcMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="gcMLRRecordUri" />
                 </div>
-                <div class="field">
-                    <label for="gcIdentifier">identifier</label>
-                    <input type="text" id="gcIdentifier" />
-                </div>
-                <div class="field">
-                    <label for="gcTitle">title</label>
-                    <input type="text" id="gcTitle" />
-                </div>
-                <div class="field">
-                    <label for="gcPublicationDate">publication date</label>
-                    <input type="text" id="gcPublicationDate" />
-                </div>
-                <div class="field">
-                    <label for="gcDescription">description</label>
-                    <textarea id="gcDescription" rows="12" cols="30"></textarea>
-                </div>
-                <div class="field">
-                    <label for="gcSubject0">subject</label>
-                    <input type="text" id="gcSubject0" class="gcSubjectTextField"></input>
-                    <button id="gcAddSubject">+</button> 
-                </div>
-                <div class="field">
-                    <label for="gcPrerequisite0">prerequisite</label>
-                    <input type="text" id="gcPrerequisite0" class="gcPrerequisiteTextField"></input>
-                    <button id="gcAddPrerequisite">+</button> 
-                </div>
-                <div class="field">
-                    <label for="gcOpportunityType">opportunity type</label>
-                    <select id="gcOpportunityType"></select>
-                </div>
-                <div class="field">
-                    <label for="gcEducationalLevel">educational level</label>
-                    <select id="gcEducationalLevel"></select>
-                </div>
-                <div class="field">
-                    <label for="gcCredit0">credit</label>
-                    <input type="text" id="gcCredit0" class="gcCreditTextField"></input>
-                    <button id="gcAddCredit">+</button> 
-                </div>
-                <div class="field">
-                    <label for="gcAssessmentType">assessment type</label>
-                    <select id="gcAssessmentType"></select>
-                </div>
-                <div class="field">
-                    <label for="gcObjective">objective</label>
-                    <textarea id="gcObjective" rows="12" cols="30"></textarea>
-                </div>
-                <div class="field">
-                    <label for="gcOutputQualification">output qualification</label>
-                    <textarea id="gcOutputQualification" rows="12" cols="30"></textarea>
-                </div>
+                <fieldset>
+                    <legend>Generic Component (GC)</legend>
+                    <div class="field uri">
+                        <label for="gcUri">uri</label>
+                        <input type="text" id="gcUri" />
+                    </div>
+                    <div class="field">
+                        <label for="gcIdentifier">identifier</label>
+                        <input type="text" id="gcIdentifier" />
+                    </div>
+                    <div class="field">
+                        <label for="gcTitle">title</label>
+                        <input type="text" id="gcTitle" />
+                    </div>
+                    <div class="field">
+                        <label for="gcPublicationDate">publication date</label>
+                        <input type="text" id="gcPublicationDate" />
+                    </div>
+                    <div class="field">
+                        <label for="gcDescription">description</label>
+                        <textarea id="gcDescription" rows="12" cols="30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="gcSubject0">subject</label>
+                        <input type="text" id="gcSubject0" class="gcSubjectTextField"></input>
+                        <button id="gcAddSubject">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="gcPrerequisite0">prerequisite</label>
+                        <input type="text" id="gcPrerequisite0" class="gcPrerequisiteTextField"></input>
+                        <button id="gcAddPrerequisite">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="gcOpportunityType">opportunity type</label>
+                        <select id="gcOpportunityType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="gcEducationalLevel">educational level</label>
+                        <select id="gcEducationalLevel"></select>
+                    </div>
+                    <div class="field">
+                        <label for="gcCredit0">credit</label>
+                        <input type="text" id="gcCredit0" class="gcCreditTextField"></input>
+                        <button id="gcAddCredit">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="gcAssessmentType">assessment type</label>
+                        <select id="gcAssessmentType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="gcObjective">objective</label>
+                        <textarea id="gcObjective" rows="12" cols="30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="gcOutputQualification">output qualification</label>
+                        <textarea id="gcOutputQualification" rows="12" cols="30"></textarea>
+                    </div>
+                </fieldset>
             </fieldset>
         </form>
     </div>

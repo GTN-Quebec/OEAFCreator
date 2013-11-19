@@ -16,6 +16,10 @@
         function doInit() {
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#orgCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            
+            var orgMLRRecordUri = uuid.v4();
+            $( '#orgMLRRecordUri' ).val( 'urn:' + orgMLRRecordUri );
+
             var orgUri = uuid.v4();
             $( '#orgUri' ).val( 'urn:' + orgUri );
             doReset();
@@ -62,10 +66,14 @@
 
                 if( isPrologueAndEpilogueRequired ) {
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                    str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                    str += '<rdf:RDF xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                        'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#orgMLRRecordUri' ).val() + '">\n';
+                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    str += '    <mlr-8:describe>' + "\n";
                 }
                 str += '  <mlr-9:organization';
                 if( orgUri != '' )
@@ -120,8 +128,11 @@
                 if( extLocationStr != null )
                     str += extLocationStr;
 
-                if( isPrologueAndEpilogueRequired ) 
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '    </mlr-8:describe>' + "\n";
+                    str += '  </mlr-8:MLR_Record>\n';
                     str += '</rdf:RDF>';
+                }
             }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
@@ -131,6 +142,7 @@
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
@@ -146,10 +158,17 @@
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
+                    str += '    <div';
+                    if( orgMLRRecordUri != '' )
+                        str += ' resource="' + $( '#orgMLRRecordUri' ).val() + '"';
+                    str += ' typeof="mlr-8:rc0001">' + "\n";
+                    if( orgUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#orgUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -200,6 +219,7 @@
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
+                    str += '    </div>' + "\n";
                     str += '  </body>' + "\n";
                     str += '</html>' + "\n";
                 }
@@ -216,65 +236,72 @@
     <div class="inputs">
         <form id="orgForm" action="" onreset="doReset();">
             <fieldset>
-                <legend>Organization</legend>
+                <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="orgUri">uri</label>
-                    <input type="text" id="orgUri" />
+                    <label for="orgMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="orgMLRRecordUri" />
                 </div>
-                <div class="field">
-                    <label for="orgIdentifier">identifier</label>
-                    <input type="text" id="orgIdentifier" />
-                </div>
-                <div class="field">
-                    <label for="orgName">name</label>
-                    <input type="text" id="orgName" />
-                </div>
-                <div class="field">
-                    <label for="orgFamilyName">family name</label>
-                    <input type="text" id="orgFamilyName" />
-                </div>
-                <div class="field">
-                    <label for="orgGivenName">given name</label>
-                    <input type="text" id="orgGivenName" />
-                </div>
-                <div class="field">
-                    <label for="orgName2">name2</label>
-                    <input type="text" id="orgName2" />
-                </div>
-                <div class="field">
-                    <label for="orgEmail">email</label>
-                    <input type="text" id="orgEmail" />
-                </div>
-                <div class="field">
-                    <label for="orgWorkTelephone">work telephone</label>
-                    <input type="text" id="orgWorkTelephone" />
-                </div>
-                <div class="field">
-                    <label for="orgWebSite">web site</label>
-                    <input type="text" id="orgWebSite" />
-                </div>
-                <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
-                    <legend>geolocation</legend>
-                    <div class="field">
-                        <label for="orgLocationIsEmbedded">embedded</label>
-                        <input type="checkbox" id="orgLocationIsEmbedded" name="orgLocationIsEmbedded" checked="checked" />
-                    </div>
+                <fieldset>
+                    <legend>Organization</legend>
                     <div class="field uri">
-                        <label for="orgLocationUri">uri</label>
-                        <input type="text" id="orgLocationUri" />
+                        <label for="orgUri">uri</label>
+                        <input type="text" id="orgUri" />
                     </div>
                     <div class="field">
-                        <label for="orgLocationLongitude">longitude</label>
-                        <input type="text" id="orgLocationLongitude" />
+                        <label for="orgIdentifier">identifier</label>
+                        <input type="text" id="orgIdentifier" />
                     </div>
                     <div class="field">
-                        <label for="orgLocationLatitude">latitude</label>
-                        <input type="text" id="orgLocationLatitude" />
+                        <label for="orgName">name</label>
+                        <input type="text" id="orgName" />
                     </div>
                     <div class="field">
-                        <label for="orgLocationDescription">description</label>
-                        <textarea id="orgLocationDescription" rows="12" cols=30"></textarea>
+                        <label for="orgFamilyName">family name</label>
+                        <input type="text" id="orgFamilyName" />
                     </div>
+                    <div class="field">
+                        <label for="orgGivenName">given name</label>
+                        <input type="text" id="orgGivenName" />
+                    </div>
+                    <div class="field">
+                        <label for="orgName2">name2</label>
+                        <input type="text" id="orgName2" />
+                    </div>
+                    <div class="field">
+                        <label for="orgEmail">email</label>
+                        <input type="text" id="orgEmail" />
+                    </div>
+                    <div class="field">
+                        <label for="orgWorkTelephone">work telephone</label>
+                        <input type="text" id="orgWorkTelephone" />
+                    </div>
+                    <div class="field">
+                        <label for="orgWebSite">web site</label>
+                        <input type="text" id="orgWebSite" />
+                    </div>
+                    <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
+                        <legend>geolocation</legend>
+                        <div class="field">
+                            <label for="orgLocationIsEmbedded">embedded</label>
+                            <input type="checkbox" id="orgLocationIsEmbedded" name="orgLocationIsEmbedded" checked="checked" />
+                        </div>
+                        <div class="field uri">
+                            <label for="orgLocationUri">uri</label>
+                            <input type="text" id="orgLocationUri" />
+                        </div>
+                        <div class="field">
+                            <label for="orgLocationLongitude">longitude</label>
+                            <input type="text" id="orgLocationLongitude" />
+                        </div>
+                        <div class="field">
+                            <label for="orgLocationLatitude">latitude</label>
+                            <input type="text" id="orgLocationLatitude" />
+                        </div>
+                        <div class="field">
+                            <label for="orgLocationDescription">description</label>
+                            <textarea id="orgLocationDescription" rows="12" cols=30"></textarea>
+                        </div>
+                    </fieldset>
                 </fieldset>
             </fieldset>
         </form>

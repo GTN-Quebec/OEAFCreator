@@ -16,8 +16,13 @@
         function doInit() {
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#npCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            
+            var npMLRRecordUri = uuid.v4();
+            $( '#npMLRRecordUri' ).val( 'urn:' + npMLRRecordUri );
+
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
+
             doReset();
         }
 
@@ -49,9 +54,13 @@
 
                 if( isPrologueAndEpilogueRequired ) {
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                    str += '<rdf:RDF xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                    str += '<rdf:RDF xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                        'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
+                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#npMLRRecordUri' ).val() + '">\n';
+                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    str += '    <mlr-8:describe>' + "\n";
                 }
                 str += '  <mlr-9:naturalPerson';
                 if( npUri != '' )
@@ -74,8 +83,11 @@
                 if( npWebSite != '' )
                     str += '        <' + tagNpWebSite + '>' + npWebSite + '</' + tagNpWebSite + '>' + "\n";
                 str += '  </mlr-9:naturalPerson>' + "\n";
-                if( isPrologueAndEpilogueRequired ) 
+                if( isPrologueAndEpilogueRequired ) {
+                    str += '    </mlr-8:describe>' + "\n";
+                    str += '  </mlr-8:MLR_Record>\n';
                     str += '</rdf:RDF>';
+                }
             }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
@@ -85,6 +97,7 @@
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
@@ -99,10 +112,17 @@
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
+                    str += '    <div';
+                    if( npMLRRecordUri != '' )
+                        str += ' resource="' + $( '#npMLRRecordUri' ).val() + '"';
+                    str += ' typeof="mlr-8:rc0001">' + "\n";
+                    if( npUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#npUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -137,6 +157,7 @@
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
+                    str += '    </div>' + "\n";
                     str += '  </body>' + "\n";
                     str += '</html>' + "\n";
                 }
@@ -153,43 +174,50 @@
     <div class="inputs">
         <form id="npForm" action="" onreset="doReset();">
             <fieldset>
-                <legend>Natural Person</legend>
+                <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="npUri">uri</label>
-                    <input type="text" id="npUri" />
+                    <label for="npMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="npMLRRecordUri" />
                 </div>
-                <div class="field">
-                    <label for="npIdentifier">identifier</label>
-                    <input type="text" id="npIdentifier" />
-                </div>
-                <div class="field">
-                    <label for="npName">name</label>
-                    <input type="text" id="npName" />
-                </div>
-                <div class="field">
-                    <label for="npFamilyName">family name</label>
-                    <input type="text" id="npFamilyName" />
-                </div>
-                <div class="field">
-                    <label for="npGivenName">given name</label>
-                    <input type="text" id="npGivenName" />
-                </div>
-                <div class="field">
-                    <label for="npName2">name2</label>
-                    <input type="text" id="npName2" />
-                </div>
-                <div class="field">
-                    <label for="npEmail">email</label>
-                    <input type="text" id="npEmail" />
-                </div>
-                <div class="field">
-                    <label for="npWorkTelephone">work telephone</label>
-                    <input type="text" id="npWorkTelephone" />
-                </div>
-                <div class="field">
-                    <label for="npWebSite">web site</label>
-                    <input type="text" id="npWebSite" />
-                </div>
+                <fieldset>
+                    <legend>Natural Person</legend>
+                    <div class="field uri">
+                        <label for="npUri">uri</label>
+                        <input type="text" id="npUri" />
+                    </div>
+                    <div class="field">
+                        <label for="npIdentifier">identifier</label>
+                        <input type="text" id="npIdentifier" />
+                    </div>
+                    <div class="field">
+                        <label for="npName">name</label>
+                        <input type="text" id="npName" />
+                    </div>
+                    <div class="field">
+                        <label for="npFamilyName">family name</label>
+                        <input type="text" id="npFamilyName" />
+                    </div>
+                    <div class="field">
+                        <label for="npGivenName">given name</label>
+                        <input type="text" id="npGivenName" />
+                    </div>
+                    <div class="field">
+                        <label for="npName2">name2</label>
+                        <input type="text" id="npName2" />
+                    </div>
+                    <div class="field">
+                        <label for="npEmail">email</label>
+                        <input type="text" id="npEmail" />
+                    </div>
+                    <div class="field">
+                        <label for="npWorkTelephone">work telephone</label>
+                        <input type="text" id="npWorkTelephone" />
+                    </div>
+                    <div class="field">
+                        <label for="npWebSite">web site</label>
+                        <input type="text" id="npWebSite" />
+                    </div>
+                </fieldset>
             </fieldset>
         </form>
     </div>

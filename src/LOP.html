@@ -16,8 +16,13 @@
         function doInit() {
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#lopCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+
+            var lopMLRRecordUri = uuid.v4();
+            $( '#lopMLRRecordUri' ).val( 'urn:' + lopMLRRecordUri );
+
             var lopUri = uuid.v4();
             $( '#lopUri' ).val( 'urn:' + lopUri );
+
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
             doReset();
         }
@@ -55,14 +60,14 @@
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
                     str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
                         'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" + 
-                        //'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                        'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                         'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    //    XMLSchematr += '  <mlr-8:MLR_Record rdf:about="urn:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">\n';
-                    //    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                    //    str += '    <mlr-8:describe>' + "\n";
+                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#lopMLRRecordUri' ).val() + '">\n';
+                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
+                    str += '    <mlr-8:describe>' + "\n";
                 }
 
                 str += '      <oeaf:learningOpportunityProvider';
@@ -93,8 +98,8 @@
                 str += '      </oeaf:learningOpportunityProvider>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
-                    //str += '    </mlr-8:describe>' + "\n";
-                    //str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </mlr-8:describe>' + "\n";
+                    str += '  </mlr-8:MLR_Record>\n';
                     str += '</rdf:RDF>';
                 }
             }
@@ -108,7 +113,7 @@
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                            //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
@@ -126,12 +131,18 @@
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
-                            //'    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
+                            '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
                             '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
+                    str += '    <div';
+                    if( lopMLRRecordUri != '' )
+                        str += ' resource="' + $( '#lopMLRRecordUri' ).val() + '"';
+                    str += ' typeof="mlr-8:rc0001">' + "\n";
+                    if( lopUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#lopUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -170,6 +181,7 @@
                 str += '    </div>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
+                    str += '    </div>' + "\n";
                     str += '  </body>' + "\n";
                     str += '</html>' + "\n";
                 }
@@ -185,52 +197,59 @@
     <h1>OEAF Creator - LOP</h1>
     <div class="inputs">
         <form id="lopForm" action="" onreset="doReset();">
-            <fieldset id="allo">
-                <legend>Learning Opportunity Provider (LOP)</legend>
+            <fieldset>
+                <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="lopUri">uri</label>
-                    <input type="text" id="lopUri" />
+                    <label for="lopMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="lopMLRRecordUri" />
                 </div>
-                <div class="field">
-                    <label for="lopIdentifier">identifier</label>
-                    <input type="text" id="lopIdentifier" />
-                </div>
-                <div class="field">
-                    <label for="lopName">name</label>
-                    <input type="text" id="lopName" />
-                </div>
-                <div class="field">
-                    <label for="lopFamilyName">family name</label>
-                    <input type="text" id="lopFamilyName" />
-                </div>
-                <div class="field">
-                    <label for="lopGivenName">given name</label>
-                    <input type="text" id="lopGivenName" />
-                </div>
-                <div class="field">
-                    <label for="lopName2">name2</label>
-                    <input type="text" id="lopName2" />
-                </div>
-                <div class="field">
-                    <label for="lopEmail">email</label>
-                    <input type="text" id="lopEmail" />
-                </div>
-                <div class="field">
-                    <label for="lopWorkTelephone">work telephone</label>
-                    <input type="text" id="lopWorkTelephone" />
-                </div>
-                <div class="field">
-                    <label for="lopLocation">location</label>
-                    <input type="text" id="lopLocation" />
-                </div>
-                <div class="field">
-                    <label for="lopWebSite">web site</label>
-                    <input type="text" id="lopWebSite" />
-                </div>
-                <div class="field">
-                    <label for="lopType">type</label>
-                    <select id="lopType"></select>
-                </div>
+                <fieldset>
+                    <legend>Learning Opportunity Provider (LOP)</legend>
+                    <div class="field uri">
+                        <label for="lopUri">uri</label>
+                        <input type="text" id="lopUri" />
+                    </div>
+                    <div class="field">
+                        <label for="lopIdentifier">identifier</label>
+                        <input type="text" id="lopIdentifier" />
+                    </div>
+                    <div class="field">
+                        <label for="lopName">name</label>
+                        <input type="text" id="lopName" />
+                    </div>
+                    <div class="field">
+                        <label for="lopFamilyName">family name</label>
+                        <input type="text" id="lopFamilyName" />
+                    </div>
+                    <div class="field">
+                        <label for="lopGivenName">given name</label>
+                        <input type="text" id="lopGivenName" />
+                    </div>
+                    <div class="field">
+                        <label for="lopName2">name2</label>
+                        <input type="text" id="lopName2" />
+                    </div>
+                    <div class="field">
+                        <label for="lopEmail">email</label>
+                        <input type="text" id="lopEmail" />
+                    </div>
+                    <div class="field">
+                        <label for="lopWorkTelephone">work telephone</label>
+                        <input type="text" id="lopWorkTelephone" />
+                    </div>
+                    <div class="field">
+                        <label for="lopLocation">location</label>
+                        <input type="text" id="lopLocation" />
+                    </div>
+                    <div class="field">
+                        <label for="lopWebSite">web site</label>
+                        <input type="text" id="lopWebSite" />
+                    </div>
+                    <div class="field">
+                        <label for="lopType">type</label>
+                        <select id="lopType"></select>
+                    </div>
+                </fieldset>
             </fieldset>
         </form>
     </div>
