@@ -23,6 +23,7 @@
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
 
+            $( "#npAddWorkFor" ).click( addField( 'npWorkFor' ) );
             $( "#npAddHasPart" ).click( addField( 'npHasPart' ) );
             doReset();
         }
@@ -49,6 +50,7 @@
             var tagNpEmail = getTag( 'npEmail', lang );
             var tagNpWorkTelephone = getTag( 'npWorkTelephone', lang );
             var tagNpWebSite = getTag( 'npWebSite', lang );
+            var tagNpWorkFor = getTag( 'npWorkFor', lang );
             var tagNpHasPart = getTag( 'npHasPart', lang );
 
             var str = '';
@@ -85,6 +87,13 @@
                     str += '        <' + tagNpWorkTelephone + '>' + npWorkTelephone + '</' + tagNpWorkTelephone + '>' + "\n";
                 if( npWebSite != '' )
                     str += '        <' + tagNpWebSite + '>' + npWebSite + '</' + tagNpWebSite + '>' + "\n";
+                $( '.npWorkForTextField' ).each( 
+                    function() { 
+                        var workFor = normalizeSpace( $( this ).val() );
+                        if( workFor != '' ) 
+                            str += '        <' + tagNpWorkFor + ' rdf:resource="' + workFor + '"/>' + "\n";
+                    } 
+                );
                 $( '.npHasPartTextField' ).each( 
                     function() { 
                         var hasPart = normalizeSpace( $( this ).val() );
@@ -166,6 +175,20 @@
                     str += '      Tel.: <span property="' + tagNpWorkTelephone + '">' + npWorkTelephone + '</span><br/>' + "\n";  
                 if( npWebSite != '' )
                     str += '      Web Site: <a property="' + tagNpWebSite + '" href="' + npWebSite + '">' + npWebSite + '</a><br/>' + "\n";
+                var workForHeader = '      Works for: <ul>' + "\n";
+                var workForFooter = '';
+                $( '.npWorkForTextField' ).each( 
+                    function() { 
+                        var workFor = normalizeSpace( $( this ).val() );
+                        if( workFor != '' ) { 
+                            str += workForHeader;
+                            workForHeader = '';
+                            workForFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagNpWorkFor + '" resource="' + workFor + '">' + workFor + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += workForFooter;
                 var hasPartHeader = '      HasPart(s): <ul>' + "\n";
                 var hasPartFooter = '';
                 $( '.npHasPartTextField' ).each( 
@@ -242,6 +265,11 @@
                     <div class="field">
                         <label for="npWebSite">web site</label>
                         <input type="text" id="npWebSite" />
+                    </div>
+                    <div class="field">
+                        <label for="npWorkFor">work for</label>
+                        <input type="text" id="npWorkFor" class="npWorkForTextField"></input>
+                        <button id="npAddWorkFor">+</button> 
                     </div>
                     <div class="field">
                         <label for="npHasPart">has part</label>

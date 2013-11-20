@@ -327,6 +327,11 @@ var tagTable = {
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
     },
+    'npWorkFor': {
+        '--': 'oeaf:des1100',
+        'eng': 'oeaf:workFor',
+        'fra': 'oeaf:travaillePour'
+    },
     'npHasPart': {
         '--': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
