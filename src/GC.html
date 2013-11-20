@@ -30,6 +30,7 @@
             $( "#gcAddCredit" ).click( addField( 'gcCredit' ) );
             initOptionElements( assessmentTypeTable, '#gcAssessmentType', false, true, true );
             $( "#gcAddHasPart" ).click( addField( 'gcHasPart' ) );
+            $( "#gcAddOfferedBy" ).click( addField( 'gcOfferedBy' ) );
             doReset();
         }
 
@@ -60,6 +61,7 @@
             var tagGcObjective = getTag( 'gcObjective', lang );
             var tagGcOutputQualification = getTag( 'gcOutputQualification', lang );
             var tagGcHasPart = getTag( 'gcHasPart', lang );
+            var tagGcOfferedBy = getTag( 'gcOfferedBy', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -137,6 +139,13 @@
                         var hasPart = normalizeSpace( $( this ).val() );
                         if( hasPart != '' ) 
                             str += '        <' + tagGcHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
+                $( '.gcOfferedByTextField' ).each( 
+                    function() { 
+                        var offeredBy = normalizeSpace( $( this ).val() );
+                        if( offeredBy != '' ) 
+                            str += '        <' + tagGcOfferedBy + ' rdf:resource="' + offeredBy + '"/>' + "\n";
                     } 
                 );
                 str += '      </oeaf:genericComponent>' + "\n";
@@ -298,6 +307,20 @@
                     } 
                 );
                 str += hasPartFooter;
+                var offeredByHeader = '      Offered by: <ul>' + "\n";
+                var offeredByFooter = '';
+                $( '.gcOfferedByTextField' ).each( 
+                    function() { 
+                        var offeredBy = normalizeSpace( $( this ).val() );
+                        if( offeredBy != '' ) { 
+                            str += offeredByHeader;
+                            offeredByHeader = '';
+                            offeredByFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagGcOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += offeredByFooter;
                 str += '    </div>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </div>' + "\n";
@@ -383,6 +406,11 @@
                         <label for="gcHasPart">has part (uri)</label>
                         <input type="text" id="gcHasPart" class="gcHasPartTextField"></input>
                         <button id="gcAddHasPart">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="gcOfferedBy">offered by (uri)</label>
+                        <input type="text" id="gcOfferedBy" class="gcOfferedByTextField"></input>
+                        <button id="gcAddOfferedBy">+</button> 
                     </div>
                 </fieldset>
             </fieldset>

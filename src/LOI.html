@@ -32,6 +32,7 @@
             initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
             initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
             $( "#loiAddHasPart" ).click( addField( 'loiHasPart' ) );
+            $( "#loiAddOfferedBy" ).click( addField( 'loiOfferedBy' ) );
             doReset();
         }
 
@@ -83,6 +84,7 @@
             var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
             var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
             var tagLoiHasPart = getTag( 'loiHasPart', lang );
+            var tagLoiOfferedBy = getTag( 'loiOfferedBy', lang );
 
             var tagLoiLocationLongitude = getTag( 'loiLocationLongitude', lang );
             var tagLoiLocationLatitude = getTag( 'loiLocationLatitude', lang );
@@ -219,6 +221,13 @@
                         var hasPart = normalizeSpace( $( this ).val() );
                         if( hasPart != '' ) 
                             str += '        <' + tagLoiHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
+                $( '.loiOfferedByTextField' ).each( 
+                    function() { 
+                        var offeredBy = normalizeSpace( $( this ).val() );
+                        if( offeredBy != '' ) 
+                            str += '        <' + tagLoiOfferedBy + ' rdf:resource="' + offeredBy + '"/>' + "\n";
                     } 
                 );
                 str += '      </oeaf:learningOpportunityInstance>' + "\n";
@@ -383,6 +392,20 @@
                     } 
                 );
                 str += hasPartFooter;
+                var offeredByHeader = '      Offered by: <ul>' + "\n";
+                var offeredByFooter = '';
+                $( '.loiOfferedByTextField' ).each( 
+                    function() { 
+                        var offeredBy = normalizeSpace( $( this ).val() );
+                        if( offeredBy != '' ) { 
+                            str += offeredByHeader;
+                            offeredByHeader = '';
+                            offeredByFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLoiOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += offeredByFooter;
                 str += '    </div>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -520,6 +543,11 @@
                         <label for="loiHasPart">has part (uri)</label>
                         <input type="text" id="loiHasPart" class="loiHasPartTextField"></input>
                         <button id="loiAddHasPart">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="loiOfferedBy">offered by (uri)</label>
+                        <input type="text" id="loiOfferedBy" class="loiOfferedByTextField"></input>
+                        <button id="loiAddOfferedBy">+</button> 
                     </div>
                 </fieldset>
             </fieldset>

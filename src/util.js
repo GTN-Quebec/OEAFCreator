@@ -148,6 +148,11 @@ var tagTable = {
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
+    'gcOfferedBy': {
+        '--': 'oeaf:sed0200',
+        'eng': 'oeaf:offeredBy',
+        'fra': 'oeaf:offertePar'
+    },
 
     // Learning Opportunity Instance
     
@@ -275,6 +280,11 @@ var tagTable = {
         '--': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
+    },
+    'loiOfferedBy': {
+        '--': 'oeaf:sed0200',
+        'eng': 'oeaf:offeredBy',
+        'fra': 'oeaf:offertePar'
     },
 
     // Geolocation
