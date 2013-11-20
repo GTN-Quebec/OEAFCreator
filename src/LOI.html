@@ -26,9 +26,6 @@
             $( '#loiLocationLongitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationLatitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
-            $( '#loiProviderName' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
-            $( '#loiProviderEmail' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
-            $( '#loiProviderWorkTelephone' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
             initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
             initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
             $( "#loiAddHasPart" ).click( addField( 'loiHasPart' ) );
@@ -53,7 +50,6 @@
             var loiCost = normalizeSpace( $( '#loiCost' ).val() );
             var loiPerformanceLanguage = $( '#loiPerformanceLanguage' ).val();
             var loiDeliveryMode = $( '#loiDeliveryMode' ).val();
-            var loiProvider = normalizeSpace( $( '#loiProvider' ).val() );
             var loiRegistrationModalities = $( '#loiRegistrationModalities' ).val();
             var loiLastMinuteInfos = $( '#loiLastMinuteInfos' ).val();
             var loiLocationIsEmbedded = $( '#loiLocationIsEmbedded' ).is( ':checked' );
@@ -61,11 +57,6 @@
             var loiLocationLongitude = normalizeSpace( $( '#loiLocationLongitude' ).val() );
             var loiLocationLatitude = normalizeSpace( $( '#loiLocationLatitude' ).val() );
             var loiLocationDescription = $( '#loiLocationDescription' ).val();
-            var loiProviderIsEmbedded = $( '#loiProviderIsEmbedded' ).is( ':checked' );
-            var loiProviderUri = normalizeSpace( $( '#loiProviderUri' ).val() );
-            var loiProviderName = normalizeSpace( $( '#loiProviderName' ).val() );
-            var loiProviderEmail = normalizeSpace( $( '#loiProviderEmail' ).val() );
-            var loiProviderWorkTelephone = normalizeSpace( $( '#loiProviderWorkTelephone' ).val() );
 
             var tagLoiIdentifier = getTag( 'loiIdentifier', lang );
             var tagLoiTitle = getTag( 'loiTitle', lang );
@@ -80,7 +71,6 @@
             var tagLoiCost = getTag( 'loiCost', lang );
             var tagLoiPerformanceLanguage = getTag( 'loiPerformanceLanguage', lang );
             var tagLoiDeliveryMode = getTag( 'loiDeliveryMode', lang );
-            var tagLoiProvider = getTag( 'loiProvider', lang );
             var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
             var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
             var tagLoiHasPart = getTag( 'loiHasPart', lang );
@@ -89,16 +79,11 @@
             var tagLoiLocationLongitude = getTag( 'loiLocationLongitude', lang );
             var tagLoiLocationLatitude = getTag( 'loiLocationLatitude', lang );
             var tagLoiLocationDescription = getTag( 'loiLocationDescription', lang );
-            var tagLoiProvider = getTag( 'loiProvider', lang );
-            var tagLoiProviderName = getTag( 'loiProviderName', lang );
-            var tagLoiProviderEmail = getTag( 'loiProviderEmail', lang );
-            var tagLoiProviderWorkTelephone = getTag( 'loiProviderWorkTelephone', lang );
 
             var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
             var tagNaturalPerson = getTag( 'naturalPerson', lang );
 
             var extLocationStr = null;
-            var extProviderStr = null;
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -177,34 +162,6 @@
                         str += '        <' + tagLoiPerformanceLanguage + '>' + langValue + '</' + tagLoiPerformanceLanguage + '>' + "\n";
                     }
                 }
-                if( loiProviderUri != '' ) {
-                    if( loiProviderIsEmbedded ) {
-                        str += '        <' + tagLoiProvider + '>' + "\n";
-                        str += '          <' + tagNaturalPerson + ' rdf:about="' + loiProviderUri + '">' + "\n";
-                        if( loiProviderName != '' )
-                            str += '            <' + tagLoiProviderName + '>' + loiProviderName + '</' + tagLoiProviderName + ">\n";
-                        if( loiProviderEmail != '' )
-                            str += '            <' + tagLoiProviderEmail + '>' + loiProviderEmail + '</' + tagLoiProviderEmail + ">\n";
-                        if( loiProviderWorkTelephone != '' )
-                            str += '            <' + tagLoiProviderWorkTelephone + '>' + loiProviderWorkTelephone + '</' + tagLoiProviderWorkTelephone + ">\n";
-                        str += '          </' + tagNaturalPerson + '>' + "\n";
-                        str += '        </' + tagLoiProvider + '>' + "\n";
-                    }
-                    else {
-                        str += '        <' + tagLoiProvider + ' rdf:resource="' + loiProviderUri + '"/>' + "\n";
-
-                        if( loiProviderName != '' ||  loiProviderEmail != '' || loiProviderWorkTelephone != '' ) {
-                            extProviderStr = '  <' + tagNaturalPerson + ' rdf:about="' + loiProviderUri + '">' + "\n";
-                            if( loiProviderName != '' )
-                                extProviderStr += '    <' + tagLoiProviderName + '>' + loiProviderName + '</' + tagLoiProviderName + ">\n";
-                            if( loiProviderEmail != '' )
-                                extProviderStr += '    <' + tagLoiProviderEmail + '>' + loiProviderEmail + '</' + tagLoiProviderEmail + ">\n";
-                            if( loiProviderWorkTelephone != '' )
-                                extProviderStr += '    <' + tagLoiProviderWorkTelephone + '>' + loiProviderWorkTelephone + '</' + tagLoiProviderWorkTelephone + ">\n";
-                            extProviderStr += '  </' + tagNaturalPerson + '>' + "\n";
-                        }
-                    }
-                }
                 if( loiDeliveryMode != null ) { 
                     for( var i = 0; i < $( '#loiDeliveryMode' ).val().length; i++ ) {
                         var deliveryModeValue = $( '#loiDeliveryMode' ).val()[ i ]; 
@@ -239,8 +196,6 @@
 
                 if( extLocationStr != null )
                     str += extLocationStr;
-                if( extProviderStr != null )
-                    str += extProviderStr;
 
                 if( isPrologueAndEpilogueRequired ) 
                     str += '</rdf:RDF>';
@@ -322,22 +277,6 @@
                         delimiter = ', ';
                     }
                     str += '<br/>' + "\n";
-                }
-                if( loiProviderUri != '' ) {
-                    if( loiProviderName != '' || loiProviderEmail != '' || loiProviderWorkTelephone != '' ) {
-                        str += '      <br/><br/>' + "\n";
-                        str += '      Provided by: <div style="display: inline-table;" property="' + tagLoiProvider + '" resource="' + loiProviderUri + '" typeof="' + tagNaturalPerson + '">';
-                        if( loiProviderName != '' )
-                            str += '<span property="' + tagLoiProviderName + '">' + loiProviderName + '</span> ';
-                        if( loiProviderEmail != '' )
-                            str += '(<a property="' + tagLoiProviderEmail + '" href="mailto:' + loiProviderEmail + '">' + loiProviderEmail + '</a>)<br/>' + "\n";
-                        if( loiProviderWorkTelephone != '' )
-                            str += 'Tel.: <span property="' + tagLoiProviderWorkTelephone + '">' + loiProviderWorkTelephone + '</span><br/>' + "\n";  
-                        str += '      </div>' + "\n";
-                    }
-                    else {
-                        str += '      <span property="' + tagLoiProvider + '" resource="' + loiProviderUri + '"/>' + "\n";
-                    }
                 }
                 if( loiDeliveryMode != null ) { 
                     var deliveryModeHeader = "      <br/> \n      Delivery Modes: <ul>\n";
@@ -504,29 +443,6 @@
                         <label for="loiPerformanceLanguage">performance language</label>
                         <select id="loiPerformanceLanguage"></select>
                     </div>
-                    <fieldset>
-                        <legend>provider</legend>
-                        <div class="field">
-                            <label for="loiProviderIsEmbedded">embedded</label>
-                            <input type="checkbox" id="loiProviderIsEmbedded" name="loiProviderIsEmbedded" checked="checked" />
-                        </div>
-                        <div class="field uri">
-                            <label for="loiProviderUri">uri</label>
-                            <input type="text" id="loiProviderUri" />
-                        </div>
-                        <div class="field">
-                            <label for="loiProviderName">name</label>
-                            <input type="text" id="loiProviderName" />
-                        </div>
-                        <div class="field">
-                            <label for="loiProviderEmail">email</label>
-                            <input type="text" id="loiProviderEmail" />
-                        </div>
-                        <div class="field">
-                            <label for="loiProviderWorkTelephone">work telephone</label>
-                            <input type="text" id="loiProviderWorkTelephone" />
-                        </div>
-                    </fieldset>
                     <div class="field">
                         <label for="loiDeliveryMode">delivery mode</label>
                         <select id="loiDeliveryMode"></select>

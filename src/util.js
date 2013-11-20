@@ -261,21 +261,6 @@ var tagTable = {
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
-    'loiProviderName': {
-        '--': 'mlr-9:des0500',
-        'eng': 'mlr-9:name',
-        'fra': 'mlr-9:nom'
-    },
-    'loiProviderEmail': {
-        '--': 'mlr-9:des0900',
-        'eng': 'mlr-9:email',
-        'fra': 'mlr-9:courriel'
-    },
-    'loiProviderWorkTelephone': {
-        '--': 'mlr-9:des1000',
-        'eng': 'mlr-9:workTelephone',
-        'fra': 'mlr-9:téléphoneTravail'
-    },
     'loiHasPart': {
         '--': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
