@@ -65,6 +65,11 @@ var tagTable = {
         'eng': 'oeaf:type',
         'fra': 'oeaf:type'
     },
+    'lopContactPerson': {
+        '--': 'oeaf:sed0800',
+        'eng': 'oeaf:contactPerson',
+        'fra': 'oeaf:personneContact'
+    },
     'lopHasPart': {
         '--': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',

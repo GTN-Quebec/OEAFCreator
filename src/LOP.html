@@ -24,6 +24,7 @@
             $( '#lopUri' ).val( 'urn:' + lopUri );
 
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
+            $( "#lopContactPerson" ).click( addField( 'lopContactPerson' ) );
             $( "#lopAddHasPart" ).click( addField( 'lopHasPart' ) );
             doReset();
         }
@@ -53,6 +54,7 @@
             var tagLopLocation = getTag( 'lopLocation', lang );
             var tagLopWebSite = getTag( 'lopWebSite', lang );
             var tagLopType = getTag( 'lopType', lang );
+            var tagLopContactPerson = getTag( 'lopContactPerson', lang );
             var tagLopHasPart = getTag( 'lopHasPart', lang );
 
             var str = '';
@@ -97,6 +99,13 @@
                     str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
                 if( lopType != null && lopType != '' )
                     str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
+                $( '.lopContactPersonTextField' ).each( 
+                    function() { 
+                        var contactPerson = normalizeSpace( $( this ).val() );
+                        if( contactPerson != '' ) 
+                            str += '        <' + tagLopContactPerson + ' rdf:resource="' + contactPerson + '"/>' + "\n";
+                    } 
+                );
                 $( '.lopHasPartTextField' ).each( 
                     function() { 
                         var hasPart = normalizeSpace( $( this ).val() );
@@ -187,6 +196,20 @@
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
                 if( lopType != null && lopType != '' )
                     str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
+                var contactPersonHeader = '      Contact Person(s): <ul>' + "\n";
+                var contactPersonFooter = '';
+                $( '.lopContactPersonTextField' ).each( 
+                    function() { 
+                        var contactPerson = normalizeSpace( $( this ).val() );
+                        if( contactPerson != '' ) { 
+                            str += contactPersonHeader;
+                            contactPersonHeader = '';
+                            contactPersonFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLopContactPerson + '" resource="' + contactPerson + '">' + contactPerson + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += contactPersonFooter;
                 var hasPartHeader = '      HasPart(s): <ul>' + "\n";
                 var hasPartFooter = '';
                 $( '.lopHasPartTextField' ).each( 
@@ -271,6 +294,11 @@
                     <div class="field">
                         <label for="lopType">type</label>
                         <select id="lopType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="lopContactPerson">contact person (uri)</label>
+                        <input type="text" id="lopContactPerson" class="lopContactPersonTextField"></input>
+                        <button id="lopAddContactPerson">+</button> 
                     </div>
                     <div class="field">
                         <label for="lopHasPart">has part (uri)</label>
