@@ -70,6 +70,11 @@ var tagTable = {
         'eng': 'oeaf:contactPerson',
         'fra': 'oeaf:personneContact'
     },
+    'lopOffer': {
+        '--': 'oeaf:sed0100',
+        'eng': 'oeaf:offer',
+        'fra': 'oeaf:offre'
+    },
     'lopHasPart': {
         '--': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',

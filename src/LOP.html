@@ -24,7 +24,8 @@
             $( '#lopUri' ).val( 'urn:' + lopUri );
 
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
-            $( "#lopContactPerson" ).click( addField( 'lopContactPerson' ) );
+            $( "#lopAddContactPerson" ).click( addField( 'lopContactPerson' ) );
+            $( "#lopAddOffer" ).click( addField( 'lopOffer' ) );
             $( "#lopAddHasPart" ).click( addField( 'lopHasPart' ) );
             doReset();
         }
@@ -55,6 +56,7 @@
             var tagLopWebSite = getTag( 'lopWebSite', lang );
             var tagLopType = getTag( 'lopType', lang );
             var tagLopContactPerson = getTag( 'lopContactPerson', lang );
+            var tagLopOffer = getTag( 'lopOffer', lang );
             var tagLopHasPart = getTag( 'lopHasPart', lang );
 
             var str = '';
@@ -104,6 +106,13 @@
                         var contactPerson = normalizeSpace( $( this ).val() );
                         if( contactPerson != '' ) 
                             str += '        <' + tagLopContactPerson + ' rdf:resource="' + contactPerson + '"/>' + "\n";
+                    } 
+                );
+                $( '.lopOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) 
+                            str += '        <' + tagLopOffer + ' rdf:resource="' + offer + '"/>' + "\n";
                     } 
                 );
                 $( '.lopHasPartTextField' ).each( 
@@ -210,6 +219,20 @@
                     } 
                 );
                 str += contactPersonFooter;
+                var offerHeader = '      offers: <ul>' + "\n";
+                var offerFooter = '';
+                $( '.lopOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) { 
+                            str += offerHeader;
+                            offerHeader = '';
+                            offerFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLopOffer + '" resource="' + offer + '">' + offer + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += offerFooter;
                 var hasPartHeader = '      HasPart(s): <ul>' + "\n";
                 var hasPartFooter = '';
                 $( '.lopHasPartTextField' ).each( 
@@ -299,6 +322,11 @@
                         <label for="lopContactPerson">contact person (uri)</label>
                         <input type="text" id="lopContactPerson" class="lopContactPersonTextField"></input>
                         <button id="lopAddContactPerson">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="lopOffer">offer (uri)</label>
+                        <input type="text" id="lopOffer" class="lopOfferTextField"></input>
+                        <button id="lopAddOffer">+</button> 
                     </div>
                     <div class="field">
                         <label for="lopHasPart">has part (uri)</label>
