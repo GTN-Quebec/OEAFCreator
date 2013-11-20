@@ -23,6 +23,7 @@
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
 
+            $( "#npAddHasPart" ).click( addField( 'npHasPart' ) );
             doReset();
         }
 
@@ -48,6 +49,7 @@
             var tagNpEmail = getTag( 'npEmail', lang );
             var tagNpWorkTelephone = getTag( 'npWorkTelephone', lang );
             var tagNpWebSite = getTag( 'npWebSite', lang );
+            var tagNpHasPart = getTag( 'npHasPart', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -56,6 +58,7 @@
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
                     str += '<rdf:RDF xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                         'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
+                        'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" +
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
                     str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#npMLRRecordUri' ).val() + '">\n';
@@ -82,6 +85,13 @@
                     str += '        <' + tagNpWorkTelephone + '>' + npWorkTelephone + '</' + tagNpWorkTelephone + '>' + "\n";
                 if( npWebSite != '' )
                     str += '        <' + tagNpWebSite + '>' + npWebSite + '</' + tagNpWebSite + '>' + "\n";
+                $( '.npHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) 
+                            str += '        <' + tagNpHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
                 str += '  </mlr-9:naturalPerson>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
@@ -99,6 +109,7 @@
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
                             '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
@@ -114,6 +125,7 @@
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
                             '    mlr-8: http:standards.iso.org/iso-iec/19788/-8/ed-1/en/' + "\n" +
                             '    mlr-9: http:standards.iso.org/iso-iec/19788/-9/ed-1/en/' + "\n" +
+                            '    oeaf: http://normetic.org/uri/profil_oeaf/v1.0/ns#' + "\n" +
                             '    xsd: http://www.w3.org/2001/XMLSchema#' + "\n" +
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
@@ -154,6 +166,20 @@
                     str += '      Tel.: <span property="' + tagNpWorkTelephone + '">' + npWorkTelephone + '</span><br/>' + "\n";  
                 if( npWebSite != '' )
                     str += '      Web Site: <a property="' + tagNpWebSite + '" href="' + npWebSite + '">' + npWebSite + '</a><br/>' + "\n";
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.npHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagNpHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -217,6 +243,11 @@
                         <label for="npWebSite">web site</label>
                         <input type="text" id="npWebSite" />
                     </div>
+                    <div class="field">
+                        <label for="npHasPart">has part</label>
+                        <input type="text" id="npHasPart" class="npHasPartTextField"></input>
+                        <button id="npAddHasPart">+</button> 
+                    </div>
                 </fieldset>
             </fieldset>
         </form>
@@ -230,7 +261,7 @@
             Generation: <input type="radio" form="npForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="npForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="npForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
-            Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
+            Generate main element only <input type="checkbox" form="npForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 
         <div class="output">

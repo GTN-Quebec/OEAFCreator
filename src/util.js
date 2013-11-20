@@ -65,6 +65,11 @@ var tagTable = {
         'eng': 'oeaf:type',
         'fra': 'oeaf:type'
     },
+    'lopHasPart': {
+        '--': 'oeaf:sed0400',
+        'eng': 'oeaf:hasPart',
+        'fra': 'oeaf:composéDe'
+    },
 
     // Generic Component 
 
@@ -127,6 +132,11 @@ var tagTable = {
         '--': 'oeaf:sed1900',
         'eng': 'oeaf:outputQualification',
         'fra': 'oeaf:qualificationÀLaSortie'
+    },
+    'gcHasPart': {
+        '--': 'oeaf:sed0400',
+        'eng': 'oeaf:hasPart',
+        'fra': 'oeaf:composéDe'
     },
 
     // Learning Opportunity Instance
@@ -251,6 +261,11 @@ var tagTable = {
         'eng': 'mlr-9:workTelephone',
         'fra': 'mlr-9:téléphoneTravail'
     },
+    'loiHasPart': {
+        '--': 'oeaf:sed0400',
+        'eng': 'oeaf:hasPart',
+        'fra': 'oeaf:composéDe'
+    },
 
     // Geolocation
     
@@ -311,6 +326,11 @@ var tagTable = {
         '--': 'mlr-9:des1800',
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
+    },
+    'npHasPart': {
+        '--': 'oeaf:sed0400',
+        'eng': 'oeaf:hasPart',
+        'fra': 'oeaf:composéDe'
     },
 
     // Organization
@@ -374,6 +394,11 @@ var tagTable = {
         '--': 'mlr-9:des1700',
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
+    },
+    'orgHasPart': {
+        '--': 'oeaf:sed0400',
+        'eng': 'oeaf:hasPart',
+        'fra': 'oeaf:composéDe'
     }
 
 };

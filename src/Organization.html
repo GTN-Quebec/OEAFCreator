@@ -22,6 +22,8 @@
 
             var orgUri = uuid.v4();
             $( '#orgUri' ).val( 'urn:' + orgUri );
+            
+            $( "#orgAddHasPart" ).click( addField( 'orgHasPart' ) );
             doReset();
         }
 
@@ -56,6 +58,7 @@
             var tagOrgLocationLongitude = getTag( 'orgLocationLongitude', lang );
             var tagOrgLocationLatitude = getTag( 'orgLocationLatitude', lang );
             var tagOrgLocationDescription = getTag( 'orgLocationDescription', lang );
+            var tagOrgHasPart = getTag( 'orgHasPart', lang );
 
             var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
 
@@ -123,6 +126,13 @@
                         }
                     }
                 }
+                $( '.orgHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) 
+                            str += '        <' + tagOrgHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
                 str += '  </mlr-9:organization>' + "\n";
 
                 if( extLocationStr != null )
@@ -216,6 +226,20 @@
                         str += '      <span property="' + tagOrgGeolocation + '" resource="' + orgLocationUri + '"/>' + "\n";
                     }
                 }
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.orgHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagOrgHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -302,6 +326,11 @@
                             <textarea id="orgLocationDescription" rows="12" cols=30"></textarea>
                         </div>
                     </fieldset>
+                    <div class="field">
+                        <label for="orgHasPart">has part</label>
+                        <input type="text" id="orgHasPart" class="orgHasPartTextField"></input>
+                        <button id="orgAddHasPart">+</button> 
+                    </div>
                 </fieldset>
             </fieldset>
         </form>

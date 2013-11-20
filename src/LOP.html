@@ -24,6 +24,7 @@
             $( '#lopUri' ).val( 'urn:' + lopUri );
 
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#lopType', false, false, false );
+            $( "#lopAddHasPart" ).click( addField( 'lopHasPart' ) );
             doReset();
         }
 
@@ -52,6 +53,7 @@
             var tagLopLocation = getTag( 'lopLocation', lang );
             var tagLopWebSite = getTag( 'lopWebSite', lang );
             var tagLopType = getTag( 'lopType', lang );
+            var tagLopHasPart = getTag( 'lopHasPart', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -95,6 +97,13 @@
                     str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
                 if( lopType != null && lopType != '' )
                     str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
+                $( '.lopHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) 
+                            str += '        <' + tagLopHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
                 str += '      </oeaf:learningOpportunityProvider>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -178,6 +187,20 @@
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
                 if( lopType != null && lopType != '' )
                     str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.lopHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLopHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 str += '    </div>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -248,6 +271,11 @@
                     <div class="field">
                         <label for="lopType">type</label>
                         <select id="lopType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="lopHasPart">has part</label>
+                        <input type="text" id="lopHasPart" class="lopHasPartTextField"></input>
+                        <button id="lopAddHasPart">+</button> 
                     </div>
                 </fieldset>
             </fieldset>

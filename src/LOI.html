@@ -31,6 +31,7 @@
             $( '#loiProviderWorkTelephone' ).keyup( setUriIfNeeded( '#loiProviderUri', '#loiProvider' ) );
             initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
             initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
+            $( "#loiAddHasPart" ).click( addField( 'loiHasPart' ) );
             doReset();
         }
 
@@ -81,6 +82,8 @@
             var tagLoiProvider = getTag( 'loiProvider', lang );
             var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
             var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
+            var tagLoiHasPart = getTag( 'loiHasPart', lang );
+
             var tagLoiLocationLongitude = getTag( 'loiLocationLongitude', lang );
             var tagLoiLocationLatitude = getTag( 'loiLocationLatitude', lang );
             var tagLoiLocationDescription = getTag( 'loiLocationDescription', lang );
@@ -211,6 +214,13 @@
                     str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagLoiRegistrationModalities + '>' + "\n";
                 if( loiLastMinuteInfos != '' )
                     str += '        <' + tagLoiLastMinuteInfos + '>' + loiLastMinuteInfos.replace( /\n/g, '\\n' ) + '</' + tagLoiLastMinuteInfos + '>' + "\n";
+                $( '.loiHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) 
+                            str += '        <' + tagLoiHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
                 str += '      </oeaf:learningOpportunityInstance>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -359,6 +369,20 @@
                         str += '      <span property="' + tagLoiGeolocation + '" resource="' + loiLocationUri + '"/>' + "\n";
                     }
                 }
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.loiHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLoiHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 str += '    </div>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -491,6 +515,11 @@
                     <div class="field">
                         <label for="loiLastMinuteInfos">last minute infos</label>
                         <textarea id="loiLastMinuteInfos" rows="12" cols=30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="loiHasPart">has part</label>
+                        <input type="text" id="loiHasPart" class="loiHasPartTextField"></input>
+                        <button id="loiAddHasPart">+</button> 
                     </div>
                 </fieldset>
             </fieldset>

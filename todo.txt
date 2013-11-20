@@ -1,3 +1,4 @@
+Some values should be resource instead of text literals (vocabulary for example)
 Check if type attribute is properly set for RDF.  It is OK for RDFa but not for RDF, I think.
 Implement the links between objects (red links from the Global View (Fig. D.1, p.62, Profil_OEAF_v0.7.5))
 Implement an editor for relations between objects (6.2.1).

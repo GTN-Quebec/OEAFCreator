@@ -29,6 +29,7 @@
             initOptionElements( educationalLevelTable, '#gcEducationalLevel', true, true, true );
             $( "#gcAddCredit" ).click( addField( 'gcCredit' ) );
             initOptionElements( assessmentTypeTable, '#gcAssessmentType', false, true, true );
+            $( "#gcAddHasPart" ).click( addField( 'gcHasPart' ) );
             doReset();
         }
 
@@ -58,6 +59,7 @@
             var tagGcAssessmentType = getTag( 'gcAssessmentType', lang );
             var tagGcObjective = getTag( 'gcObjective', lang );
             var tagGcOutputQualification = getTag( 'gcOutputQualification', lang );
+            var tagGcHasPart = getTag( 'gcHasPart', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -130,6 +132,13 @@
                     str += '        <' + tagGcObjective + '>' + gcObjective.replace( /\n/g, '\\n' ) + '</' + tagGcObjective + '>' + "\n";
                 if( gcOutputQualification != '' )
                     str += '        <' + tagGcOutputQualification + '>' + gcOutputQualification.replace( /\n/g, '\\n' ) + '</' + tagGcOutputQualification + '>' + "\n";
+                $( '.gcHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) 
+                            str += '        <' + tagGcHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                    } 
+                );
                 str += '      </oeaf:genericComponent>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
@@ -275,6 +284,20 @@
                     str += '      Output Qualification:<br/>' + "\n";
                     str += '      <span property="' + tagGcOutputQualification + '">' + gcOutputQualification.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
                 }
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.gcHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagGcHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 str += '    </div>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </div>' + "\n";
@@ -355,6 +378,11 @@
                     <div class="field">
                         <label for="gcOutputQualification">output qualification</label>
                         <textarea id="gcOutputQualification" rows="12" cols="30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="gcHasPart">has part</label>
+                        <input type="text" id="gcHasPart" class="gcHasPartTextField"></input>
+                        <button id="gcAddHasPart">+</button> 
                     </div>
                 </fieldset>
             </fieldset>
