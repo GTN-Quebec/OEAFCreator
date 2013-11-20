@@ -28,6 +28,7 @@
             $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
             initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
             initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
+            $( "#loiAddProvider" ).click( addField( 'loiProvider' ) );
             $( "#loiAddHasPart" ).click( addField( 'loiHasPart' ) );
             $( "#loiAddOfferedBy" ).click( addField( 'loiOfferedBy' ) );
             doReset();
@@ -50,6 +51,7 @@
             var loiCost = normalizeSpace( $( '#loiCost' ).val() );
             var loiPerformanceLanguage = $( '#loiPerformanceLanguage' ).val();
             var loiDeliveryMode = $( '#loiDeliveryMode' ).val();
+            var loiProvider = $( '#loiProvider' ).val();
             var loiRegistrationModalities = $( '#loiRegistrationModalities' ).val();
             var loiLastMinuteInfos = $( '#loiLastMinuteInfos' ).val();
             var loiLocationIsEmbedded = $( '#loiLocationIsEmbedded' ).is( ':checked' );
@@ -71,6 +73,7 @@
             var tagLoiCost = getTag( 'loiCost', lang );
             var tagLoiPerformanceLanguage = getTag( 'loiPerformanceLanguage', lang );
             var tagLoiDeliveryMode = getTag( 'loiDeliveryMode', lang );
+            var tagLoiProvider = getTag( 'loiProvider', lang );
             var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
             var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
             var tagLoiHasPart = getTag( 'loiHasPart', lang );
@@ -169,6 +172,13 @@
                             str += '        <' + tagLoiDeliveryMode + '>' + deliveryModeValue + '</' + tagLoiDeliveryMode + '>' + "\n"; 
                     }
                 }
+                $( '.loiProviderTextField' ).each( 
+                    function() { 
+                        var provider = normalizeSpace( $( this ).val() );
+                        if( provider != '' ) 
+                            str += '        <' + tagLoiProvider + ' rdf:resource="' + provider + '"/>' + "\n";
+                    } 
+                );
                 if( loiRegistrationModalities != '' )
                     str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagLoiRegistrationModalities + '>' + "\n";
                 if( loiLastMinuteInfos != '' )
@@ -291,6 +301,20 @@
                     if( deliveryModeHeader == '' )
                         str += "</ul><br/>\n";
                 }
+                var providerHeader = '      Provider(s): <ul>' + "\n";
+                var providerFooter = '';
+                $( '.loiProviderTextField' ).each( 
+                    function() { 
+                        var provider = normalizeSpace( $( this ).val() );
+                        if( provider != '' ) { 
+                            str += providerHeader;
+                            providerHeader = '';
+                            providerFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span property="' + tagLoiProvider + '" resource="' + provider + '">' + provider + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += providerFooter;
                 if( loiRegistrationModalities != '' ) {
                     str += '      <br/><br/>' + "\n";
                     str += '      Registration Modalities:<br/>' + "\n";
@@ -446,6 +470,11 @@
                     <div class="field">
                         <label for="loiDeliveryMode">delivery mode</label>
                         <select id="loiDeliveryMode"></select>
+                    </div>
+                    <div class="field">
+                        <label for="loiProvider">provider (uri)</label>
+                        <input type="text" id="loiProvider" class="loiProviderTextField"></input>
+                        <button id="loiAddProvider">+</button> 
                     </div>
                     <div class="field">
                         <label for="loiRegistrationModalities">registration modalities</label>
