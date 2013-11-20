@@ -601,14 +601,6 @@ function doDefaultInit() {
     $( 'textarea' ).keyup( window.codeIt );
     $( 'textarea' ).click( window.codeIt );
     $( 'select' ).click( window.codeIt );
-    $( '#showUris' ).click( 
-        function() {
-            if( $( this ).is( ':checked' ) ) 
-                $( '.uri' ).removeClass( 'notDisplayed' );
-            else
-                $( '.uri' ).addClass( 'notDisplayed' );
-        }
-    );
     $( '#genMainElementOnly' ).click( 
         function() {
             if( $( this ).is( ':checked' ) ) 

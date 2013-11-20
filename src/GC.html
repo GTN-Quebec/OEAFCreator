@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>OEAF Creator - GC</title>
+    <title>OEAF Creator - Generic Component</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="default.css"/>
     <link rel="stylesheet" href="lib/styles/default.css"/>
@@ -313,7 +313,7 @@
     </script>
 </head>
 <body>
-    <h1>OEAF Creator - GC</h1>
+    <h1>OEAF Creator - Generic Component</h1>
     <div class="inputs">
         <form id="gcForm" action="" onreset="doReset();">
             <fieldset>
@@ -323,7 +323,7 @@
                     <input type="text" id="gcMLRRecordUri" />
                 </div>
                 <fieldset>
-                    <legend>Generic Component (GC)</legend>
+                    <legend>Generic Component</legend>
                     <div class="field uri">
                         <label for="gcUri">uri</label>
                         <input type="text" id="gcUri" />
@@ -393,7 +393,6 @@
 
         <div class="options">
             <h2>Options</h2>
-            Show URIs: <input type="checkbox" form="gcForm" id="showUris" name="showUris" checked="checked" /><br />
             Generation:
             <input type="radio" form="gcForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="gcForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
