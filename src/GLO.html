@@ -108,12 +108,12 @@
                     } 
                 );
                 if( gloOpportunityType != null )
-                    str += '        <' + tagGloOpportunityType + '>' + gloOpportunityType + '</' + tagGloOpportunityType + '>' + "\n"; 
+                    str += '        <' + tagGloOpportunityType + ' rdf:resource="' + gloOpportunityType + '"/>' + "\n"; 
                 if( gloEducationalLevel != null ) { 
                     for( var i = 0; i < $( '#gloEducationalLevel' ).val().length; i++ ) {
                         var educationalLevelValue = $( '#gloEducationalLevel' ).val()[ i ]; 
                         if( educationalLevelValue != '' )
-                            str += '        <' + tagGloEducationalLevel + '>' + educationalLevelValue + '</' + tagGloEducationalLevel + '>' + "\n"; 
+                            str += '        <' + tagGloEducationalLevel + ' rdf:resource="' + educationalLevelValue + '"/>' + "\n"; 
                     }
                 }
                 $( '.gloCreditTextField' ).each( 
@@ -127,7 +127,7 @@
                     for( var i = 0; i < $( '#gloAssessmentType' ).val().length; i++ ) {
                         var assessmentTypeValue = $( '#gloAssessmentType' ).val()[ i ]; 
                         if( assessmentTypeValue != '' )
-                            str += '        <' + tagGloAssessmentType + '>' + assessmentTypeValue + '</' + tagGloAssessmentType + '>' + "\n"; 
+                            str += '        <' + tagGloAssessmentType + ' rdf:resource="' + assessmentTypeValue + '"/>' + "\n"; 
                     }
                 }
                 if( gloObjective != '' )
@@ -242,14 +242,14 @@
                 );
                 str += prerequisiteFooter;
                 if( gloOpportunityType != null )
-                    str += '      Opportunity Type: <span property="' + tagGloOpportunityType + '" content="' + gloOpportunityType + '">' + opportunityTypeTable[ gloOpportunityType ] + '</span><br/>' + "\n";
+                    str += '      Opportunity Type: <span property="' + tagGloOpportunityType + '" resource="' + gloOpportunityType + '">' + opportunityTypeTable[ gloOpportunityType ] + '</span><br/>' + "\n";
                 if( gloEducationalLevel != null ) { 
                     var educationalLevelHeader = "      <br/> \n      Educational Levels: <ul>\n";
                     for( var i = 0; i < $( '#gloEducationalLevel' ).val().length; i++ ) {
                         var educationalLevelValue = $( '#gloEducationalLevel' ).val()[ i ]; 
                         if( educationalLevelValue != '' ) {
                             str += educationalLevelHeader; 
-                            str += '      <li><span property="' + tagGloEducationalLevel + '" content="' + educationalLevelValue + '">' + educationalLevelTable[ educationalLevelValue ] + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagGloEducationalLevel + '" resource="' + educationalLevelValue + '">' + educationalLevelTable[ educationalLevelValue ] + '</span></li>' + "\n";
                             educationalLevelHeader = '';
                         }
                     }
@@ -276,7 +276,7 @@
                         var assessmentTypeValue = $( '#gloAssessmentType' ).val()[ i ]; 
                         if( assessmentTypeValue != '' ) {
                             str += assessmentTypeHeader; 
-                            str += '      <li><span property="' + tagGloAssessmentType + '" content="' + assessmentTypeValue + '">' + assessmentTypeTable[ assessmentTypeValue ] + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagGloAssessmentType + '" resource="' + assessmentTypeValue + '">' + assessmentTypeTable[ assessmentTypeValue ] + '</span></li>' + "\n";
                             assessmentTypeHeader = '';
                         }
                     }

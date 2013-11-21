@@ -169,7 +169,7 @@
                     for( var i = 0; i < $( '#cloDeliveryMode' ).val().length; i++ ) {
                         var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
                         if( deliveryModeValue != '' )
-                            str += '        <' + tagCloDeliveryMode + '>' + deliveryModeValue + '</' + tagCloDeliveryMode + '>' + "\n"; 
+                            str += '        <' + tagCloDeliveryMode + ' rdf:resource="' + deliveryModeValue + '"/>' + "\n"; 
                     }
                 }
                 $( '.cloProviderTextField' ).each( 
@@ -294,7 +294,7 @@
                         var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
                         if( deliveryModeValue != '' ) {
                             str += deliveryModeHeader; 
-                            str += '      <li><span property="' + tagCloDeliveryMode + '" content="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagCloDeliveryMode + '" resource="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
                             deliveryModeHeader = '';
                         }
                     }

@@ -100,7 +100,7 @@
                 if( lopWebSite != '' )
                     str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
                 if( lopType != null && lopType != '' )
-                    str += '        <' + tagLopType + '>' + lopType + '</' + tagLopType + '>' + "\n"; 
+                    str += '        <' + tagLopType + ' rdf:resource="' + lopType + '"/>' + "\n"; 
                 $( '.lopContactPersonTextField' ).each( 
                     function() { 
                         var contactPerson = normalizeSpace( $( this ).val() );
@@ -204,7 +204,7 @@
                 if( lopWebSite != '' )
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
                 if( lopType != null && lopType != '' )
-                    str += '      Type: <span property="' + tagLopType + '" content="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
+                    str += '      Type: <span property="' + tagLopType + '" resource="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
                 var contactPersonHeader = '      Contact Person(s): <ul>' + "\n";
                 var contactPersonFooter = '';
                 $( '.lopContactPersonTextField' ).each( 
