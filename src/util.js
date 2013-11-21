@@ -1,3 +1,10 @@
+var cdataStart = '<![CDATA[';
+var cdataEnd = ']]>';
+
+var encloseIntoCdata = function( str ) {
+    return( cdataStart + str + cdataEnd );
+}
+
 var prefixTable = {
     'http://purl.org/dc/elements/1.1/': 'dc',
     'http://purl.org/dc/dcterms/': 'dcterms',

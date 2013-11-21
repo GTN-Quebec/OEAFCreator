@@ -1,4 +1,5 @@
 Should we prepend the number t010 before the vocabulary values in the form's list and prepend also some space to indent the hierarchical vocabularies.  As the items are sorted  (and that the number t010 would be taken into account), the items would be shown as declared in the specs.
-Text fields will long text values (like description) should be surrounded by CDATA tags to prevent problems when special characters are inserted (like <>&).
+Text fields will long text values (like description) should be surrounded by CDATA tags to prevent problems when special characters are inserted (like <>&).  
+    Do I need to convert newlines to backslash-n in such cases?  Hmmm, probably not...  Will do that later.
 What about the language attribute of the strings?  Should we set the language or not in the header of the html/xhtml? Should the form allow the input of strings in different languages (e.g.: 1 title in English and 1 title in French)? For now, I say no.
 Handle langstrings for all elements.
