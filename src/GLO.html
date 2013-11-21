@@ -25,10 +25,10 @@
 
             $( "#gloAddSubject" ).click( addField( 'gloSubject' ) );
             $( "#gloAddPrerequisite" ).click( addField( 'gloPrerequisite' ) );
-            initOptionElements( opportunityTypeTable, '#gloOpportunityType', true, false, false );
-            initOptionElements( educationalLevelTable, '#gloEducationalLevel', true, true, true );
+            initOptionElements( opportunityTypeTable, '#gloOpportunityType', true, false, false, false );
+            initOptionElements( educationalLevelTable, '#gloEducationalLevel', true, true, true, false );
             $( "#gloAddCredit" ).click( addField( 'gloCredit' ) );
-            initOptionElements( assessmentTypeTable, '#gloAssessmentType', false, true, true );
+            initOptionElements( assessmentTypeTable, '#gloAssessmentType', false, true, true, false );
             $( "#gloAddHasPart" ).click( addField( 'gloHasPart' ) );
             $( "#gloAddOfferedBy" ).click( addField( 'gloOfferedBy' ) );
             doReset();

@@ -455,24 +455,26 @@ var langTable = {
     'fra': 'french'
 };
 
+var levelIndent = '&nbsp;&nbsp;&nbsp;&nbsp;';
+
 var typeOfLearningOpportunitiesProviderTable = [];
 typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t010' ] = 'company';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t011' ] = 'craft business';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t012' ] = 'industrial company';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t013' ] = 'service company';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t011' ] = levelIndent + 'craft business';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t012' ] = levelIndent + 'industrial company';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t013' ] = levelIndent + 'service company';
 typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t020' ] = 'public organization';
 typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t030' ] = 'school';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t031' ] = 'primary school';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t032' ] = 'private school';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t033' ] = 'training vocational school';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t034' ] = 'secondary school';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t035' ] = 'cegep';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t036' ] = 'university';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t037' ] = 'training center';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t031' ] = levelIndent + 'primary school';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t032' ] = levelIndent + 'private school';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t033' ] = levelIndent + 'training vocational school';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t034' ] = levelIndent + 'secondary school';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t035' ] = levelIndent + 'cegep';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t036' ] = levelIndent + 'university';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t037' ] = levelIndent + 'training center';
 typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t040' ] = 'not for profit organization';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t041' ] = 'association';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t042' ] = 'NGOs';
-typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t043' ] = 'organization';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t041' ] = levelIndent + 'association';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t042' ] = levelIndent + 'NGOs';
+typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t043' ] = levelIndent + 'organization';
 typeOfLearningOpportunitiesProviderTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.1#t999' ] = 'other';
 
 var educationalLevelTable = [];
@@ -480,21 +482,21 @@ educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t010' ] =
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t020' ] = 'preschool education';
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t030' ] = 'primary education';
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t040' ] = 'secondary education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t041' ] = 'general secondary education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t042' ] = 'technical education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t043' ] = 'comprehensive secondary education'
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t044' ] = 'technical education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t041' ] = levelIndent + 'general secondary education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t042' ] = levelIndent + 'technical education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t043' ] = levelIndent + 'comprehensive secondary education'
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t044' ] = levelIndent + 'technical education';
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t050' ] = 'higher education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t051' ] = 'cegep';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t052' ] = 'university education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t053' ] = 'general university education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t054' ] = 'technical university education';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t055' ] = 'undergraduate certificate';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t056' ] = 'graduate certificate';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t057' ] = "bachelor's degree";
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t058' ] = 'master degree';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t059' ] = 'doctoral degree';
-educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t060' ] = 'postdoctoral degree';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t051' ] = levelIndent + 'cegep';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t052' ] = levelIndent + 'university education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t053' ] = levelIndent + 'general university education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t054' ] = levelIndent + 'technical university education';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t055' ] = levelIndent + 'undergraduate certificate';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t056' ] = levelIndent + 'graduate certificate';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t057' ] = levelIndent + "bachelor's degree";
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t058' ] = levelIndent + 'master degree';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t059' ] = levelIndent + 'doctoral degree';
+educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t060' ] = levelIndent + 'postdoctoral degree';
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t080' ] = 'further education';
 educationalLevelTable[ 'http://normetic.org/uri/profil_oeaf/v1.0/va2.2#t999' ] = 'other';
 
@@ -553,19 +555,20 @@ function normalizeSpace( str ) {
         return '';
 }
 
-function initOptionElements( table, selectElementSelector, isMandatory, isMultiple, showAllValues ) {
-    var sortedLabels = [];
+function initOptionElements( table, selectElementSelector, isMandatory, isMultiple, showAllValues, isSorted ) {
+    var labels = [];
     var valueTable = [];
     for( var value in table ) {
         var label = table[ value ];
-        sortedLabels.push( label );
+        labels.push( label );
         valueTable[ label ] = value;
     }
-    sortedLabels.sort();
+    if( isSorted )
+        labels.sort();
     if( !isMandatory )
         $( selectElementSelector ).append( '<option value=""></option>' );
-    for( var i = 0; i < sortedLabels.length; i++ ) {
-        var label = sortedLabels[ i ];
+    for( var i = 0; i < labels.length; i++ ) {
+        var label = labels[ i ];
         var value = valueTable[ label ];
         $( selectElementSelector ).append( '<option value="' + value + '">' + label + '</option>' );
     }

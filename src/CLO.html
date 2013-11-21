@@ -26,8 +26,8 @@
             $( '#cloLocationLongitude' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
             $( '#cloLocationLatitude' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
             $( '#cloLocationDescription' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
-            initOptionElements( langTable, '#cloPerformanceLanguage', true, true, true );
-            initOptionElements( deliveryModeTable, '#cloDeliveryMode', false, true, true );
+            initOptionElements( langTable, '#cloPerformanceLanguage', true, true, true, true );
+            initOptionElements( deliveryModeTable, '#cloDeliveryMode', false, true, true, false );
             $( "#cloAddProvider" ).click( addField( 'cloProvider' ) );
             $( "#cloAddHasPart" ).click( addField( 'cloHasPart' ) );
             $( "#cloAddOfferedBy" ).click( addField( 'cloOfferedBy' ) );
