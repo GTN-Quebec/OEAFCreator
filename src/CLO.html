@@ -1,7 +1,7 @@
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>OEAF Creator - Learning Opportunity Instance</title>
+    <title>OEAF Creator - Concrete Learning Opportunity</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="default.css"/>
     <link rel="stylesheet" href="lib/styles/default.css"/>
@@ -15,73 +15,74 @@
     //<![CDATA[
         function doInit() {
             doDefaultInit();
-            var clip = new ZeroClipboard( $( '#loiCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
+            var clip = new ZeroClipboard( $( '#cloCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             
-            var loiMLRRecordUri = uuid.v4();
-            $( '#loiMLRRecordUri' ).val( 'urn:' + loiMLRRecordUri );
+            var cloMLRRecordUri = uuid.v4();
+            $( '#cloMLRRecordUri' ).val( 'urn:' + cloMLRRecordUri );
             
-            var loiUri = uuid.v4();
-            $( '#loiUri' ).val( 'urn:' + loiUri );
+            var cloUri = uuid.v4();
+            $( '#cloUri' ).val( 'urn:' + cloUri );
 
-            $( '#loiLocationLongitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
-            $( '#loiLocationLatitude' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
-            $( '#loiLocationDescription' ).keyup( setUriIfNeeded( '#loiLocationUri', '#loiGeolocation' ) );
-            initOptionElements( langTable, '#loiPerformanceLanguage', true, true, true );
-            initOptionElements( deliveryModeTable, '#loiDeliveryMode', false, true, true );
-            $( "#loiAddProvider" ).click( addField( 'loiProvider' ) );
-            $( "#loiAddHasPart" ).click( addField( 'loiHasPart' ) );
-            $( "#loiAddOfferedBy" ).click( addField( 'loiOfferedBy' ) );
+            $( '#cloLocationLongitude' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
+            $( '#cloLocationLatitude' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
+            $( '#cloLocationDescription' ).keyup( setUriIfNeeded( '#cloLocationUri', '#cloGeolocation' ) );
+            initOptionElements( langTable, '#cloPerformanceLanguage', true, true, true );
+            initOptionElements( deliveryModeTable, '#cloDeliveryMode', false, true, true );
+            $( "#cloAddProvider" ).click( addField( 'cloProvider' ) );
+            $( "#cloAddHasPart" ).click( addField( 'cloHasPart' ) );
+            $( "#cloAddOfferedBy" ).click( addField( 'cloOfferedBy' ) );
             doReset();
         }
 
         function getCode() {
-            var lang = 'eng';
+            var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
-            var loiIdentifier = normalizeSpace( $( '#loiIdentifier' ).val() );
-            var loiTitle = normalizeSpace( $( '#loiTitle' ).val() );
-            var loiPublicationDate = normalizeSpace( $( '#loiPublicationDate' ).val() );
-            var loiDescription = $( '#loiDescription' ).val();
-            var loiGeolocation = normalizeSpace( $( '#loiGeolocation' ).val() );
-            var loiStartDate = normalizeSpace( $( '#loiStartDate' ).val() );
-            var loiEndDate = normalizeSpace( $( '#loiEndDate' ).val() );
-            var loiDuration = normalizeSpace( $( '#loiDuration' ).val() );
-            var loiPerformanceDate = normalizeSpace( $( '#loiPerformanceDate' ).val() );
-            var loiNumberOfPlaces = normalizeSpace( $( '#loiNumberOfPlaces' ).val() );
-            var loiCost = normalizeSpace( $( '#loiCost' ).val() );
-            var loiPerformanceLanguage = $( '#loiPerformanceLanguage' ).val();
-            var loiDeliveryMode = $( '#loiDeliveryMode' ).val();
-            var loiProvider = $( '#loiProvider' ).val();
-            var loiRegistrationModalities = $( '#loiRegistrationModalities' ).val();
-            var loiLastMinuteInfos = $( '#loiLastMinuteInfos' ).val();
-            var loiLocationIsEmbedded = $( '#loiLocationIsEmbedded' ).is( ':checked' );
-            var loiLocationUri = normalizeSpace( $( '#loiLocationUri' ).val() );
-            var loiLocationLongitude = normalizeSpace( $( '#loiLocationLongitude' ).val() );
-            var loiLocationLatitude = normalizeSpace( $( '#loiLocationLatitude' ).val() );
-            var loiLocationDescription = $( '#loiLocationDescription' ).val();
+            var cloIdentifier = normalizeSpace( $( '#cloIdentifier' ).val() );
+            var cloTitle = normalizeSpace( $( '#cloTitle' ).val() );
+            var cloPublicationDate = normalizeSpace( $( '#cloPublicationDate' ).val() );
+            var cloDescription = $( '#cloDescription' ).val();
+            var cloGeolocation = normalizeSpace( $( '#cloGeolocation' ).val() );
+            var cloStartDate = normalizeSpace( $( '#cloStartDate' ).val() );
+            var cloEndDate = normalizeSpace( $( '#cloEndDate' ).val() );
+            var cloDuration = normalizeSpace( $( '#cloDuration' ).val() );
+            var cloPerformanceDate = normalizeSpace( $( '#cloPerformanceDate' ).val() );
+            var cloNumberOfPlaces = normalizeSpace( $( '#cloNumberOfPlaces' ).val() );
+            var cloCost = normalizeSpace( $( '#cloCost' ).val() );
+            var cloPerformanceLanguage = $( '#cloPerformanceLanguage' ).val();
+            var cloDeliveryMode = $( '#cloDeliveryMode' ).val();
+            var cloProvider = $( '#cloProvider' ).val();
+            var cloRegistrationModalities = $( '#cloRegistrationModalities' ).val();
+            var cloLastMinuteInfos = $( '#cloLastMinuteInfos' ).val();
+            var cloLocationIsEmbedded = $( '#cloLocationIsEmbedded' ).is( ':checked' );
+            var cloLocationUri = normalizeSpace( $( '#cloLocationUri' ).val() );
+            var cloLocationLongitude = normalizeSpace( $( '#cloLocationLongitude' ).val() );
+            var cloLocationLatitude = normalizeSpace( $( '#cloLocationLatitude' ).val() );
+            var cloLocationDescription = $( '#cloLocationDescription' ).val();
 
-            var tagLoiIdentifier = getTag( 'loiIdentifier', lang );
-            var tagLoiTitle = getTag( 'loiTitle', lang );
-            var tagLoiPublicationDate = getTag( 'loiPublicationDate', lang );
-            var tagLoiDescription = getTag( 'loiDescription', lang );
-            var tagLoiGeolocation = getTag( 'loiGeolocation', lang );
-            var tagLoiStartDate = getTag( 'loiStartDate', lang );
-            var tagLoiEndDate = getTag( 'loiEndDate', lang );
-            var tagLoiDuration = getTag( 'loiDuration', lang );
-            var tagLoiPerformanceDate = getTag( 'loiPerformanceDate', lang );
-            var tagLoiNumberOfPlaces = getTag( 'loiNumberOfPlaces', lang );
-            var tagLoiCost = getTag( 'loiCost', lang );
-            var tagLoiPerformanceLanguage = getTag( 'loiPerformanceLanguage', lang );
-            var tagLoiDeliveryMode = getTag( 'loiDeliveryMode', lang );
-            var tagLoiProvider = getTag( 'loiProvider', lang );
-            var tagLoiRegistrationModalities = getTag( 'loiRegistrationModalities', lang );
-            var tagLoiLastMinuteInfos = getTag( 'loiLastMinuteInfos', lang );
-            var tagLoiHasPart = getTag( 'loiHasPart', lang );
-            var tagLoiOfferedBy = getTag( 'loiOfferedBy', lang );
+            var tagCloConcreteLearningOpportunity = getTag( 'cloConcreteLearningOpportunity', lang );
+            var tagCclodentifier = getTag( 'cloIdentifier', lang );
+            var tagCloTitle = getTag( 'cloTitle', lang );
+            var tagCloPublicationDate = getTag( 'cloPublicationDate', lang );
+            var tagCloDescription = getTag( 'cloDescription', lang );
+            var tagCloGeolocation = getTag( 'cloGeolocation', lang );
+            var tagCloStartDate = getTag( 'cloStartDate', lang );
+            var tagCloEndDate = getTag( 'cloEndDate', lang );
+            var tagCloDuration = getTag( 'cloDuration', lang );
+            var tagCloPerformanceDate = getTag( 'cloPerformanceDate', lang );
+            var tagCloNumberOfPlaces = getTag( 'cloNumberOfPlaces', lang );
+            var tagCloCost = getTag( 'cloCost', lang );
+            var tagCloPerformanceLanguage = getTag( 'cloPerformanceLanguage', lang );
+            var tagCloDeliveryMode = getTag( 'cloDeliveryMode', lang );
+            var tagCloProvider = getTag( 'cloProvider', lang );
+            var tagCloRegistrationModalities = getTag( 'cloRegistrationModalities', lang );
+            var tagCloLastMinuteInfos = getTag( 'cloLastMinuteInfos', lang );
+            var tagCloHasPart = getTag( 'cloHasPart', lang );
+            var tagCloOfferedBy = getTag( 'cloOfferedBy', lang );
 
-            var tagLoiLocationLongitude = getTag( 'loiLocationLongitude', lang );
-            var tagLoiLocationLatitude = getTag( 'loiLocationLatitude', lang );
-            var tagLoiLocationDescription = getTag( 'loiLocationDescription', lang );
+            var tagCloLocationLongitude = getTag( 'cloLocationLongitude', lang );
+            var tagCloLocationLatitude = getTag( 'cloLocationLatitude', lang );
+            var tagCloLocationDescription = getTag( 'cloLocationDescription', lang );
 
             var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
             var tagNaturalPerson = getTag( 'naturalPerson', lang );
@@ -101,103 +102,102 @@
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    str += '  <mlr-8:MLR_Record rdf:about="' + $( '#loiMLRRecordUri' ).val() + '">\n';
+                    str += '  <mlr-8:MLR_Record rdf:about="' + $( '#cloMLRRecordUri' ).val() + '">\n';
                     str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
                     str += '    <mlr-8:describe>' + "\n";
                 }
 
-                str += '      <oeaf:learningOpportunityInstance';
-                if( loiUri != '' )
-                    str += ' rdf:about="' + $( '#loiUri' ).val() + '"';
+                str += '      <' + tagCloConcreteLearningOpportunity;
+                if( cloUri != '' )
+                    str += ' rdf:about="' + $( '#cloUri' ).val() + '"';
                 str += '>' + "\n";
-                str += '        <rdf:type rdf:resource="oeaf:rc0003"/>' + "\n";
-                if( loiIdentifier != '' )
-                    str += '        <' + tagLoiIdentifier + '>' + loiIdentifier + '</' + tagLoiIdentifier + '>' + "\n";
-                if( loiTitle != '' )
-                    str += '        <' + tagLoiTitle + '>' + loiTitle + '</' + tagLoiTitle + '>' + "\n";
-                if( loiPublicationDate != '' )
-                    str += '        <' + tagLoiPublicationDate + '>' + loiPublicationDate + '</' + tagLoiPublicationDate + '>' + "\n";
-                if( loiDescription != '' )
-                    str += '        <' + tagLoiDescription + '>' + loiDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiDescription + '>' + "\n";
-                if( loiLocationUri != '' ) {
-                    if( loiLocationIsEmbedded ) {
-                        str += '        <' + tagLoiGeolocation + '>' + "\n";
-                        str += '          <' + tagGeographicalLocation + ' rdf:about="' + loiLocationUri + '">' + "\n";
-                        if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
-                            str += '            <' + tagLoiLocationLongitude + '>' + loiLocationLongitude + '</' + tagLoiLocationLongitude + ">\n";
-                            str += '            <' + tagLoiLocationLatitude + '>' + loiLocationLatitude + '</'+ tagLoiLocationLatitude + ">\n";
+                if( cloIdentifier != '' )
+                    str += '        <' + tagCclodentifier + '>' + cloIdentifier + '</' + tagCclodentifier + '>' + "\n";
+                if( cloTitle != '' )
+                    str += '        <' + tagCloTitle + '>' + cloTitle + '</' + tagCloTitle + '>' + "\n";
+                if( cloPublicationDate != '' )
+                    str += '        <' + tagCloPublicationDate + '>' + cloPublicationDate + '</' + tagCloPublicationDate + '>' + "\n";
+                if( cloDescription != '' )
+                    str += '        <' + tagCloDescription + '>' + cloDescription.replace( /\n/g, '\\n' ) + '</' + tagCloDescription + '>' + "\n";
+                if( cloLocationUri != '' ) {
+                    if( cloLocationIsEmbedded ) {
+                        str += '        <' + tagCloGeolocation + '>' + "\n";
+                        str += '          <' + tagGeographicalLocation + ' rdf:about="' + cloLocationUri + '">' + "\n";
+                        if( cloLocationLongitude != '' && cloLocationLatitude != '' ) {
+                            str += '            <' + tagCloLocationLongitude + '>' + cloLocationLongitude + '</' + tagCloLocationLongitude + ">\n";
+                            str += '            <' + tagCloLocationLatitude + '>' + cloLocationLatitude + '</'+ tagCloLocationLatitude + ">\n";
                         }
-                        if( loiLocationDescription != '' )
-                            str += '            <' + tagLoiLocationDescription + '>' + loiLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiLocationDescription + ">\n";
+                        if( cloLocationDescription != '' )
+                            str += '            <' + tagCloLocationDescription + '>' + cloLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagCloLocationDescription + ">\n";
                         str += '          </' + tagGeographicalLocation + '>' + "\n";
-                        str += '        </' + tagLoiGeolocation + '>' + "\n";
+                        str += '        </' + tagCloGeolocation + '>' + "\n";
                     }
                     else {
-                        str += '        <' + tagLoiGeolocation + ' rdf:resource="' + loiLocationUri + '"/>' + "\n";
+                        str += '        <' + tagCloGeolocation + ' rdf:resource="' + cloLocationUri + '"/>' + "\n";
 
-                        if( loiLocationLongitude != '' && loiLocationLatitude != '' || loiLocationDescription != '' ) {
-                            extLocationStr = '  <' + tagGeographicalLocation + ' rdf:about="' + loiLocationUri + '">' + "\n";
-                            if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
-                                extLocationStr += '    <' + tagLoiLocationLongitude + '>' + loiLocationLongitude + '</' + tagLoiLocationLongitude + ">\n";
-                                extLocationStr += '    <' + tagLoiLocationLatitude + '>' + loiLocationLatitude + '</'+ tagLoiLocationLatitude + ">\n";
+                        if( cloLocationLongitude != '' && cloLocationLatitude != '' || cloLocationDescription != '' ) {
+                            extLocationStr = '  <' + tagGeographicalLocation + ' rdf:about="' + cloLocationUri + '">' + "\n";
+                            if( cloLocationLongitude != '' && cloLocationLatitude != '' ) {
+                                extLocationStr += '    <' + tagCloLocationLongitude + '>' + cloLocationLongitude + '</' + tagCloLocationLongitude + ">\n";
+                                extLocationStr += '    <' + tagCloLocationLatitude + '>' + cloLocationLatitude + '</'+ tagCloLocationLatitude + ">\n";
                             }
-                            if( loiLocationDescription != '' )
-                                extLocationStr += '    <' + tagLoiLocationDescription + '>' + loiLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagLoiLocationDescription + ">\n";
+                            if( cloLocationDescription != '' )
+                                extLocationStr += '    <' + tagCloLocationDescription + '>' + cloLocationDescription.replace( /\n/g, '\\n' ) + '</' + tagCloLocationDescription + ">\n";
                             extLocationStr += '  </' + tagGeographicalLocation + '>' + "\n";
                         }
                     }
                 }
-                if( loiStartDate != '' )
-                    str += '        <' + tagLoiStartDate + '>' + loiStartDate + '</' + tagLoiStartDate + '>' + "\n";
-                if( loiEndDate != '' )
-                    str += '        <' + tagLoiEndDate + '>' + loiEndDate + '</' + tagLoiEndDate + '>' + "\n";
-                if( loiDuration != '' )
-                    str += '        <' + tagLoiDuration + '>' + loiDuration + '</' + tagLoiDuration + '>' + "\n";
-                if( loiPerformanceDate != '' )
-                    str += '        <' + tagLoiPerformanceDate + '>' + loiPerformanceDate + '</' + tagLoiPerformanceDate + '>' + "\n";
-                if( loiNumberOfPlaces != '' )
-                    str += '        <' + tagLoiNumberOfPlaces + '>' + loiNumberOfPlaces + '</' + tagLoiNumberOfPlaces + '>' + "\n";
-                if( loiCost != '' )
-                    str += '        <' + tagLoiCost + '>' + loiCost + '</' + tagLoiCost + '>' + "\n";
-                if( loiPerformanceLanguage != null ) {
-                    for( var i = 0; i < $( '#loiPerformanceLanguage' ).val().length; i++ ) {
-                        var langValue = $( '#loiPerformanceLanguage' ).val()[ i ]; 
-                        str += '        <' + tagLoiPerformanceLanguage + '>' + langValue + '</' + tagLoiPerformanceLanguage + '>' + "\n";
+                if( cloStartDate != '' )
+                    str += '        <' + tagCloStartDate + '>' + cloStartDate + '</' + tagCloStartDate + '>' + "\n";
+                if( cloEndDate != '' )
+                    str += '        <' + tagCloEndDate + '>' + cloEndDate + '</' + tagCloEndDate + '>' + "\n";
+                if( cloDuration != '' )
+                    str += '        <' + tagCloDuration + '>' + cloDuration + '</' + tagCloDuration + '>' + "\n";
+                if( cloPerformanceDate != '' )
+                    str += '        <' + tagCloPerformanceDate + '>' + cloPerformanceDate + '</' + tagCloPerformanceDate + '>' + "\n";
+                if( cloNumberOfPlaces != '' )
+                    str += '        <' + tagCloNumberOfPlaces + '>' + cloNumberOfPlaces + '</' + tagCloNumberOfPlaces + '>' + "\n";
+                if( cloCost != '' )
+                    str += '        <' + tagCloCost + '>' + cloCost + '</' + tagCloCost + '>' + "\n";
+                if( cloPerformanceLanguage != null ) {
+                    for( var i = 0; i < $( '#cloPerformanceLanguage' ).val().length; i++ ) {
+                        var langValue = $( '#cloPerformanceLanguage' ).val()[ i ]; 
+                        str += '        <' + tagCloPerformanceLanguage + '>' + langValue + '</' + tagCloPerformanceLanguage + '>' + "\n";
                     }
                 }
-                if( loiDeliveryMode != null ) { 
-                    for( var i = 0; i < $( '#loiDeliveryMode' ).val().length; i++ ) {
-                        var deliveryModeValue = $( '#loiDeliveryMode' ).val()[ i ]; 
+                if( cloDeliveryMode != null ) { 
+                    for( var i = 0; i < $( '#cloDeliveryMode' ).val().length; i++ ) {
+                        var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
                         if( deliveryModeValue != '' )
-                            str += '        <' + tagLoiDeliveryMode + '>' + deliveryModeValue + '</' + tagLoiDeliveryMode + '>' + "\n"; 
+                            str += '        <' + tagCloDeliveryMode + '>' + deliveryModeValue + '</' + tagCloDeliveryMode + '>' + "\n"; 
                     }
                 }
-                $( '.loiProviderTextField' ).each( 
+                $( '.cloProviderTextField' ).each( 
                     function() { 
                         var provider = normalizeSpace( $( this ).val() );
                         if( provider != '' ) 
-                            str += '        <' + tagLoiProvider + ' rdf:resource="' + provider + '"/>' + "\n";
+                            str += '        <' + tagCloProvider + ' rdf:resource="' + provider + '"/>' + "\n";
                     } 
                 );
-                if( loiRegistrationModalities != '' )
-                    str += '        <' + tagLoiRegistrationModalities + '>' + loiRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagLoiRegistrationModalities + '>' + "\n";
-                if( loiLastMinuteInfos != '' )
-                    str += '        <' + tagLoiLastMinuteInfos + '>' + loiLastMinuteInfos.replace( /\n/g, '\\n' ) + '</' + tagLoiLastMinuteInfos + '>' + "\n";
-                $( '.loiHasPartTextField' ).each( 
+                if( cloRegistrationModalities != '' )
+                    str += '        <' + tagCloRegistrationModalities + '>' + cloRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagCloRegistrationModalities + '>' + "\n";
+                if( cloLastMinuteInfos != '' )
+                    str += '        <' + tagCloLastMinuteInfos + '>' + cloLastMinuteInfos.replace( /\n/g, '\\n' ) + '</' + tagCloLastMinuteInfos + '>' + "\n";
+                $( '.cloHasPartTextField' ).each( 
                     function() { 
                         var hasPart = normalizeSpace( $( this ).val() );
                         if( hasPart != '' ) 
-                            str += '        <' + tagLoiHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
+                            str += '        <' + tagCloHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
                     } 
                 );
-                $( '.loiOfferedByTextField' ).each( 
+                $( '.cloOfferedByTextField' ).each( 
                     function() { 
                         var offeredBy = normalizeSpace( $( this ).val() );
                         if( offeredBy != '' ) 
-                            str += '        <' + tagLoiOfferedBy + ' rdf:resource="' + offeredBy + '"/>' + "\n";
+                            str += '        <' + tagCloOfferedBy + ' rdf:resource="' + offeredBy + '"/>' + "\n";
                     } 
                 );
-                str += '      </oeaf:learningOpportunityInstance>' + "\n";
+                str += '      </' + tagCloConcreteLearningOpportunity + '>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
@@ -247,54 +247,54 @@
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
                     str += '    <div';
-                    if( loiMLRRecordUri != '' )
-                        str += ' resource="' + $( '#loiMLRRecordUri' ).val() + '"';
+                    if( cloMLRRecordUri != '' )
+                        str += ' resource="' + $( '#cloMLRRecordUri' ).val() + '"';
                     str += ' typeof="mlr-8:rc0001">' + "\n";
-                    if( loiUri != '' )
-                        str += '      <span property="mlr-8:describe" resource="' + $( '#loiUri' ).val() + '"/>' + "\n";
+                    if( cloUri != '' )
+                        str += '      <span property="mlr-8:describe" resource="' + $( '#cloUri' ).val() + '"/>' + "\n";
                 }
 
                 str += '    <div';
-                if( loiUri != '' )
-                    str += ' resource="' + $( '#loiUri' ).val() + '"';
+                if( cloUri != '' )
+                    str += ' resource="' + $( '#cloUri' ).val() + '"';
                 str += ' typeof="oeaf:rc0003">' + "\n";
-                if( loiTitle != '' ) {
-                    str += '      <b><span property="' + tagLoiTitle + '">' + loiTitle + '</span>';
-                    if( loiIdentifier != '' ) 
-                        str += ' (<span property="' + tagLoiIdentifier + '">' + loiIdentifier + '</span>)';
+                if( cloTitle != '' ) {
+                    str += '      <b><span property="' + tagCloTitle + '">' + cloTitle + '</span>';
+                    if( cloIdentifier != '' ) 
+                        str += ' (<span property="' + tagCclodentifier + '">' + cloIdentifier + '</span>)';
                     str += '</b><br/>' + "\n";
                 }
-                if( loiDescription != '' )
-                    str += '      <span property="' + tagLoiDescription + '">' + loiDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
-                if( loiPublicationDate != '' )
-                    str += '      Publication Date: <span property="' + tagLoiPublicationDate + '">' + loiPublicationDate + '</span><br/>' + "\n";
-                if( loiStartDate != '' && loiEndDate != '' )
-                    str += '      From: <span property="' + tagLoiStartDate + '">' + loiStartDate + '</span> to <span property="' + tagLoiEndDate + '">' + loiEndDate + '</span><br/>' + "\n";
-                if( loiDuration != '' )
-                    str += '      Duration: <span property="' + tagLoiDuration + '">' + loiDuration + '</span><br/>' + "\n";
-                if( loiPerformanceDate != '' )
-                    str += '      Performance Date: <span property="' + tagLoiPerformanceDate + '">' + loiPerformanceDate + '</span><br/>' + "\n";
-                if( loiNumberOfPlaces != '' )
-                    str += '      Number of places: <span property="' + tagLoiNumberOfPlaces + '">' + loiNumberOfPlaces + '</span><br/>' + "\n";
-                if( loiCost != '' )
-                    str += '      Cost: <span property="' + tagLoiCost + '">' + loiCost + '</span><br/>' + "\n";
-                if( loiPerformanceLanguage != null ) {
+                if( cloDescription != '' )
+                    str += '      <span property="' + tagCloDescription + '">' + cloDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                if( cloPublicationDate != '' )
+                    str += '      Publication Date: <span property="' + tagCloPublicationDate + '">' + cloPublicationDate + '</span><br/>' + "\n";
+                if( cloStartDate != '' && cloEndDate != '' )
+                    str += '      From: <span property="' + tagCloStartDate + '">' + cloStartDate + '</span> to <span property="' + tagCloEndDate + '">' + cloEndDate + '</span><br/>' + "\n";
+                if( cloDuration != '' )
+                    str += '      Duration: <span property="' + tagCloDuration + '">' + cloDuration + '</span><br/>' + "\n";
+                if( cloPerformanceDate != '' )
+                    str += '      Performance Date: <span property="' + tagCloPerformanceDate + '">' + cloPerformanceDate + '</span><br/>' + "\n";
+                if( cloNumberOfPlaces != '' )
+                    str += '      Number of places: <span property="' + tagCloNumberOfPlaces + '">' + cloNumberOfPlaces + '</span><br/>' + "\n";
+                if( cloCost != '' )
+                    str += '      Cost: <span property="' + tagCloCost + '">' + cloCost + '</span><br/>' + "\n";
+                if( cloPerformanceLanguage != null ) {
                     var delimiter = '';
                     str += '      Performance Language: ';
-                    for( var i = 0; i < $( '#loiPerformanceLanguage' ).val().length; i++ ) {
-                        var langValue = $( '#loiPerformanceLanguage' ).val()[ i ]; 
-                        str += delimiter + '<span property="' + tagLoiPerformanceLanguage + '" content="' + langValue + '">' + langTable[ langValue ] + '</span>'
+                    for( var i = 0; i < $( '#cloPerformanceLanguage' ).val().length; i++ ) {
+                        var langValue = $( '#cloPerformanceLanguage' ).val()[ i ]; 
+                        str += delimiter + '<span property="' + tagCloPerformanceLanguage + '" content="' + langValue + '">' + langTable[ langValue ] + '</span>'
                         delimiter = ', ';
                     }
                     str += '<br/>' + "\n";
                 }
-                if( loiDeliveryMode != null ) { 
+                if( cloDeliveryMode != null ) { 
                     var deliveryModeHeader = "      <br/> \n      Delivery Modes: <ul>\n";
-                    for( var i = 0; i < $( '#loiDeliveryMode' ).val().length; i++ ) {
-                        var deliveryModeValue = $( '#loiDeliveryMode' ).val()[ i ]; 
+                    for( var i = 0; i < $( '#cloDeliveryMode' ).val().length; i++ ) {
+                        var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
                         if( deliveryModeValue != '' ) {
                             str += deliveryModeHeader; 
-                            str += '      <li><span property="' + tagLoiDeliveryMode + '" content="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagCloDeliveryMode + '" content="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
                             deliveryModeHeader = '';
                         }
                     }
@@ -303,68 +303,68 @@
                 }
                 var providerHeader = '      Provider(s): <ul>' + "\n";
                 var providerFooter = '';
-                $( '.loiProviderTextField' ).each( 
+                $( '.cloProviderTextField' ).each( 
                     function() { 
                         var provider = normalizeSpace( $( this ).val() );
                         if( provider != '' ) { 
                             str += providerHeader;
                             providerHeader = '';
                             providerFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLoiProvider + '" resource="' + provider + '">' + provider + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagCloProvider + '" resource="' + provider + '">' + provider + '</span></li>' + "\n";
                         }
                     } 
                 );
                 str += providerFooter;
-                if( loiRegistrationModalities != '' ) {
+                if( cloRegistrationModalities != '' ) {
                     str += '      <br/><br/>' + "\n";
                     str += '      Registration Modalities:<br/>' + "\n";
-                    str += '      <span property="' + tagLoiRegistrationModalities + '">' + loiRegistrationModalities.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                    str += '      <span property="' + tagCloRegistrationModalities + '">' + cloRegistrationModalities.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
                 }
-                if( loiLastMinuteInfos != '' ) {
+                if( cloLastMinuteInfos != '' ) {
                     str += '      <br/><br/>' + "\n";
                     str += '      Last Minute Infos:<br/>' + "\n";
-                    str += '      <span property="' + tagLoiLastMinuteInfos + '">' + loiLastMinuteInfos.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                    str += '      <span property="' + tagCloLastMinuteInfos + '">' + cloLastMinuteInfos.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
                 }
-                if( loiLocationUri != '' ) {
-                    if( loiLocationLongitude != '' && loiLocationLatitude != '' || loiLocationDescription != '' ) {
+                if( cloLocationUri != '' ) {
+                    if( cloLocationLongitude != '' && cloLocationLatitude != '' || cloLocationDescription != '' ) {
                         str += '      <br/><br/>' + "\n";
-                        str += '      Location: <div style="display: inline-table;" property="' + tagLoiGeolocation + '" resource="' + loiLocationUri + '" typeof="' + tagGeographicalLocation + '">';
-                        if( loiLocationLongitude != '' && loiLocationLatitude != '' ) {
-                            str += 'Lat.: <span property="' + tagLoiLocationLatitude + '">' + loiLocationLatitude + '</span> ';
-                            str += 'Long.: <span property="' + tagLoiLocationLongitude + '">' + loiLocationLongitude + '</span><br/>' + "\n";
+                        str += '      Location: <div style="display: inline-table;" property="' + tagCloGeolocation + '" resource="' + cloLocationUri + '" typeof="' + tagGeographicalLocation + '">';
+                        if( cloLocationLongitude != '' && cloLocationLatitude != '' ) {
+                            str += 'Lat.: <span property="' + tagCloLocationLatitude + '">' + cloLocationLatitude + '</span> ';
+                            str += 'Long.: <span property="' + tagCloLocationLongitude + '">' + cloLocationLongitude + '</span><br/>' + "\n";
                         }
-                        if( loiLocationDescription != '' ) 
-                            str += '        <span property="' + tagLoiLocationDescription + '">' + loiLocationDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                        if( cloLocationDescription != '' ) 
+                            str += '        <span property="' + tagCloLocationDescription + '">' + cloLocationDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
                         str += '      </div>' + "\n";
                     }
                     else {
-                        str += '      <span property="' + tagLoiGeolocation + '" resource="' + loiLocationUri + '"/>' + "\n";
+                        str += '      <span property="' + tagCloGeolocation + '" resource="' + cloLocationUri + '"/>' + "\n";
                     }
                 }
                 var hasPartHeader = '      HasPart(s): <ul>' + "\n";
                 var hasPartFooter = '';
-                $( '.loiHasPartTextField' ).each( 
+                $( '.cloHasPartTextField' ).each( 
                     function() { 
                         var hasPart = normalizeSpace( $( this ).val() );
                         if( hasPart != '' ) { 
                             str += hasPartHeader;
                             hasPartHeader = '';
                             hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLoiHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagCloHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
                         }
                     } 
                 );
                 str += hasPartFooter;
                 var offeredByHeader = '      Offered by: <ul>' + "\n";
                 var offeredByFooter = '';
-                $( '.loiOfferedByTextField' ).each( 
+                $( '.cloOfferedByTextField' ).each( 
                     function() { 
                         var offeredBy = normalizeSpace( $( this ).val() );
                         if( offeredBy != '' ) { 
                             str += offeredByHeader;
                             offeredByHeader = '';
                             offeredByFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLoiOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
+                            str += '      <li><span property="' + tagCloOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -385,114 +385,114 @@
     </script>
 </head>
 <body>
-    <h1>OEAF Creator - Learning Opportunity Instance</h1>
+    <h1>OEAF Creator - Concrete Learning Opportunity</h1>
     <div class="inputs">
-        <form id="loiForm" action="" onreset="doReset();">
+        <form id="cloForm" action="" onreset="doReset();">
             <fieldset>
                 <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="loiMLRRecordUri">MLR Record uri</label>
-                    <input type="text" id="loiMLRRecordUri" />
+                    <label for="cloMLRRecordUri">MLR Record uri</label>
+                    <input type="text" id="cloMLRRecordUri" />
                 </div>
                 <fieldset>
-                    <legend>Learning Opportunity Instance</legend>
+                    <legend>Concrete Learning Opportunity</legend>
                     <div class="field uri">
-                        <label for="loiUri">uri</label>
-                        <input type="text" id="loiUri" />
+                        <label for="cloUri">uri</label>
+                        <input type="text" id="cloUri" />
                     </div>
                     <div class="field">
-                        <label for="loiIdentifier">identifier</label>
-                        <input type="text" id="loiIdentifier" />
+                        <label for="cloIdentifier">identifier</label>
+                        <input type="text" id="cloIdentifier" />
                     </div>
                     <div class="field">
-                        <label for="loiTitle">title</label>
-                        <input type="text" id="loiTitle" />
+                        <label for="cloTitle">title</label>
+                        <input type="text" id="cloTitle" />
                     </div>
                     <div class="field">
-                        <label for="loiPublicationDate">publication date</label>
-                        <input type="text" id="loiPublicationDate" />
+                        <label for="cloPublicationDate">publication date</label>
+                        <input type="text" id="cloPublicationDate" />
                     </div>
                     <div class="field">
-                        <label for="loiDescription">description</label>
-                        <textarea id="loiDescription" rows="12" cols="30"></textarea>
+                        <label for="cloDescription">description</label>
+                        <textarea id="cloDescription" rows="12" cols="30"></textarea>
                     </div>
                     <fieldset id="http://normetic.org/uri/profil_oeaf/v1.0/sged0005">
                         <legend>geolocation</legend>
                         <div class="field">
-                            <label for="loiLocationIsEmbedded">embedded</label>
-                            <input type="checkbox" id="loiLocationIsEmbedded" name="loiLocationIsEmbedded" checked="checked" />
+                            <label for="cloLocationIsEmbedded">embedded</label>
+                            <input type="checkbox" id="cloLocationIsEmbedded" name="cloLocationIsEmbedded" checked="checked" />
                         </div>
                         <div class="field uri">
-                            <label for="loiLocationUri">uri</label>
-                            <input type="text" id="loiLocationUri" />
+                            <label for="cloLocationUri">uri</label>
+                            <input type="text" id="cloLocationUri" />
                         </div>
                         <div class="field">
-                            <label for="loiLocationLongitude">longitude</label>
-                            <input type="text" id="loiLocationLongitude" />
+                            <label for="cloLocationLongitude">longitude</label>
+                            <input type="text" id="cloLocationLongitude" />
                         </div>
                         <div class="field">
-                            <label for="loiLocationLatitude">latitude</label>
-                            <input type="text" id="loiLocationLatitude" />
+                            <label for="cloLocationLatitude">latitude</label>
+                            <input type="text" id="cloLocationLatitude" />
                         </div>
                         <div class="field">
-                            <label for="loiLocationDescription">description</label>
-                            <textarea id="loiLocationDescription" rows="12" cols=30"></textarea>
+                            <label for="cloLocationDescription">description</label>
+                            <textarea id="cloLocationDescription" rows="12" cols=30"></textarea>
                         </div>
                     </fieldset>
                     <div class="field">
-                        <label for="loiStartDate">start date</label>
-                        <input type="text" id="loiStartDate" />
+                        <label for="cloStartDate">start date</label>
+                        <input type="text" id="cloStartDate" />
                     </div>
                     <div class="field">
-                        <label for="loiEndDate">end date</label>
-                        <input type="text" id="loiEndDate" />
+                        <label for="cloEndDate">end date</label>
+                        <input type="text" id="cloEndDate" />
                     </div>
                     <div class="field">
-                        <label for="loiDuration">duration</label>
-                        <input type="text" id="loiDuration" />
+                        <label for="cloDuration">duration</label>
+                        <input type="text" id="cloDuration" />
                     </div>
                     <div class="field">
-                        <label for="loiPerformanceDate">performance date</label>
-                        <input type="text" id="loiPerformanceDate" />
+                        <label for="cloPerformanceDate">performance date</label>
+                        <input type="text" id="cloPerformanceDate" />
                     </div>
                     <div class="field">
-                        <label for="loiNumberOfPlaces">number of places</label>
-                        <input type="text" id="loiNumberOfPlaces" />
+                        <label for="cloNumberOfPlaces">number of places</label>
+                        <input type="text" id="cloNumberOfPlaces" />
                     </div>
                     <div class="field">
-                        <label for="loiCost">cost</label>
-                        <input type="text" id="loiCost" />
+                        <label for="cloCost">cost</label>
+                        <input type="text" id="cloCost" />
                     </div>
                     <div class="field">
-                        <label for="loiPerformanceLanguage">performance language</label>
-                        <select id="loiPerformanceLanguage"></select>
+                        <label for="cloPerformanceLanguage">performance language</label>
+                        <select id="cloPerformanceLanguage"></select>
                     </div>
                     <div class="field">
-                        <label for="loiDeliveryMode">delivery mode</label>
-                        <select id="loiDeliveryMode"></select>
+                        <label for="cloDeliveryMode">delivery mode</label>
+                        <select id="cloDeliveryMode"></select>
                     </div>
                     <div class="field">
-                        <label for="loiProvider">provider (uri)</label>
-                        <input type="text" id="loiProvider" class="loiProviderTextField"></input>
-                        <button id="loiAddProvider">+</button> 
+                        <label for="cloProvider">provider (uri)</label>
+                        <input type="text" id="cloProvider" class="cloProviderTextField"></input>
+                        <button id="cloAddProvider">+</button> 
                     </div>
                     <div class="field">
-                        <label for="loiRegistrationModalities">registration modalities</label>
-                        <textarea id="loiRegistrationModalities" rows="12" cols="30"></textarea>
+                        <label for="cloRegistrationModalities">registration modalities</label>
+                        <textarea id="cloRegistrationModalities" rows="12" cols="30"></textarea>
                     </div>
                     <div class="field">
-                        <label for="loiLastMinuteInfos">last minute infos</label>
-                        <textarea id="loiLastMinuteInfos" rows="12" cols=30"></textarea>
+                        <label for="cloLastMinuteInfos">last minute infos</label>
+                        <textarea id="cloLastMinuteInfos" rows="12" cols=30"></textarea>
                     </div>
                     <div class="field">
-                        <label for="loiHasPart">has part (uri)</label>
-                        <input type="text" id="loiHasPart" class="loiHasPartTextField"></input>
-                        <button id="loiAddHasPart">+</button> 
+                        <label for="cloHasPart">has part (uri)</label>
+                        <input type="text" id="cloHasPart" class="cloHasPartTextField"></input>
+                        <button id="cloAddHasPart">+</button> 
                     </div>
                     <div class="field">
-                        <label for="loiOfferedBy">offered by (uri)</label>
-                        <input type="text" id="loiOfferedBy" class="loiOfferedByTextField"></input>
-                        <button id="loiAddOfferedBy">+</button> 
+                        <label for="cloOfferedBy">offered by (uri)</label>
+                        <input type="text" id="cloOfferedBy" class="cloOfferedByTextField"></input>
+                        <button id="cloAddOfferedBy">+</button> 
                     </div>
                 </fieldset>
             </fieldset>
@@ -503,9 +503,10 @@
 
         <div class="options">
             <h2>Options</h2>
-            Generation: <input type="radio" form="loiForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
-            <input type="radio" form="loiForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
-            <input type="radio" form="loiForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Generation: <input type="radio" form="cloForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="cloForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
+            <input type="radio" form="cloForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
             Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 
@@ -513,7 +514,7 @@
             <h2>Code</h2>
             <pre class="xml"><code id="sampleCode"></code></pre>
             <button id="validationButton" type="submit">Validate</button>
-            <button id="loiCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+            <button id="cloCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
 
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
