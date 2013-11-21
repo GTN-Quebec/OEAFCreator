@@ -30,7 +30,7 @@
         }
 
         function getCode() {
-            var lang = 'eng';
+            var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
             var geoLocUri = normalizeSpace( $( '#geoLocUri' ).val() );
@@ -38,6 +38,7 @@
             var geoLocLatitude = normalizeSpace( $( '#geoLocLatitude' ).val() );
             var geoLocDescription = $( '#geoLocDescription' ).val();
 
+            var tagGeoLocGeolocation = getTag( 'geoLocGeolocation', lang );
             var tagGeoLocLongitude = getTag( 'geoLocLongitude', lang );
             var tagGeoLocLatitude = getTag( 'geoLocLatitude', lang );
             var tagGeoLocDescription = getTag( 'geoLocDescription', lang );
@@ -55,7 +56,7 @@
                     str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
                     str += '    <mlr-8:describe>' + "\n";
                 }
-                str += '  <mlr-9:geolocation';
+                str += '  <' + tagGeoLocGeolocation;
                 if( geoLocUri != '' )
                     str += ' rdf:about="' + $( '#geoLocUri' ).val() + '"';
                 str += '>' + "\n";
@@ -65,7 +66,7 @@
                 }
                 if( geoLocDescription != '' )
                     str += '    <' + tagGeoLocDescription + '>' + geoLocDescription.replace( /\n/g, '\\n' ) + '</' + tagGeoLocDescription + '>' + "\n";
-                str += '  </mlr-9:geolocation>' + "\n";
+                str += '  </' + tagGeoLocGeolocation + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
                     str += '  </mlr-8:MLR_Record>\n';
@@ -176,6 +177,7 @@
             Generation: <input type="radio" form="geoLocForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="geoLocForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="geoLocForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
             Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 

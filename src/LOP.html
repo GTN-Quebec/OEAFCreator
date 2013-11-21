@@ -31,7 +31,7 @@
         }
 
         function getCode() {
-            var lang = 'eng';
+            var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
             var lopIdentifier = normalizeSpace( $( '#lopIdentifier' ).val() );
@@ -45,6 +45,7 @@
             var lopWebSite = normalizeSpace( $( '#lopWebSite' ).val() );
             var lopType = $( '#lopType' ).val();
 
+            var tagLopLearningOpportunityProvider = getTag( 'lopLearningOpportunityProvider', lang );
             var tagLopIdentifier = getTag( 'lopIdentifier', lang );
             var tagLopName = getTag( 'lopName', lang );
             var tagLopFamilyName = getTag( 'lopFamilyName', lang );
@@ -76,7 +77,7 @@
                     str += '    <mlr-8:describe>' + "\n";
                 }
 
-                str += '      <oeaf:learningOpportunityProvider';
+                str += '      <' + tagLopLearningOpportunityProvider;
                 if( lopUri != '' )
                     str += ' rdf:about="' + $( '#lopUri' ).val() + '"';
                 str += '>' + "\n";
@@ -122,7 +123,7 @@
                             str += '        <' + tagLopHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
                     } 
                 );
-                str += '      </oeaf:learningOpportunityProvider>' + "\n";
+                str += '      </' + tagLopLearningOpportunityProvider + '>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
@@ -345,6 +346,7 @@
             Generation: <input type="radio" form="lopForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="lopForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="lopForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
             Generate main element only <input type="checkbox" form="gcForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 

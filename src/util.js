@@ -15,398 +15,428 @@ var tagTable = {
 
     // Learning Opportunity Provider
     
+    'lopLearningOpportunityProvider': { 
+        '---': 'oeaf:rc0001',
+        'eng': 'oeaf:learningOpportunityProvider',
+        'fra': 'oeaf:fournisseurDOpportunitésDÉtude'
+    },
     'lopIdentifier': { 
-        '--': 'oeaf:sed0900',
+        '---': 'oeaf:sed0900',
         'eng': 'oeaf:identifier',
         'fra': 'oeaf:identifiant'
     },
     'lopName': { 
-        '--': 'mlr-9:des0200',
+        '---': 'mlr-9:des0200',
         'eng': 'mlr-9:name',
         'fra': 'mlr-9:nom'
     },
     'lopFamilyName': { 
-        '--': 'mlr-9:des0300',
+        '---': 'mlr-9:des0300',
         'eng': 'mlr-9:familyName',
         'fra': 'mlr-9:nomDeFamille'
     },
     'lopGivenName': { 
-        '--': 'mlr-9:des0400',
+        '---': 'mlr-9:des0400',
         'eng': 'mlr-9:givenName',
         'fra': 'mlr-9:prénom'
     },
     'lopName2': { 
-        '--': 'mlr-9:des0500',
+        '---': 'mlr-9:des0500',
         'eng': 'mlr-9:name_2',
         'fra': 'mlr-9:nom_2'
     },
     'lopEmail': { 
-        '--': 'mlr-9:des0900',
+        '---': 'mlr-9:des0900',
         'eng': 'mlr-9:email',
         'fra': 'mlr-9:courriel'
     },
     'lopWorkTelephone': { 
-        '--': 'mlr-9:des1000',
+        '---': 'mlr-9:des1000',
         'eng': 'mlr-9:workTelephone',
         'fra': 'mlr-9:téléphoneAuTravail'
     },
     'lopLocation': { 
-        '--': 'mlr-9:des1300',
+        '---': 'mlr-9:des1300',
         'eng': 'mlr-9:location',
         'fra': 'mlr-9:localisation'
     },
     'lopWebSite': { 
-        '--': 'mlr-9:des1800',
+        '---': 'mlr-9:des1800',
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
     },
     'lopType': { 
-        '--': 'oeaf:sed0700',
+        '---': 'oeaf:sed0700',
         'eng': 'oeaf:type',
         'fra': 'oeaf:type'
     },
     'lopContactPerson': {
-        '--': 'oeaf:sed0800',
+        '---': 'oeaf:sed0800',
         'eng': 'oeaf:contactPerson',
         'fra': 'oeaf:personneContact'
     },
     'lopOffer': {
-        '--': 'oeaf:sed0100',
+        '---': 'oeaf:sed0100',
         'eng': 'oeaf:offer',
         'fra': 'oeaf:offre'
     },
     'lopHasPart': {
-        '--': 'oeaf:sed0400',
+        '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
 
-    // Generic Component 
+    // Generic Learning Opportunity 
 
-    'gcIdentifier': { 
-        '--': 'oeaf:sed0900',
+    'gloGenericLearningOpportunity': { 
+        '---': 'oeaf:rc0002',
+        'eng': 'oeaf:genericLearningOpportunity',
+        'fra': 'oeaf:opportunitéDÉtudeGénérique'
+    },
+    'gloIdentifier': { 
+        '---': 'oeaf:sed0900',
         'eng': 'oeaf:identifier',
         'fra': 'oeaf:identifiant'
     },
-    'gcTitle': {
-        '--': 'mlr-2:des0100',
+    'gloTitle': {
+        '---': 'mlr-2:des0100',
         'eng': 'mlr-2:title',
         'fra': 'mlr-2:titre'
     },
-    'gcPublicationDate': {
-        '--': 'oeaf:sed1000',
+    'gloPublicationDate': {
+        '---': 'oeaf:sed1000',
         'eng': 'oeaf:publicationDate',
         'fra': 'oeaf:dateDePublication'
     },
-    'gcDescription': {
-        '--': 'oeaf:sed1100',
+    'gloDescription': {
+        '---': 'oeaf:sed1100',
         'eng': 'oeaf:description',
         'fra': 'oeaf:description'
     },
-    'gcSubject': {
-        '--': 'oeaf:sed1200',
+    'gloSubject': {
+        '---': 'oeaf:sed1200',
         'eng': 'oeaf:subject',
         'fra': 'oeaf:sujet'
     },
-    'gcPrerequisite': {
-        '--': 'oeaf:sed1300',
+    'gloPrerequisite': {
+        '---': 'oeaf:sed1300',
         'eng': 'oeaf:prerequisite',
         'fra': 'oeaf:préalable'
     },
-    'gcOpportunityType': {
-        '--': 'oeaf:sed1400',
+    'gloOpportunityType': {
+        '---': 'oeaf:sed1400',
         'eng': 'oeaf:opportunityType',
         'fra': 'oeaf:typeDOpportunité'
     },
-    'gcEducationalLevel': {
-        '--': 'oeaf:sed1500',
+    'gloEducationalLevel': {
+        '---': 'oeaf:sed1500',
         'eng': 'oeaf:educationcalLevel',
         'fra': 'oeaf:niveauÉducationel'
     },
-    'gcCredit': {
-        '--': 'oeaf:sed1600',
+    'gloCredit': {
+        '---': 'oeaf:sed1600',
         'eng': 'oeaf:credit',
         'fra': 'oeaf:crédit'
     },
-    'gcAssessmentType': {
-        '--': 'oeaf:sed1700',
+    'gloAssessmentType': {
+        '---': 'oeaf:sed1700',
         'eng': 'oeaf:assessmentType',
         'fra': 'oeaf:typeDÉvaluation'
     },
-    'gcObjective': {
-        '--': 'oeaf:sed1800',
+    'gloObjective': {
+        '---': 'oeaf:sed1800',
         'eng': 'oeaf:objective',
         'fra': 'oeaf:objectif'
     },
-    'gcOutputQualification': {
-        '--': 'oeaf:sed1900',
+    'gloOutputQualification': {
+        '---': 'oeaf:sed1900',
         'eng': 'oeaf:outputQualification',
         'fra': 'oeaf:qualificationÀLaSortie'
     },
-    'gcHasPart': {
-        '--': 'oeaf:sed0400',
+    'gloHasPart': {
+        '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
-    'gcOfferedBy': {
-        '--': 'oeaf:sed0200',
+    'gloOfferedBy': {
+        '---': 'oeaf:sed0200',
         'eng': 'oeaf:offeredBy',
         'fra': 'oeaf:offertePar'
     },
 
-    // Learning Opportunity Instance
+    // Concrete Learning Opportunity
     
-    'loiIdentifier': { 
-        '--': 'oeaf:sed0900',
+    'cloConcreteLearningOpportunity': { 
+        '---': 'oeaf:rc0003',
+        'eng': 'oeaf:concreteLearningOpportunity',
+        'fra': 'oeaf:opportunitéDÉtudeConcrète'
+    },
+    'cloIdentifier': { 
+        '---': 'oeaf:sed0900',
         'eng': 'oeaf:identifier',
         'fra': 'oeaf:identifiant'
     },
-    'loiTitle': {
-        '--': 'mlr-2:des0100',
+    'cloTitle': {
+        '---': 'mlr-2:des0100',
         'eng': 'mlr-2:title',
         'fra': 'mlr-2:titre'
     },
-    'loiPublicationDate': {
-        '--': 'oeaf:sed1000',
+    'cloPublicationDate': {
+        '---': 'oeaf:sed1000',
         'eng': 'oeaf:publicationDate',
         'fra': 'oeaf:dateDePublication'
     },
-    'loiDescription': {
-        '--': 'oeaf:sed1100',
+    'cloDescription': {
+        '---': 'oeaf:sed1100',
         'eng': 'oeaf:description',
         'fra': 'oeaf:description'
     },
-    'loiGeolocation': {
-        '--': 'oeaf:sed2000',
+    'cloGeolocation': {
+        '---': 'oeaf:sed2000',
         'eng': 'oeaf:geolocation',
         'fra': 'oeaf:géolocalisation'
     },
-    'loiStartDate': {
-        '--': 'oeaf:sed2100',
+    'cloStartDate': {
+        '---': 'oeaf:sed2100',
         'eng': 'oeaf:startDate',
         'fra': 'oeaf:dateDeDébut'
     },
-    'loiEndDate': {
-        '--': 'oeaf:sed2200',
+    'cloEndDate': {
+        '---': 'oeaf:sed2200',
         'eng': 'oeaf:endDate',
         'fra': 'oeaf:dateDeFin'
     },
-    'loiDuration': {
-        '--': 'oeaf:sed2300',
+    'cloDuration': {
+        '---': 'oeaf:sed2300',
         'eng': 'oeaf:duration',
         'fra': 'oeaf:durée'
     },
-    'loiPerformanceDate': {
-        '--': 'oeaf:sed2400',
+    'cloPerformanceDate': {
+        '---': 'oeaf:sed2400',
         'eng': 'oeaf:performanceDate',
         'fra': 'oeaf:dateDePrestation'
     },
-    'loiNumberOfPlaces': {
-        '--': 'oeaf:sed2500',
+    'cloNumberOfPlaces': {
+        '---': 'oeaf:sed2500',
         'eng': 'oeaf:numberOfPlaces',
         'fra': 'oeaf:nombreDePlaces'
     },
-    'loiCost': {
-        '--': 'oeaf:sed2600',
+    'cloCost': {
+        '---': 'oeaf:sed2600',
         'eng': 'oeaf:cost',
         'fra': 'oeaf:coût'
     },
-    'loiPerformanceLanguage': {
-        '--': 'oeaf:sed2700',
+    'cloPerformanceLanguage': {
+        '---': 'oeaf:sed2700',
         'eng': 'oeaf:performanceLanguage',
         'fra': 'oeaf:langueDeLaPrestation'
     },
-    'loiDeliveryMode': {
-        '--': 'oeaf:sed2800',
+    'cloDeliveryMode': {
+        '---': 'oeaf:sed2800',
         'eng': 'oeaf:deliveryMode',
         'fra': 'oeaf:modeDeLivraison'
     },
-    'loiProvider': {
-        '--': 'oeaf:sed2900',
+    'cloProvider': {
+        '---': 'oeaf:sed2900',
         'eng': 'oeaf:provider',
         'fra': 'oeaf:prestataire'
     },
     'naturalPerson': {
-        '--': 'mlr-9:rc0001',
+        '---': 'mlr-9:rc0001',
         'eng': 'mlr-9:naturalPerson',
         'fra': 'mlr:personneNaturelle'
     },
-    'loiRegistrationModalities': {
-        '--': 'oeaf:sed3000',
+    'cloRegistrationModalities': {
+        '---': 'oeaf:sed3000',
         'eng': 'oeaf:registrationModalities',
         'fra': 'oeaf:modalitésDInscription'
     },
-    'loiLastMinuteInfos': {
-        '--': 'oeaf:sed3100',
+    'cloLastMinuteInfos': {
+        '---': 'oeaf:sed3100',
         'eng': 'oeaf:lastMinuteInfos',
         'fra': 'oeaf:infosDeDernièreMinute'
     },
     'geographicalLocation': {
-        '--': 'mlr-9:rc0003',
+        '---': 'mlr-9:rc0003',
         'eng': 'mlr-9:geographicLocation',
         'fra': 'mlr-9:localisationGéographique'
     },
-    'loiLocationLongitude': {
-        '--': 'mlr-9:des1400',
+    'cloLocationLongitude': {
+        '---': 'mlr-9:des1400',
         'eng': 'mlr-9:longitude',
         'fra': 'mlr-9:longitude'
     },
-    'loiLocationLatitude': {
-        '--': 'mlr-9:des1500',
+    'cloLocationLatitude': {
+        '---': 'mlr-9:des1500',
         'eng': 'mlr-9:latitude',
         'fra': 'mlr-9:latitude'
     },
-    'loiLocationDescription': {
-        '--': 'mlr-9:des1700',
+    'cloLocationDescription': {
+        '---': 'mlr-9:des1700',
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
-    'loiHasPart': {
-        '--': 'oeaf:sed0400',
+    'cloHasPart': {
+        '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
-    'loiOfferedBy': {
-        '--': 'oeaf:sed0200',
+    'cloOfferedBy': {
+        '---': 'oeaf:sed0200',
         'eng': 'oeaf:offeredBy',
         'fra': 'oeaf:offertePar'
     },
 
     // Geolocation
     
+    'geoLocGeolocation': { 
+        '---': 'mlr-9:rc0003',
+        'eng': 'mlr-9:geolocation',
+        'fra': 'mlr-9:géolocalisation'
+    },
     'geoLocLongitude': {
-        '--': 'mlr-9:des1400',
+        '---': 'mlr-9:des1400',
         'eng': 'mlr-9:longitude',
         'fra': 'mlr-9:longitude'
     },
     'geoLocLatitude': {
-        '--': 'mlr-9:des1500',
+        '---': 'mlr-9:des1500',
         'eng': 'mlr-9:latitude',
         'fra': 'mlr-9:latitude'
     },
     'geoLocDescription': {
-        '--': 'mlr-9:des1700',
+        '---': 'mlr-9:des1700',
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
 
     // Natural Person
     
+    'npNaturalPerson': { 
+        '---': 'mlr-9:rc0001',
+        'eng': 'mlr-9:naturalPerson',
+        'fra': 'mlr-9:personneNaturelle'
+    },
     'npIdentifier': {
-        '--': 'mlr-9:des0100',
+        '---': 'mlr-9:des0100',
         'eng': 'mlr-9:identifier',
         'fra': 'mlr-9:identifiant'
     },
     'npName': {
-        '--': 'mlr-9:des0200',
+        '---': 'mlr-9:des0200',
         'eng': 'mlr-9:name',
         'fra': 'mlr-9:nom'
     },
     'npFamilyName': { 
-        '--': 'mlr-9:des0300',
+        '---': 'mlr-9:des0300',
         'eng': 'mlr-9:familyName',
         'fra': 'mlr-9:nomDeFamille'
     },
     'npGivenName': { 
-        '--': 'mlr-9:des0400',
+        '---': 'mlr-9:des0400',
         'eng': 'mlr-9:givenName',
         'fra': 'mlr-9:prénom'
     },
     'npName2': { 
-        '--': 'mlr-9:des0500',
+        '---': 'mlr-9:des0500',
         'eng': 'mlr-9:name_2',
         'fra': 'mlr-9:nom_2'
     },
     'npEmail': { 
-        '--': 'mlr-9:des0900',
+        '---': 'mlr-9:des0900',
         'eng': 'mlr-9:email',
         'fra': 'mlr-9:courriel'
     },
     'npWorkTelephone': { 
-        '--': 'mlr-9:des1000',
+        '---': 'mlr-9:des1000',
         'eng': 'mlr-9:workTelephone',
         'fra': 'mlr-9:téléphoneAuTravail'
     },
     'npWebSite': { 
-        '--': 'mlr-9:des1800',
+        '---': 'mlr-9:des1800',
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
     },
     'npWorkFor': {
-        '--': 'oeaf:des1100',
+        '---': 'oeaf:des1100',
         'eng': 'oeaf:workFor',
         'fra': 'oeaf:travaillePour'
     },
     'npHasPart': {
-        '--': 'oeaf:sed0400',
+        '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
 
     // Organization
     
+    'orgOrganization': { 
+        '---': 'mlr-9:rc0002',
+        'eng': 'mlr-9:organization',
+        'fra': 'mlr-9:organisation'
+    },
     'orgIdentifier': {
-        '--': 'mlr-9:des0100',
+        '---': 'mlr-9:des0100',
         'eng': 'mlr-9:identifier',
         'fra': 'mlr-9:identifiant'
     },
     'orgName': {
-        '--': 'mlr-9:des0200',
+        '---': 'mlr-9:des0200',
         'eng': 'mlr-9:name',
         'fra': 'mlr-9:nom'
     },
     'orgFamilyName': { 
-        '--': 'mlr-9:des0300',
+        '---': 'mlr-9:des0300',
         'eng': 'mlr-9:familyName',
         'fra': 'mlr-9:nomDeFamille'
     },
     'orgGivenName': { 
-        '--': 'mlr-9:des0400',
+        '---': 'mlr-9:des0400',
         'eng': 'mlr-9:givenName',
         'fra': 'mlr-9:prénom'
     },
     'orgName2': { 
-        '--': 'mlr-9:des0500',
+        '---': 'mlr-9:des0500',
         'eng': 'mlr-9:name_2',
         'fra': 'mlr-9:nom_2'
     },
     'orgEmail': { 
-        '--': 'mlr-9:des0900',
+        '---': 'mlr-9:des0900',
         'eng': 'mlr-9:email',
         'fra': 'mlr-9:courriel'
     },
     'orgWorkTelephone': { 
-        '--': 'mlr-9:des1000',
+        '---': 'mlr-9:des1000',
         'eng': 'mlr-9:workTelephone',
         'fra': 'mlr-9:téléphoneAuTravail'
     },
     'orgWebSite': { 
-        '--': 'mlr-9:des1800',
+        '---': 'mlr-9:des1800',
         'eng': 'mlr-9:webSite',
         'fra': 'mlr-9:siteWeb'
     },
     'orgGeolocation': { 
-        '--': 'oeaf:sed2000',
+        '---': 'oeaf:sed2000',
         'eng': 'oeaf:geolocation',
         'fra': 'oeaf:géolocalisation'
     },
     'orgLocationLongitude': {
-        '--': 'mlr-9:des1400',
+        '---': 'mlr-9:des1400',
         'eng': 'mlr-9:longitude',
         'fra': 'mlr-9:longitude'
     },
     'orgLocationLatitude': {
-        '--': 'mlr-9:des1500',
+        '---': 'mlr-9:des1500',
         'eng': 'mlr-9:latitude',
         'fra': 'mlr-9:latitude'
     },
     'orgLocationDescription': {
-        '--': 'mlr-9:des1700',
+        '---': 'mlr-9:des1700',
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
     'orgHasPart': {
-        '--': 'oeaf:sed0400',
+        '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     }

@@ -29,7 +29,7 @@
         }
 
         function getCode() {
-            var lang = 'eng';
+            var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
             var npUri = normalizeSpace( $( '#npUri' ).val() );
@@ -42,6 +42,7 @@
             var npWorkTelephone = normalizeSpace( $( '#npWorkTelephone' ).val() );
             var npWebSite = normalizeSpace( $( '#npWebSite' ).val() );
 
+            var tagNpNaturalPerson = getTag( 'npNaturalPerson', lang );
             var tagNpIdentifier = getTag( 'npIdentifier', lang );
             var tagNpName = getTag( 'npName', lang );
             var tagNpFamilyName = getTag( 'npFamilyName', lang );
@@ -67,7 +68,7 @@
                     str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
                     str += '    <mlr-8:describe>' + "\n";
                 }
-                str += '  <mlr-9:naturalPerson';
+                str += '  <' + tagNpNaturalPerson;
                 if( npUri != '' )
                     str += ' rdf:about="' + $( '#npUri' ).val() + '"';
                 str += '>' + "\n";
@@ -101,7 +102,7 @@
                             str += '        <' + tagNpHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
                     } 
                 );
-                str += '  </mlr-9:naturalPerson>' + "\n";
+                str += '  </' + tagNpNaturalPerson + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
                     str += '  </mlr-8:MLR_Record>\n';
@@ -288,6 +289,7 @@
             Generation: <input type="radio" form="npForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
             <input type="radio" form="npForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="npForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
+            Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
             Generate main element only <input type="checkbox" form="npForm" id="genMainElementOnly" name="genMainElementOnly" /><br />
         </div>
 
