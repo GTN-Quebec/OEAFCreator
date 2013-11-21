@@ -159,7 +159,8 @@
                 if( isPrologueAndEpilogueRequired ) {
                     if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
-                        str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '<html>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -178,7 +179,8 @@
                             'version="XHTML+RDFa 1.1" ' + "\n" +
                             //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
                             //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
-                            'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            //'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            '>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
