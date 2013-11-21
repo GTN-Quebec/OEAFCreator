@@ -33,8 +33,7 @@ div.submit {
 }
 
 div.inputs { 
-    /*width:28em; */
-    width: 50%; 
+    width: 600px; 
     float:left; 
     margin-right:2em 
 }
@@ -53,7 +52,6 @@ h2 {
 }
 
 div.optionsAndOutput { 
-    float:left; width:45%; 
 }
 
 div#preview { 
