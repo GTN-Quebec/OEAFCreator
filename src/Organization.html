@@ -136,14 +136,16 @@
                 );
                 str += '  </' + tagOrgOrganization + '>' + "\n";
 
-                if( extLocationStr != null )
-                    str += extLocationStr;
-
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </mlr-8:describe>' + "\n";
                     str += '  </mlr-8:MLR_Record>\n';
-                    str += '</rdf:RDF>';
                 }
+
+                if( extLocationStr != null )
+                    str += extLocationStr;
+
+                if( isPrologueAndEpilogueRequired )
+                    str += '</rdf:RDF>';
             }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
