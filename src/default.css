@@ -60,6 +60,8 @@ div#preview {
     border:1px solid black; 
     margin-right:2em; 
     font-size:90% 
+    overflow: auto;
+    overflow-y: auto;
 }
 
 div.about { 

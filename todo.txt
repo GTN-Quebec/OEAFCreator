@@ -1,4 +1,4 @@
-Layout needs to be improved.
+Implement all cardinalities for each element.
 Is a Geolocation a subclass of a Resource?  If not, we should remove the MLR Record wrapper from the Geolocation form because a MLR Record describes a Resource.
 Text fields will long text values (like description) should be surrounded by CDATA tags to prevent problems when special characters are inserted (like <>&).  
     Do I need to convert newlines to backslash-n in such cases?  Hmmm, probably not...  Will do that later.

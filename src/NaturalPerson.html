@@ -372,6 +372,13 @@
             <pre class="xml"><code id="sampleCode"></code></pre>
             <button id="validationButton" type="submit">Validate</button>
             <button id="npCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
+
+            <div id="previewSection" class="notDisplayed">
+                <h2>Preview</h2>
+                <div id="preview">
+                    <span></span>
+                </div>
+            </div>
             
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
@@ -387,13 +394,6 @@
                 <input type="hidden" name="embedded-rdf_text" value="true"/>
                 <input type="hidden" name="validate" value="yes"/>
             </form>
-
-            <div id="previewSection" class="notDisplayed">
-                <h2>Preview</h2>
-                <div id="preview">
-                    <span></span>
-                </div>
-            </div>
         </div>
 
     </div>

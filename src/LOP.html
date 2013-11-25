@@ -429,6 +429,13 @@
             <button id="validationButton" type="submit">Validate</button>
             <button id="lopCopyToClipboard" title="Click to copy to clipboard." data-clipboard-target="sampleCode">Copy to clipboard</button>
 
+            <div id="previewSection" class="notDisplayed">
+                <h2>Preview</h2>
+                <div id="preview">
+                    <span></span>
+                </div>
+            </div>
+            
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
                 <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
@@ -443,13 +450,6 @@
                 <input type="hidden" name="embedded-rdf_text" value="true"/>
                 <input type="hidden" name="validate" value="yes"/>
             </form>
-
-            <div id="previewSection" class="notDisplayed">
-                <h2>Preview</h2>
-                <div id="preview">
-                    <span></span>
-                </div>
-            </div>
         </div>
 
     </div>
