@@ -65,6 +65,7 @@
             var cloProvider = $( '#cloProvider' ).val();
             var cloRegistrationModalities = $( '#cloRegistrationModalities' ).val();
             var cloLastMinuteInfos = $( '#cloLastMinuteInfos' ).val();
+            var cloGenericComponent = $( '#cloGenericComponent' ).val();
             var cloLocationIsEmbedded = $( '#cloLocationIsEmbedded' ).is( ':checked' );
             var cloLocationUri = normalizeSpace( $( '#cloLocationUri' ).val() );
             var cloLocationLongitude = normalizeSpace( $( '#cloLocationLongitude' ).val() );
@@ -98,6 +99,7 @@
             var tagCloProvider = getTag( 'cloProvider', lang );
             var tagCloRegistrationModalities = getTag( 'cloRegistrationModalities', lang );
             var tagCloLastMinuteInfos = getTag( 'cloLastMinuteInfos', lang );
+            var tagCloGenericComponent = getTag( 'cloGenericComponent', lang );
             var tagCloHasPart = getTag( 'cloHasPart', lang );
             var tagCloOfferedBy = getTag( 'cloOfferedBy', lang );
 
@@ -218,6 +220,8 @@
                     str += '        <' + tagCloRegistrationModalities + '>' + cloRegistrationModalities.replace( /\n/g, '\\n' ) + '</' +tagCloRegistrationModalities + '>' + "\n";
                 if( cloLastMinuteInfos != '' )
                     str += '        <' + tagCloLastMinuteInfos + '>' + cloLastMinuteInfos.replace( /\n/g, '\\n' ) + '</' + tagCloLastMinuteInfos + '>' + "\n";
+                if( cloGenericComponent != '' )
+                    str += '        <' + tagCloGenericComponent + ' rdf:resource="' + cloGenericComponent + '"/>' + "\n";
                 $( '.cloHasPartTextField' ).each( 
                     function() { 
                         var hasPart = normalizeSpace( $( this ).val() );
@@ -315,6 +319,10 @@
                 }
                 if( cloDescription != '' )
                     str += '      <span property="' + tagCloDescription + '">' + cloDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
+                if( cloGenericComponent != '' ) {
+                    str += '      <br/><br/>' + "\n";
+                    str += '      <span property="' + tagCloGenericComponent + '" resource="' + cloGenericComponent + '">Generic component: ' + cloGenericComponent + '</span><br/><br/>' + "\n"; 
+                }
                 if( cloPublicationDate != '' )
                     str += '      Publication Date: <span property="' + tagCloPublicationDate + '">' + cloPublicationDate + '</span><br/>' + "\n";
                 if( cloStartDate != '' && cloEndDate != '' )
@@ -556,6 +564,10 @@
                     <div class="field">
                         <label for="cloLastMinuteInfos">last minute infos</label>
                         <textarea id="cloLastMinuteInfos" rows="12" cols=30"></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="cloHGenericComponent">generic component (uri)</label>
+                        <input type="text" id="cloGenericComponent" class="cloGenericComponentTextField"></input>
                     </div>
                     <div class="field">
                         <label for="cloHasPart">has part (uri)</label>

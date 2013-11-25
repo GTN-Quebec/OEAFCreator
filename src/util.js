@@ -333,6 +333,11 @@ var tagTable = {
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
+    'cloGenericComponent': {
+        '---': 'oeaf:sed0300',
+        'eng': 'oeaf:genericComponent',
+        'fra': 'oeaf:composantGénérique'
+    },
     'cloHasPart': {
         '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
