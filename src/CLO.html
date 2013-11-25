@@ -17,9 +17,11 @@
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#cloCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             
-            var cloMLRRecordUri = uuid.v4();
-            $( '#cloMLRRecordUri' ).val( 'urn:' + cloMLRRecordUri );
+            var mlrRecUri = uuid.v4();
+            $( '#mlrRecUri' ).val( 'urn:' + mlrRecUri );
             
+            initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
+
             var cloUri = uuid.v4();
             $( '#cloUri' ).val( 'urn:' + cloUri );
 
@@ -38,6 +40,15 @@
             var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
+            var mlrRecUri = normalizeSpace( $( '#mlrRecUri' ).val() );
+            var mlrRecIdentifier = normalizeSpace( $( '#mlrRecIdentifier' ).val() );
+            var mlrRecLanguage = $( '#mlrRecLanguage' ).val();
+            var mlrRecCreator = normalizeSpace( $( '#mlrRecCreator' ).val() );
+            var mlrRecValidator = normalizeSpace( $( '#mlrRecValidator' ).val() );
+            var mlrRecCreated = normalizeSpace( $( '#mlrRecCreated' ).val() );
+            var mlrRecRecordLastUpdate = normalizeSpace( $( '#mlrRecRecordLastUpdate' ).val() );
+
+            var cloUri = normalizeSpace( $( '#cloUri' ).val() );
             var cloIdentifier = normalizeSpace( $( '#cloIdentifier' ).val() );
             var cloTitle = normalizeSpace( $( '#cloTitle' ).val() );
             var cloPublicationDate = normalizeSpace( $( '#cloPublicationDate' ).val() );
@@ -59,6 +70,16 @@
             var cloLocationLongitude = normalizeSpace( $( '#cloLocationLongitude' ).val() );
             var cloLocationLatitude = normalizeSpace( $( '#cloLocationLatitude' ).val() );
             var cloLocationDescription = $( '#cloLocationDescription' ).val();
+
+            var tagMlrRec = getTag( 'mlrRec', lang );
+            var tagMlrRecIdentifier = getTag( 'mlrRecIdentifier', lang );
+            var tagMlrRecDescribes = getTag( 'mlrRecDescribes', lang );
+            var tagMlrRecLanguage = getTag( 'mlrRecLanguage', lang );
+            var tagMlrRecCreator = getTag( 'mlrRecCreator', lang );
+            var tagMlrRecValidator = getTag( 'mlrRecValidator', lang );
+            var tagMlrRecCreated = getTag( 'mlrRecCreated', lang );
+            var tagMlrRecHasApplicationProfile = getTag( 'mlrRecHasApplicationProfile', lang );
+            var tagMlrRecRecordLastUpdate = getTag( 'mlrRecRecordLastUpdate', lang );
 
             var tagCloConcreteLearningOpportunity = getTag( 'cloConcreteLearningOpportunity', lang );
             var tagCclodentifier = getTag( 'cloIdentifier', lang );
@@ -102,14 +123,28 @@
                         'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" + 
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    str += '  <mlr-8:MLR_Record rdf:about="' + $( '#cloMLRRecordUri' ).val() + '">\n';
-                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                    str += '    <mlr-8:describe>' + "\n";
+                    str += '  <' + tagMlrRec;
+                    if( mlrRecUri != ''  )
+                        str += ' rdf:about="' + mlrRecUri + '"';
+                    str += ">\n";
+                    if( mlrRecIdentifier != '' )
+                        str += '    <' + tagMlrRecIdentifier + '>' + mlrRecIdentifier + '</' + tagMlrRecIdentifier + '>' + "\n";
+                    str += '    <' + tagMlrRecHasApplicationProfile + '>' + applProf + '</' + tagMlrRecHasApplicationProfile + '>' + "\n";     
+                    if( mlrRecLanguage != '' )
+                        str += '    <' + tagMlrRecLanguage + '>' + mlrRecLanguage + '</' + tagMlrRecLanguage + '>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '    <' + tagMlrRecCreator + '>' + mlrRecCreator + '</' + tagMlrRecCreator + '>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '    <' + tagMlrRecValidator + '>' + mlrRecValidator + '</' + tagMlrRecValidator + '>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '    <' + tagMlrRecCreated + '>' + mlrRecCreated + '</' + tagMlrRecCreated + '>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '    <' + tagMlrRecRecordLastUpdate + '>' + mlrRecRecordLastUpdate + '</' + tagMlrRecRecordLastUpdate + '>' + "\n";
+                    str += '    <' + tagMlrRecDescribes + '>' + "\n";
                 }
-
                 str += '      <' + tagCloConcreteLearningOpportunity;
                 if( cloUri != '' )
-                    str += ' rdf:about="' + $( '#cloUri' ).val() + '"';
+                    str += ' rdf:about="' + cloUri + '"';
                 str += '>' + "\n";
                 if( cloIdentifier != '' )
                     str += '        <' + tagCclodentifier + '>' + cloIdentifier + '</' + tagCclodentifier + '>' + "\n";
@@ -200,8 +235,8 @@
                 str += '      </' + tagCloConcreteLearningOpportunity + '>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
-                    str += '    </mlr-8:describe>' + "\n";
-                    str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </' + tagMlrRecDescribes + '>' + "\n";
+                    str += '  </' + tagMlrRec + '>\n';
                 }
 
                 if( extLocationStr != null )
@@ -249,17 +284,29 @@
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
                     str += '    <div';
-                    if( cloMLRRecordUri != '' )
-                        str += ' resource="' + $( '#cloMLRRecordUri' ).val() + '"';
-                    str += ' typeof="mlr-8:rc0001">' + "\n";
-                    if( cloUri != '' )
-                        str += '      <span property="mlr-8:describe" resource="' + $( '#cloUri' ).val() + '"/>' + "\n";
+                    if( mlrRecUri != '' )
+                        str += ' resource="' + mlrRecUri + '"';
+                    str += ' typeof="' + tagMlrRec + '">' + "\n";
+                    if( mlrRecIdentifier != '' ) 
+                        str += '      <span property="' + tagMlrRecIdentifier + '" content="' + mlrRecIdentifier + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecHasApplicationProfile + '" content="' + applProf + '"/>' + "\n";
+                    if( mlrRecLanguage != '' )
+                        str += '      <span property="' + tagMlrRecLanguage + '" content="' + mlrRecLanguage + '"/>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '      <span property="' + tagMlrRecCreator + '" content="' + mlrRecCreator + '"/>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '      <span property="' + tagMlrRecValidator + '" content="' + mlrRecValidator + '"/>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + cloUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
                 if( cloUri != '' )
-                    str += ' resource="' + $( '#cloUri' ).val() + '"';
-                str += ' typeof="oeaf:rc0003">' + "\n";
+                    str += ' resource="' + cloUri + '"';
+                str += ' typeof="' + tagCloConcreteLearningOpportunity + '">' + "\n";
                 if( cloTitle != '' ) {
                     str += '      <b><span property="' + tagCloTitle + '">' + cloTitle + '</span>';
                     if( cloIdentifier != '' ) 
@@ -393,8 +440,32 @@
             <fieldset>
                 <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="cloMLRRecordUri">MLR Record uri</label>
-                    <input type="text" id="cloMLRRecordUri" />
+                    <label for="mlrRecUri">MLR Record uri</label>
+                    <input type="text" id="mlrRecUri" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecIdentifier">identifier</label>
+                    <input type="text" id="mlrRecIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecLanguage">language</label>
+                    <select id="mlrRecLanguage"></select>
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreator">creator</label>
+                    <input type="text" id="mlrRecCreator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecValidator">validator</label>
+                    <input type="text" id="mlrRecValidator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreated">created</label>
+                    <input type="text" id="mlrRecCreated" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecRecordLastUpdate">record last update</label>
+                    <input type="text" id="mlrRecRecordLastUpdate" />
                 </div>
                 <fieldset>
                     <legend>Concrete Learning Opportunity</legend>

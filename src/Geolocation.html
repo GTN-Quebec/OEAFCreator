@@ -17,8 +17,10 @@
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#geoLocCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             
-            var geoLocMLRRecordUri = uuid.v4();
-            $( '#geoLocMLRRecordUri' ).val( 'urn:' + geoLocMLRRecordUri );
+            var mlrRecUri = uuid.v4();
+            $( '#mlrRecUri' ).val( 'urn:' + mlrRecUri );
+
+            initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
 
             var geoLocUri = uuid.v4();
             $( '#geoLocUri' ).val( 'urn:' + geoLocUri );
@@ -33,10 +35,28 @@
             var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
+            var mlrRecUri = normalizeSpace( $( '#mlrRecUri' ).val() );
+            var mlrRecIdentifier = normalizeSpace( $( '#mlrRecIdentifier' ).val() );
+            var mlrRecLanguage = $( '#mlrRecLanguage' ).val();
+            var mlrRecCreator = normalizeSpace( $( '#mlrRecCreator' ).val() );
+            var mlrRecValidator = normalizeSpace( $( '#mlrRecValidator' ).val() );
+            var mlrRecCreated = normalizeSpace( $( '#mlrRecCreated' ).val() );
+            var mlrRecRecordLastUpdate = normalizeSpace( $( '#mlrRecRecordLastUpdate' ).val() );
+
             var geoLocUri = normalizeSpace( $( '#geoLocUri' ).val() );
             var geoLocLongitude = normalizeSpace( $( '#geoLocLongitude' ).val() );
             var geoLocLatitude = normalizeSpace( $( '#geoLocLatitude' ).val() );
             var geoLocDescription = $( '#geoLocDescription' ).val();
+
+            var tagMlrRec = getTag( 'mlrRec', lang );
+            var tagMlrRecIdentifier = getTag( 'mlrRecIdentifier', lang );
+            var tagMlrRecDescribes = getTag( 'mlrRecDescribes', lang );
+            var tagMlrRecLanguage = getTag( 'mlrRecLanguage', lang );
+            var tagMlrRecCreator = getTag( 'mlrRecCreator', lang );
+            var tagMlrRecValidator = getTag( 'mlrRecValidator', lang );
+            var tagMlrRecCreated = getTag( 'mlrRecCreated', lang );
+            var tagMlrRecHasApplicationProfile = getTag( 'mlrRecHasApplicationProfile', lang );
+            var tagMlrRecRecordLastUpdate = getTag( 'mlrRecRecordLastUpdate', lang );
 
             var tagGeoLocGeolocation = getTag( 'geoLocGeolocation', lang );
             var tagGeoLocLongitude = getTag( 'geoLocLongitude', lang );
@@ -48,17 +68,34 @@
 
                 if( isPrologueAndEpilogueRequired ) {
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                    str += '<rdf:RDF xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                        'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" +
+                        'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                         'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#geoLocMLRRecordUri' ).val() + '">\n';
-                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                    str += '    <mlr-8:describe>' + "\n";
+                    str += '  <' + tagMlrRec;
+                    if( mlrRecUri != ''  )
+                        str += ' rdf:about="' + mlrRecUri + '"';
+                    str += ">\n";
+                    if( mlrRecIdentifier != '' )
+                        str += '    <' + tagMlrRecIdentifier + '>' + mlrRecIdentifier + '</' + tagMlrRecIdentifier + '>' + "\n";
+                    str += '    <' + tagMlrRecHasApplicationProfile + '>' + applProf + '</' + tagMlrRecHasApplicationProfile + '>' + "\n";     
+                    if( mlrRecLanguage != '' )
+                        str += '    <' + tagMlrRecLanguage + '>' + mlrRecLanguage + '</' + tagMlrRecLanguage + '>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '    <' + tagMlrRecCreator + '>' + mlrRecCreator + '</' + tagMlrRecCreator + '>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '    <' + tagMlrRecValidator + '>' + mlrRecValidator + '</' + tagMlrRecValidator + '>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '    <' + tagMlrRecCreated + '>' + mlrRecCreated + '</' + tagMlrRecCreated + '>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '    <' + tagMlrRecRecordLastUpdate + '>' + mlrRecRecordLastUpdate + '</' + tagMlrRecRecordLastUpdate + '>' + "\n";
+                    str += '    <' + tagMlrRecDescribes + '>' + "\n";
                 }
                 str += '  <' + tagGeoLocGeolocation;
                 if( geoLocUri != '' )
-                    str += ' rdf:about="' + $( '#geoLocUri' ).val() + '"';
+                    str += ' rdf:about="' + geoLocUri + '"';
                 str += '>' + "\n";
                 if( geoLocLongitude != '' && geoLocLatitude != '' ) {
                     str += '    <' + tagGeoLocLongitude + '>' + geoLocLongitude + '</' + tagGeoLocLongitude + ">\n";
@@ -68,8 +105,8 @@
                     str += '    <' + tagGeoLocDescription + '>' + geoLocDescription.replace( /\n/g, '\\n' ) + '</' + tagGeoLocDescription + '>' + "\n";
                 str += '  </' + tagGeoLocGeolocation + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
-                    str += '    </mlr-8:describe>' + "\n";
-                    str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </' + tagMlrRecDescribes + '>' + "\n";
+                    str += '  </' + tagMlrRec + '>\n';
                     str += '</rdf:RDF>';
                 }
             }
@@ -104,16 +141,29 @@
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
                     str += '    <div';
-                    if( geoLocMLRRecordUri != '' )
-                        str += ' resource="' + $( '#geoLocMLRRecordUri' ).val() + '"';
-                    str += ' typeof="mlr-8:rc0001">' + "\n";
-                    if( geoLocUri != '' )
-                        str += '      <span property="mlr-8:describe" resource="' + $( '#geoLocUri' ).val() + '"/>' + "\n";
+                    if( mlrRecUri != '' )
+                        str += ' resource="' + mlrRecUri + '"';
+                    str += ' typeof="' + tagMlrRec + '">' + "\n";
+                    if( mlrRecIdentifier != '' ) 
+                        str += '      <span property="' + tagMlrRecIdentifier + '" content="' + mlrRecIdentifier + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecHasApplicationProfile + '" content="' + applProf + '"/>' + "\n";
+                    if( mlrRecLanguage != '' )
+                        str += '      <span property="' + tagMlrRecLanguage + '" content="' + mlrRecLanguage + '"/>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '      <span property="' + tagMlrRecCreator + '" content="' + mlrRecCreator + '"/>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '      <span property="' + tagMlrRecValidator + '" content="' + mlrRecValidator + '"/>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + geoLocUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
                 if( geoLocUri != '' )
-                    str += ' resource="' + $( '#geoLocUri' ).val() + '">' + "\n";
+                    str += ' resource="' + geoLocUri + '"';
+                str += ' typeof="' + tagGeoLocGeolocation + '">' + "\n";
                 if( geoLocLongitude != '' && geoLocLatitude != '' || geoLocDescription != '' ) {
                     str += '      Location: <div style="display: inline-table;">';
                     if( geoLocLongitude != '' && geoLocLatitude != '' ) {
@@ -146,8 +196,32 @@
             <fieldset>
                 <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="geoLocMLRRecordUri">MLR Record uri</label>
-                    <input type="text" id="geoLocMLRRecordUri" />
+                    <label for="mlrRecUri">uri</label>
+                    <input type="text" id="mlrRecUri" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecIdentifier">identifier</label>
+                    <input type="text" id="mlrRecIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecLanguage">language</label>
+                    <select id="mlrRecLanguage"></select>
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreator">creator</label>
+                    <input type="text" id="mlrRecCreator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecValidator">validator</label>
+                    <input type="text" id="mlrRecValidator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreated">created</label>
+                    <input type="text" id="mlrRecCreated" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecRecordLastUpdate">record last update</label>
+                    <input type="text" id="mlrRecRecordLastUpdate" />
                 </div>
                 <fieldset>
                     <legend>Geolocation</legend>

@@ -17,8 +17,10 @@
             doDefaultInit();
             var clip = new ZeroClipboard( $( '#npCopyToClipboard' ), { moviePath: 'lib/ZeroClipboard.swf' } );
             
-            var npMLRRecordUri = uuid.v4();
-            $( '#npMLRRecordUri' ).val( 'urn:' + npMLRRecordUri );
+            var mlrRecUri = uuid.v4();
+            $( '#mlrRecUri' ).val( 'urn:' + mlrRecUri );
+
+            initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
 
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
@@ -32,6 +34,14 @@
             var lang = $( '#genLang' ).val();
             var isPrologueAndEpilogueRequired = !$( '#genMainElementOnly' ).is( ':checked' ); 
 
+            var mlrRecUri = normalizeSpace( $( '#mlrRecUri' ).val() );
+            var mlrRecIdentifier = normalizeSpace( $( '#mlrRecIdentifier' ).val() );
+            var mlrRecLanguage = $( '#mlrRecLanguage' ).val();
+            var mlrRecCreator = normalizeSpace( $( '#mlrRecCreator' ).val() );
+            var mlrRecValidator = normalizeSpace( $( '#mlrRecValidator' ).val() );
+            var mlrRecCreated = normalizeSpace( $( '#mlrRecCreated' ).val() );
+            var mlrRecRecordLastUpdate = normalizeSpace( $( '#mlrRecRecordLastUpdate' ).val() );
+
             var npUri = normalizeSpace( $( '#npUri' ).val() );
             var npIdentifier = normalizeSpace( $( '#npIdentifier' ).val() );
             var npName = normalizeSpace( $( '#npName' ).val() );
@@ -41,6 +51,16 @@
             var npEmail = normalizeSpace( $( '#npEmail' ).val() );
             var npWorkTelephone = normalizeSpace( $( '#npWorkTelephone' ).val() );
             var npWebSite = normalizeSpace( $( '#npWebSite' ).val() );
+
+            var tagMlrRec = getTag( 'mlrRec', lang );
+            var tagMlrRecIdentifier = getTag( 'mlrRecIdentifier', lang );
+            var tagMlrRecDescribes = getTag( 'mlrRecDescribes', lang );
+            var tagMlrRecLanguage = getTag( 'mlrRecLanguage', lang );
+            var tagMlrRecCreator = getTag( 'mlrRecCreator', lang );
+            var tagMlrRecValidator = getTag( 'mlrRecValidator', lang );
+            var tagMlrRecCreated = getTag( 'mlrRecCreated', lang );
+            var tagMlrRecHasApplicationProfile = getTag( 'mlrRecHasApplicationProfile', lang );
+            var tagMlrRecRecordLastUpdate = getTag( 'mlrRecRecordLastUpdate', lang );
 
             var tagNpNaturalPerson = getTag( 'npNaturalPerson', lang );
             var tagNpIdentifier = getTag( 'npIdentifier', lang );
@@ -59,18 +79,34 @@
 
                 if( isPrologueAndEpilogueRequired ) {
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
-                    str += '<rdf:RDF xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
+                    str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
+                        'xmlns:dcterms="http://purl.org/dc/dcterms/" ' + "\n\t" +
+                        'xmlns:mlr-8="http://standards.iso.org/iso-iec/19788/-8/ed-1/en/" ' + "\n\t" +
                         'xmlns:mlr-9="http://standards.iso.org/iso-iec/19788/-9/ed-1/en/" ' + "\n\t" +
-                        'xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#" ' + "\n\t" +
                         'xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" ' + "\n\t" +
                         'xmlns:xsd="http://www.w3.org/2001/XMLSchema#">' + "\n";
-                    str += '  <mlr-8:MLR_Record rdf:about="urn:' + $( '#npMLRRecordUri' ).val() + '">\n';
-                    str += '    <mlr-8:recordIdentifier>MLR_Record_0001</mlr-8:recordIdentifier>' + "\n";
-                    str += '    <mlr-8:describe>' + "\n";
+                    str += '  <' + tagMlrRec;
+                    if( mlrRecUri != ''  )
+                        str += ' rdf:about="' + mlrRecUri + '"';
+                    str += ">\n";
+                    if( mlrRecIdentifier != '' )
+                        str += '    <' + tagMlrRecIdentifier + '>' + mlrRecIdentifier + '</' + tagMlrRecIdentifier + '>' + "\n";
+                    str += '    <' + tagMlrRecHasApplicationProfile + '>' + applProf + '</' + tagMlrRecHasApplicationProfile + '>' + "\n";     
+                    if( mlrRecLanguage != '' )
+                        str += '    <' + tagMlrRecLanguage + '>' + mlrRecLanguage + '</' + tagMlrRecLanguage + '>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '    <' + tagMlrRecCreator + '>' + mlrRecCreator + '</' + tagMlrRecCreator + '>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '    <' + tagMlrRecValidator + '>' + mlrRecValidator + '</' + tagMlrRecValidator + '>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '    <' + tagMlrRecCreated + '>' + mlrRecCreated + '</' + tagMlrRecCreated + '>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '    <' + tagMlrRecRecordLastUpdate + '>' + mlrRecRecordLastUpdate + '</' + tagMlrRecRecordLastUpdate + '>' + "\n";
+                    str += '    <' + tagMlrRecDescribes + '>' + "\n";
                 }
                 str += '  <' + tagNpNaturalPerson;
                 if( npUri != '' )
-                    str += ' rdf:about="' + $( '#npUri' ).val() + '"';
+                    str += ' rdf:about="' + npUri + '"';
                 str += '>' + "\n";
                 if( npIdentifier != '' )
                     str += '        <' + tagNpIdentifier + '>' + npIdentifier + '</' + tagNpIdentifier + '>' + "\n";
@@ -104,8 +140,8 @@
                 );
                 str += '  </' + tagNpNaturalPerson + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
-                    str += '    </mlr-8:describe>' + "\n";
-                    str += '  </mlr-8:MLR_Record>\n';
+                    str += '    </' + tagMlrRecDescribes + '>' + "\n";
+                    str += '  </' + tagMlrRec + '>\n';
                     str += '</rdf:RDF>';
                 }
             }
@@ -142,17 +178,29 @@
                             '    xsi: http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                     }
                     str += '    <div';
-                    if( npMLRRecordUri != '' )
-                        str += ' resource="' + $( '#npMLRRecordUri' ).val() + '"';
-                    str += ' typeof="mlr-8:rc0001">' + "\n";
-                    if( npUri != '' )
-                        str += '      <span property="mlr-8:describe" resource="' + $( '#npUri' ).val() + '"/>' + "\n";
+                    if( mlrRecUri != '' )
+                        str += ' resource="' + mlrRecUri + '"';
+                    str += ' typeof="' + tagMlrRec + '">' + "\n";
+                    if( mlrRecIdentifier != '' ) 
+                        str += '      <span property="' + tagMlrRecIdentifier + '" content="' + mlrRecIdentifier + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecHasApplicationProfile + '" content="' + applProf + '"/>' + "\n";
+                    if( mlrRecLanguage != '' )
+                        str += '      <span property="' + tagMlrRecLanguage + '" content="' + mlrRecLanguage + '"/>' + "\n";
+                    if( mlrRecCreator != '' )
+                        str += '      <span property="' + tagMlrRecCreator + '" content="' + mlrRecCreator + '"/>' + "\n";
+                    if( mlrRecValidator != '' )
+                        str += '      <span property="' + tagMlrRecValidator + '" content="' + mlrRecValidator + '"/>' + "\n";
+                    if( mlrRecCreated != '' )
+                        str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
+                    if( mlrRecRecordLastUpdate != '' )
+                        str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
+                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + npUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
                 if( npUri != '' )
-                    str += ' resource="' + $( '#npUri' ).val() + '"';
-                str += ' typeof="mlr-9:rc0001">' + "\n";
+                    str += ' resource="' + npUri + '"';
+                str += ' typeof="' + tagNpNaturalPerson + '">' + "\n";
                 if( npName != '' ) {
                     str += '      <b><span property="' + tagNpName + '">' + npName + '</span>';
                     if( npIdentifier != '' ) 
@@ -228,8 +276,32 @@
             <fieldset>
                 <legend>MLR Record</legend>
                 <div class="field uri">
-                    <label for="npMLRRecordUri">MLR Record uri</label>
-                    <input type="text" id="npMLRRecordUri" />
+                    <label for="mlrRecUri">MLR Record uri</label>
+                    <input type="text" id="mlrRecUri" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecIdentifier">identifier</label>
+                    <input type="text" id="mlrRecIdentifier" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecLanguage">language</label>
+                    <select id="mlrRecLanguage"></select>
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreator">creator</label>
+                    <input type="text" id="mlrRecCreator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecValidator">validator</label>
+                    <input type="text" id="mlrRecValidator" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecCreated">created</label>
+                    <input type="text" id="mlrRecCreated" />
+                </div>
+                <div class="field">
+                    <label for="mlrRecRecordLastUpdate">record last update</label>
+                    <input type="text" id="mlrRecRecordLastUpdate" />
                 </div>
                 <fieldset>
                     <legend>Natural Person</legend>

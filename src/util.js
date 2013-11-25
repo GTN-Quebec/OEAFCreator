@@ -1,3 +1,5 @@
+var applProf = 'http://normetic.org/profil_application/v1.0';
+
 var cdataStart = '<![CDATA[';
 var cdataEnd = ']]>';
 
@@ -19,6 +21,54 @@ var prefixTable = {
 };
 
 var tagTable = {
+
+    // MLR Record
+
+    'mlrRec': { 
+        '---': 'mlr-8:rc0001',
+        'eng': 'mlr-8:MLRRecord',
+        'fra': 'mlr-8:enregistrementMLR'
+    },
+    'mlrRecIdentifier': { 
+        '---': 'mlr-8:des0100',
+        'eng': 'mlr-8:recordIdentifier',
+        'fra': 'mlr-8:identifiantEnregistrement'
+    },
+    'mlrRecDescribes': { 
+        '---': 'mlr-8:des0200',
+        'eng': 'mlr-8:describes',
+        'fra': 'mlr-8:décrit'
+    },
+    'mlrRecLanguage': { 
+        '---': 'mlr-8:des0400',
+        'eng': 'mlr-8:language',
+        'fra': 'mlr-8:langue'
+    },
+    'mlrRecCreator': {
+        '---': 'dc:creator',
+        'eng': 'dc:creator',
+        'fra': 'dc:creator'
+    },
+    'mlrRecValidator': {
+        '---': 'dc:validator',
+        'eng': 'dc:validator',
+        'fra': 'dc:validator'
+    },
+    'mlrRecCreated': {
+        '---': 'dcterms:created',
+        'eng': 'dcterms:created',
+        'fra': 'dcterms:created'
+    },
+    'mlrRecHasApplicationProfile': {
+        '---': 'mlr-8:des0600',
+        'eng': 'mlr-8:hasApplicationProfile',
+        'fra': 'mlr-8:profilDApplication'
+    },
+    'mlrRecRecordLastUpdate': {
+        '---': 'mlr-8:des0900',
+        'eng': 'mlr-8:recordLastUpdate',
+        'fra': 'mlr-8:dernièreMiseÀJour'
+    },
 
     // Learning Opportunity Provider
     
