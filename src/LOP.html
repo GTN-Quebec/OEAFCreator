@@ -132,7 +132,7 @@
                 if( lopWorkTelephone != '' )
                     str += '        <' + tagLopWorkTelephone + '>' + lopWorkTelephone + '</' + tagLopWorkTelephone + '>' + "\n";
                 if( lopLocation != '' )
-                    str += '        <' + tagLopLocation + '>' + lopLocation + '</' + tagLopLocation + '>' + "\n";
+                    str += '        <' + tagLopLocation + ' rdf:resource="' + lopLocation + '"/>' + "\n";
                 if( lopWebSite != '' )
                     str += '        <' + tagLopWebSite + '>' + lopWebSite + '</' + tagLopWebSite + '>' + "\n";
                 if( lopType != null && lopType != '' )
@@ -250,7 +250,7 @@
                 if( lopWorkTelephone != '' )
                     str += '      Tel.: <span property="' + tagLopWorkTelephone + '">' + lopWorkTelephone + '</span><br/>' + "\n";  
                 if( lopLocation != '' )
-                    str += '      Loc.: <span property="' + tagLopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
+                    str += '      Loc.: <span property="' + tagLopLocation + '" resource="' + lopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
                 if( lopWebSite != '' )
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
                 if( lopType != null && lopType != '' )
@@ -381,7 +381,7 @@
                         <input type="text" id="lopWorkTelephone" />
                     </div>
                     <div class="field">
-                        <label for="lopLocation">location</label>
+                        <label for="lopLocation">location (uri)</label>
                         <input type="text" id="lopLocation" />
                     </div>
                     <div class="field">
