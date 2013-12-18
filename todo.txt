@@ -1,3 +1,5 @@
+Use specific types.  For example, date elements should look like "2010-01-01"^^xsd:date, and so on.
+The RDFa validator doesn't work anymore.  Fix it.
 Implement all cardinalities for each element.
 Is a Geolocation a subclass of a Resource?  If not, we should remove the MLR Record wrapper from the Geolocation form because a MLR Record describes a Resource.
 Text fields will long text values (like description) should be surrounded by CDATA tags to prevent problems when special characters are inserted (like <>&).  

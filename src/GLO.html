@@ -196,7 +196,15 @@
                     if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                        str += '<html>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '<html' + "\n"; 
+                        str += '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-2="http:standards.iso.org/iso-iec/19788/-1/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -216,7 +224,15 @@
                             //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
                             //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
                             //'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                            '>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-2="http:standards.iso.org/iso-iec/19788/-1/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' + "\n" +
+                            '>' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -246,7 +262,7 @@
                         str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
                     if( mlrRecRecordLastUpdate != '' )
                         str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
-                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + gloUri + '"/>' + "\n";
+                    str += '      <span rel="' + tagMlrRecDescribes + '" resource="' + gloUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -292,14 +308,14 @@
                 );
                 str += prerequisiteFooter;
                 if( gloOpportunityType != null )
-                    str += '      Opportunity Type: <span property="' + tagGloOpportunityType + '" resource="' + gloOpportunityType + '">' + opportunityTypeTable[ gloOpportunityType ] + '</span><br/>' + "\n";
+                    str += '      Opportunity Type: <span rel="' + tagGloOpportunityType + '" resource="' + gloOpportunityType + '">' + opportunityTypeTable[ gloOpportunityType ] + '</span><br/>' + "\n";
                 if( gloEducationalLevel != null ) { 
                     var educationalLevelHeader = "      <br/> \n      Educational Levels: <ul>\n";
                     for( var i = 0; i < $( '#gloEducationalLevel' ).val().length; i++ ) {
                         var educationalLevelValue = $( '#gloEducationalLevel' ).val()[ i ]; 
                         if( educationalLevelValue != '' ) {
                             str += educationalLevelHeader; 
-                            str += '      <li><span property="' + tagGloEducationalLevel + '" resource="' + educationalLevelValue + '">' + educationalLevelTable[ educationalLevelValue ] + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagGloEducationalLevel + '" resource="' + educationalLevelValue + '">' + educationalLevelTable[ educationalLevelValue ] + '</span></li>' + "\n";
                             educationalLevelHeader = '';
                         }
                     }
@@ -326,7 +342,7 @@
                         var assessmentTypeValue = $( '#gloAssessmentType' ).val()[ i ]; 
                         if( assessmentTypeValue != '' ) {
                             str += assessmentTypeHeader; 
-                            str += '      <li><span property="' + tagGloAssessmentType + '" resource="' + assessmentTypeValue + '">' + assessmentTypeTable[ assessmentTypeValue ] + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagGloAssessmentType + '" resource="' + assessmentTypeValue + '">' + assessmentTypeTable[ assessmentTypeValue ] + '</span></li>' + "\n";
                             assessmentTypeHeader = '';
                         }
                     }
@@ -352,7 +368,7 @@
                             str += hasPartHeader;
                             hasPartHeader = '';
                             hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagGloHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagGloHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -366,7 +382,7 @@
                             str += offeredByHeader;
                             offeredByHeader = '';
                             offeredByFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagGloOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagGloOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
                         }
                     } 
                 );

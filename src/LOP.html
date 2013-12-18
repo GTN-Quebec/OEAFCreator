@@ -171,7 +171,14 @@
                     if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                        str += '<html>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '<html' + "\n"; 
+                        str += '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -190,7 +197,14 @@
                             //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
                             //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
                             //'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                            '>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' + "\n" +
+                            '>' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -219,7 +233,7 @@
                         str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
                     if( mlrRecRecordLastUpdate != '' )
                         str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
-                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + lopUri + '"/>' + "\n";
+                    str += '      <span rel="' + tagMlrRecDescribes + '" resource="' + lopUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -250,11 +264,11 @@
                 if( lopWorkTelephone != '' )
                     str += '      Tel.: <span property="' + tagLopWorkTelephone + '">' + lopWorkTelephone + '</span><br/>' + "\n";  
                 if( lopLocation != '' )
-                    str += '      Loc.: <span property="' + tagLopLocation + '" resource="' + lopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
+                    str += '      Loc.: <span rel="' + tagLopLocation + '" resource="' + lopLocation + '">' + lopLocation + '</span><br/>' + "\n";  
                 if( lopWebSite != '' )
                     str += '      Web Site: <a property="' + tagLopWebSite + '" href="' + lopWebSite + '">' + lopWebSite + '</a><br/>' + "\n";
                 if( lopType != null && lopType != '' )
-                    str += '      Type: <span property="' + tagLopType + '" resource="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
+                    str += '      Type: <span rel="' + tagLopType + '" resource="' + lopType + '">' + typeOfLearningOpportunitiesProviderTable[ lopType ] + '</span><br/>' + "\n";
                 var contactPersonHeader = '      Contact Person(s): <ul>' + "\n";
                 var contactPersonFooter = '';
                 $( '.lopContactPersonTextField' ).each( 
@@ -264,7 +278,7 @@
                             str += contactPersonHeader;
                             contactPersonHeader = '';
                             contactPersonFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLopContactPerson + '" resource="' + contactPerson + '">' + contactPerson + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagLopContactPerson + '" resource="' + contactPerson + '">' + contactPerson + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -278,7 +292,7 @@
                             str += offerHeader;
                             offerHeader = '';
                             offerFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLopOffer + '" resource="' + offer + '">' + offer + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagLopOffer + '" resource="' + offer + '">' + offer + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -292,7 +306,7 @@
                             str += hasPartHeader;
                             hasPartHeader = '';
                             hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagLopHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagLopHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
                         }
                     } 
                 );

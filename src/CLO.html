@@ -254,7 +254,15 @@
                     if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                        str += '<html>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '<html' + "\n"; 
+                        str += '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-2="http:standards.iso.org/iso-iec/19788/-1/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -274,7 +282,15 @@
                             //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
                             //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
                             //'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                            '>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-2="http:standards.iso.org/iso-iec/19788/-1/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' + "\n" +
+                            '>' + "\n";
                         str += '  <body prefix="' + "\n" +
                             //'    dc: http://purl.org/dc/elements/1.1/' + "\n" +
                             //'    dcterms: http://purl.org/dc/dcterms/' + "\n" +
@@ -304,7 +320,7 @@
                         str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
                     if( mlrRecRecordLastUpdate != '' )
                         str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
-                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + cloUri + '"/>' + "\n";
+                    str += '      <span rel="' + tagMlrRecDescribes + '" resource="' + cloUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -321,7 +337,7 @@
                     str += '      <span property="' + tagCloDescription + '">' + cloDescription.replace( /\n/g, '<br />' ) + '</span><br/><br/>' + "\n";
                 if( cloGenericComponent != '' ) {
                     str += '      <br/><br/>' + "\n";
-                    str += '      <span property="' + tagCloGenericComponent + '" resource="' + cloGenericComponent + '">Generic component: ' + cloGenericComponent + '</span><br/><br/>' + "\n"; 
+                    str += '      <span rel="' + tagCloGenericComponent + '" resource="' + cloGenericComponent + '">Generic component: ' + cloGenericComponent + '</span><br/><br/>' + "\n"; 
                 }
                 if( cloPublicationDate != '' )
                     str += '      Publication Date: <span property="' + tagCloPublicationDate + '">' + cloPublicationDate + '</span><br/>' + "\n";
@@ -351,7 +367,7 @@
                         var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
                         if( deliveryModeValue != '' ) {
                             str += deliveryModeHeader; 
-                            str += '      <li><span property="' + tagCloDeliveryMode + '" resource="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagCloDeliveryMode + '" resource="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
                             deliveryModeHeader = '';
                         }
                     }
@@ -367,7 +383,7 @@
                             str += providerHeader;
                             providerHeader = '';
                             providerFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagCloProvider + '" resource="' + provider + '">' + provider + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagCloProvider + '" resource="' + provider + '">' + provider + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -385,7 +401,7 @@
                 if( cloLocationUri != '' ) {
                     if( cloLocationLongitude != '' && cloLocationLatitude != '' || cloLocationDescription != '' ) {
                         str += '      <br/><br/>' + "\n";
-                        str += '      Location: <div style="display: inline-table;" property="' + tagCloGeolocation + '" resource="' + cloLocationUri + '" typeof="' + tagGeographicalLocation + '">';
+                        str += '      Location: <div style="display: inline-table;" rel="' + tagCloGeolocation + '" resource="' + cloLocationUri + '" typeof="' + tagGeographicalLocation + '">';
                         if( cloLocationLongitude != '' && cloLocationLatitude != '' ) {
                             str += 'Lat.: <span property="' + tagCloLocationLatitude + '">' + cloLocationLatitude + '</span> ';
                             str += 'Long.: <span property="' + tagCloLocationLongitude + '">' + cloLocationLongitude + '</span><br/>' + "\n";
@@ -395,7 +411,7 @@
                         str += '      </div>' + "\n";
                     }
                     else {
-                        str += '      <span property="' + tagCloGeolocation + '" resource="' + cloLocationUri + '"/>' + "\n";
+                        str += '      <span rel="' + tagCloGeolocation + '" resource="' + cloLocationUri + '"/>' + "\n";
                     }
                 }
                 var hasPartHeader = '      HasPart(s): <ul>' + "\n";
@@ -407,7 +423,7 @@
                             str += hasPartHeader;
                             hasPartHeader = '';
                             hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagCloHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagCloHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -421,7 +437,7 @@
                             str += offeredByHeader;
                             offeredByHeader = '';
                             offeredByFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagCloOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagCloOfferedBy + '" resource="' + offeredBy + '">' + offeredBy + '</span></li>' + "\n";
                         }
                     } 
                 );

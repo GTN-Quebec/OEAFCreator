@@ -150,7 +150,14 @@
                     if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                        str += '<html>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                        str += '<html' + "\n"; 
+                        str += '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' + "\n";
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
@@ -167,7 +174,14 @@
                             //'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' + "\n" +
                             //'xsi:schemaLocation="http://www.w3.org/1999/xhtml http://www.w3.org/MarkkUp/SCHEMA/xhtml-rdfa-2.xsd" ' + "\n" +
                             //'lang="en" xml:lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
-                            '>' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
+                            '    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"' + "\n" +
+                            '    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"' + "\n" +
+                            '    xmlns:mlr-8="http:standards.iso.org/iso-iec/19788/-8/ed-1/en/"' + "\n" +
+                            '    xmlns:mlr-9="http:standards.iso.org/iso-iec/19788/-9/ed-1/en/"' + "\n" +
+                            '    xmlns:oeaf="http://normetic.org/uri/profil_oeaf/v1.0/ns#"' + "\n" +
+                            '    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"' + "\n" +
+                            '    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' + "\n" +
+                            '>' + "\n";
                         str += '  <body prefix="' + "\n" +
                             '    rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#' + "\n" +
                             '    rdfs: http://www.w3.org/2000/01/rdf-schema#' + "\n" +
@@ -194,7 +208,7 @@
                         str += '      <span property="' + tagMlrRecCreated + '" content="' + mlrRecCreated + '"/>' + "\n";
                     if( mlrRecRecordLastUpdate != '' )
                         str += '      <span property="' + tagMlrRecRecordLastUpdate + '" content="' + mlrRecRecordLastUpdate + '"/>' + "\n";
-                    str += '      <span property="' + tagMlrRecDescribes + '" resource="' + npUri + '"/>' + "\n";
+                    str += '      <span rel="' + tagMlrRecDescribes + '" resource="' + npUri + '"/>' + "\n";
                 }
 
                 str += '    <div';
@@ -235,7 +249,7 @@
                             str += workForHeader;
                             workForHeader = '';
                             workForFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagNpWorkFor + '" resource="' + workFor + '">' + workFor + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagNpWorkFor + '" resource="' + workFor + '">' + workFor + '</span></li>' + "\n";
                         }
                     } 
                 );
@@ -249,7 +263,7 @@
                             str += hasPartHeader;
                             hasPartHeader = '';
                             hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span property="' + tagNpHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                            str += '      <li><span rel="' + tagNpHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
                         }
                     } 
                 );
