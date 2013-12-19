@@ -752,7 +752,7 @@ function codeIt() {
     }
     else { // RDFa HTML and RDFa XHTML
         $( '#preview' ).html( code );
-        $( '#Text' ).val( code );
+        $( '#text' ).val( code );
         $( '#validationButton' ).attr( 'form', 'rdfaValidation' );
         if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) // RDFa HTML
             $( '#host-language_text' ).val( 'html' );
