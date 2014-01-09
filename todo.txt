@@ -1,3 +1,5 @@
+Implement RDF Turtle output
+Disable syntax highlighting for Turtle.
 Use specific types.  For example, date elements should look like "2010-01-01"^^xsd:date, and so on.
 Implement all cardinalities for each element.
 Is a Geolocation a subclass of a Resource?  If not, we should remove the MLR Record wrapper from the Geolocation form because a MLR Record describes a Resource.

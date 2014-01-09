@@ -750,11 +750,16 @@ function codeIt() {
         $( '#RDF' ).val( code );
         $( '#validationButton' ).attr( 'form', 'rdfValidation' );
     }
+    else if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+        $( '#preview' ).html( '' );
+        $( '#Turtle' ).val( code );
+        $( '#validationButton' ).attr( 'form', 'turtleValidation' );
+    }
     else { // RDFa HTML and RDFa XHTML
         $( '#preview' ).html( code );
         $( '#text' ).val( code );
         $( '#validationButton' ).attr( 'form', 'rdfaValidation' );
-        if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) // RDFa HTML
+        if( $( 'input:radio[name=outputType]' )[ 2 ].checked ) // RDFa HTML
             $( '#host-language_text' ).val( 'html' );
         else // RDFa XHTML
             $( '#host-language_text' ).val( 'xhtml' );
