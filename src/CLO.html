@@ -249,7 +249,7 @@
                 if( isPrologueAndEpilogueRequired ) 
                     str += '</rdf:RDF>';
             }
-            if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+            else if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
                 if( isPrologueAndEpilogueRequired ) {
                     str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
                     str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
@@ -298,16 +298,7 @@
                         str += ';' + "\n";
                         str += '    ' + tagCloCost + ' "' + cloCost + '"';
                     }
-                    if( cloDeliveryMode != null && cloDeliveryMode.length > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagCloDeliveryMode + ' ';
-                        var delim = '';
-                        for( var i = 0; i < cloDeliveryMode.length; i++ ) {
-                            var deliveryMode = '<' + cloDeliveryMode[ i ] + '>';
-                            str += delim + deliveryMode;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueSelect( tagCloDeliveryMode, '#cloDeliveryMode' );
                     if( cloDescription != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagCloDescription + ' "' + cloDescription.replace( /\n/g, '\\n' ) + '"';
@@ -346,16 +337,7 @@
                         str += ';' + "\n";
                         str += '    ' + tagCloGeolocation + ' <' + cloLocationUri + '>';
                     }
-                    if( $( '.cloHasPartTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagCloHasPart + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.cloHasPartTextField' ).size(); i++ ) {
-                            var hasPart = '<' + normalizeSpace( $( '.cloHasPartTextField' )[ i ].value ) + '>';
-                            str += delim + hasPart;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueTextField( tagCloHasPart, '.cloHasPartTextField' );
                     if( cloIdentifier != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagCloIdentifier + ' "' + cloIdentifier + '"';
@@ -368,40 +350,13 @@
                         str += ';' + "\n";
                         str += '    ' + tagCloNumberOfPlaces + ' "' + cloNumberOfPlaces + '"';
                     }
-                    if( $( '.cloOfferedByTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagCloOfferedBy + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.cloOfferedByTextField' ).size(); i++ ) {
-                            var offeredBy = '<' + normalizeSpace( $( '.cloOfferedByTextField' )[ i ].value ) + '>';
-                            str += delim + offeredBy;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueTextField( tagCloOfferedBy, '.cloOfferedByTextField' );
                     if( cloPerformanceDate != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagCloPerformanceDate + ' "' + cloPerformanceDate + '"';
                     }
-                    if( cloPerformanceLanguage != null && cloPerformanceLanguage.length > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagCloPerformanceLanguage + ' ';
-                        var delim = '';
-                        for( var i = 0; i < cloPerformanceLanguage.length; i++ ) {
-                            var performanceLanguage = '<' + cloPerformanceLanguage[ i ] + '>';
-                            str += delim + performanceLanguage;
-                            delim = ",\n        ";
-                        }
-                    }
-                    if( $( '.cloProviderTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagCloProvider + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.cloProviderTextField' ).size(); i++ ) {
-                            var provider = '<' + normalizeSpace( $( '.cloProviderTextField' )[ i ].value ) + '>';
-                            str += delim + provider;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueSelect( tagCloPerformanceLanguage, '#cloPerformanceLanguage' );
+                    str += generateTurtleMultiValueTextField( tagCloProvider, '.cloProviderTextField' );
                     if( cloPublicationDate != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagCloPublicationDate + ' "' + cloPublicationDate + '"';

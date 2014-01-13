@@ -190,26 +190,8 @@
                 }
                 if( npUri != '' ) {
                     str += '<' + npUri + '> a ' + tagNpNaturalPerson;
-                    if( $( '.npHasPartTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagNpHasPart + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.npHasPartTextField' ).size(); i++ ) {
-                            var hasPart = '<' + normalizeSpace( $( '.npHasPartTextField' )[ i ].value ) + '>';
-                            str += delim + hasPart;
-                            delim = ",\n        ";
-                        }
-                    }
-                    if( $( '.npWorkForTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagNpWorkFor + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.npWorkForTextField' ).size(); i++ ) {
-                            var workFor = '<' + normalizeSpace( $( '.npWorkForTextField' )[ i ].value ) + '>';
-                            str += delim + workFor;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueTextField( tagNpHasPart, '.npHasPartTextField' );
+                    str += generateTurtleMultiValueTextField( tagNpWorkFor, '.npWorkForTextField' );
                     if( npEmail != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagNpEmail + ' "' + npEmail + '"';

@@ -1,5 +1,3 @@
-Bug: In RDF, for all forms, we see the RDFa appended in the code box.
-Bug: OfferedBy and Parts are shown even if empty in Turtle.  Check everywhere.
 Bug: In Organization, in RDFa, if we specify a geoloc uri (only) and part uris, the part uris are associated to the geolocation.  Check if we have this problem elsewhere.
 Implement RDF Turtle output
 Disable syntax highlighting for Turtle.

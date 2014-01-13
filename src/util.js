@@ -695,6 +695,40 @@ function addField( fieldName ) {
     );
 }
 
+function generateTurtleMultiValueSelect( tag, selectSelector ) {
+    var str = '';
+    var array = $( selectSelector ).val();
+    var firstDelim = ";\n    " + tag + ' ';
+    var delim = '';
+    for( var i = 0; i < array.length; i++ ) {
+        var value = normalizeSpace( array[ i ] );
+        if( value != '' ) {
+            str += firstDelim;
+            str += delim + '<' + value + '>';
+            firstDelim = '';
+            delim = ",\n        ";
+        }
+    }
+    return( str );
+}
+
+function generateTurtleMultiValueTextField( tag, textFieldSelector ) {
+    var str = '';
+    var array = $( textFieldSelector );
+    var firstDelim = ";\n    " + tag + ' ';
+    var delim = '';
+    for( var i = 0; i < array.size(); i++ ) {
+        var value = normalizeSpace( array[ i ].value );
+        if( value != '' ) {
+            str += firstDelim;
+            str += delim + '<' + value + '>';
+            firstDelim = '';
+            delim = ",\n        ";
+        }
+    }
+    return( str );
+}
+
 function doDefaultInit() {
     $( 'input' ).keyup( window.codeIt );
     $( 'input' ).click( window.codeIt );

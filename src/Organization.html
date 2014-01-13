@@ -183,7 +183,7 @@
                 if( isPrologueAndEpilogueRequired )
                     str += '</rdf:RDF>';
             }
-            if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+            else if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
                 if( isPrologueAndEpilogueRequired ) {
                     str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
                     str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
@@ -250,16 +250,7 @@
                         str += ';' + "\n";
                         str += '    ' + tagOrgGeolocation + ' <' + orgLocationUri + '>';
                     }
-                    if( $( '.orgHasPartTextField' ).size() > 0 ) {
-                        str += ';' + "\n";
-                        str += '    ' + tagOrgHasPart + ' ';
-                        var delim = '';
-                        for( var i = 0; i < $( '.orgHasPartTextField' ).size(); i++ ) {
-                            var hasPart = '<' + normalizeSpace( $( '.orgHasPartTextField' )[ i ].value ) + '>';
-                            str += delim + hasPart;
-                            delim = ",\n        ";
-                        }
-                    }
+                    str += generateTurtleMultiValueTextField( tagOrgHasPart,  '.orgHasPartTextField' );
                     if( orgEmail != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagOrgEmail + ' "' + orgEmail + '"';
