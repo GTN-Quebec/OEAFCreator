@@ -87,7 +87,6 @@
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
-
                 if( isPrologueAndEpilogueRequired ) {
                     str = '<?xml version="1.0" encoding="utf-8"?>' + "\n";
                     str += '<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" ' + "\n\t" +
@@ -184,9 +183,124 @@
                 if( isPrologueAndEpilogueRequired )
                     str += '</rdf:RDF>';
             }
+            if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
+                    str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
+                    str += '@prefix mlr-8: <http://standards.iso.org/iso-iec/19788/-8/ed-1/en/> .' + "\n";
+                    str += '@prefix mlr-9: <http://standards.iso.org/iso-iec/19788/-9/ed-1/en/> .' + "\n";
+                    str += '@prefix oeaf: <http://normetic.org/uri/profil_oeaf/v1.0/ns#> .' + "\n";
+                    str += "\n";
+                }
+                if( mlrRecUri != '' ) {
+                    str += '<' + mlrRecUri + '> a ' + tagMlrRec;
+                    if( mlrRecCreated != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreated + ' "' + mlrRecCreated + '"';
+                    }
+                    if( mlrRecCreator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreator + ' "' + mlrRecCreator + '"';
+                    }
+                    if( mlrRecValidator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecValidator + ' "' + mlrRecValidator + '"';
+                    }
+                    if( orgUri != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecDescribes + ' <' + orgUri + '>';
+                    }
+                    str += ';' + "\n";
+                    str += '    ' + tagMlrRecHasApplicationProfile + ' "' + applProf + '"';
+                    if( mlrRecLanguage != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecLanguage + ' "' + mlrRecLanguage + '"';
+                    }
+                    if( mlrRecIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecIdentifier + ' "' + mlrRecIdentifier + '"';
+                    }
+                    if( mlrRecRecordLastUpdate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecRecordLastUpdate + ' "' + mlrRecRecordLastUpdate + '"';
+                    }
+                    str += ".\n\n";
+                }
+                if( orgUri != '' ) {
+                    str += '<' + orgUri + '> a ' + tagOrgOrganization;
+                    if( orgLocationUri != '' ) {
+                        if( orgLocationLongitude != '' && orgLocationLatitude != '' || orgLocationDescription != '' ) {
+                            extLocationStr = ".\n\n";
+                            extLocationStr += '<' + orgLocationUri + '> a ' + tagGeographicalLocation;
+                            if( orgLocationDescription != '' ) {
+                                extLocationStr += ';' + "\n";
+                                extLocationStr += '    ' + tagOrgLocationDescription + ' "' + orgLocationDescription.replace( /\n/g, '\\n' ) + '"';
+                            }
+                            if( orgLocationLongitude != '' && orgLocationLatitude != '' ) {
+                                if( orgLocationLatitude != '' ) {
+                                    extLocationStr += ';' + "\n";
+                                    extLocationStr += '    ' + tagOrgLocationLatitude + ' "' + orgLocationLatitude + '"';
+                                }
+                                if( orgLocationLongitude != '' ) {
+                                    extLocationStr += ';' + "\n";
+                                    extLocationStr += '    ' + tagOrgLocationLongitude + ' "' + orgLocationLongitude + '"';
+                                }
+                            }
+                        }
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgGeolocation + ' <' + orgLocationUri + '>';
+                    }
+                    // Handle parts.
+                    if( $( '.orgHasPartTextField' ).size() > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgHasPart + ' ';
+                        var delim = '';
+                        for( var i = 0; i < $( '.orgHasPartTextField' ).size(); i++ ) {
+                            var hasPart = '<' + normalizeSpace( $( '.orgHasPartTextField' )[ i ].value ) + '>';
+                            str += delim + hasPart;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( orgEmail != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgEmail + ' "' + orgEmail + '"';
+                    }
+                    if( orgFamilyName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgFamilyName + ' "' + orgFamilyName + '"';
+                    }
+                    if( orgGivenName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgGivenName + ' "' + orgGivenName + '"';
+                    }
+                    if( orgIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgIdentifier + ' "' + orgIdentifier + '"';
+                    }
+                    if( orgName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgName + ' "' + orgName + '"';
+                    }
+                    if( orgName2 != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgName2 + ' "' + orgName2 + '"';
+                    }
+                    if( orgWebSite != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgWebSite + ' "' + orgWebSite + '"';
+                    }
+                    if( orgWorkTelephone != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgWorkTelephone + ' "' + orgWorkTelephone + '"';
+                    }
+                    if( extLocationStr != null )
+                        str += extLocationStr;
+                    str += ".\n\n";
+                }
+            }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
-                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    if( $( 'input:radio[name=outputType]' )[ 2 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
                         str += '<html' + "\n"; 
@@ -278,6 +392,20 @@
                     str += '      Tel.: <span property="' + tagOrgWorkTelephone + '">' + orgWorkTelephone + '</span><br/>' + "\n";  
                 if( orgWebSite != '' )
                     str += '      Web Site: <a property="' + tagOrgWebSite + '" href="' + orgWebSite + '">' + orgWebSite + '</a><br/>' + "\n";
+                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
+                var hasPartFooter = '';
+                $( '.orgHasPartTextField' ).each( 
+                    function() { 
+                        var hasPart = normalizeSpace( $( this ).val() );
+                        if( hasPart != '' ) { 
+                            str += hasPartHeader;
+                            hasPartHeader = '';
+                            hasPartFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span rel="' + tagOrgHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += hasPartFooter;
                 if( orgLocationUri != '' ) {
                     if( orgLocationLongitude != '' && orgLocationLatitude != '' || orgLocationDescription != '' ) {
                         str += '      <br/><br/>' + "\n";
@@ -294,20 +422,6 @@
                         str += '      <span rel="' + tagOrgGeolocation + '" resource="' + orgLocationUri + '"/>' + "\n";
                     }
                 }
-                var hasPartHeader = '      HasPart(s): <ul>' + "\n";
-                var hasPartFooter = '';
-                $( '.orgHasPartTextField' ).each( 
-                    function() { 
-                        var hasPart = normalizeSpace( $( this ).val() );
-                        if( hasPart != '' ) { 
-                            str += hasPartHeader;
-                            hasPartHeader = '';
-                            hasPartFooter = '      </ul><br/>' + "\n";
-                            str += '      <li><span rel="' + tagOrgHasPart + '" resource="' + hasPart + '">' + hasPart + '</span></li>' + "\n";
-                        }
-                    } 
-                );
-                str += hasPartFooter;
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -433,6 +547,7 @@
         <div class="options">
             <h2>Options</h2>
             Generation: <input type="radio" form="orgForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="orgForm" id="outputTypeTurtle" name="outputType" value="rdf" /><label for="outputTypeTurtle">Turtle</label>
             <input type="radio" form="orgForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="orgForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
             Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
@@ -452,6 +567,11 @@
                 </div>
             </div>
             
+            <form id="turtleValidation" action="http://www.rdfabout.com/demo/validator/validate.xpd" method="post">
+                <input type="hidden" id="Turtle" name="content"/>
+                <input type="hidden" name="format" value="n3"/>
+            </form>
+
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
                 <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>

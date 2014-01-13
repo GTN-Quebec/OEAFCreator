@@ -717,6 +717,14 @@ function doDefaultInit() {
                 $( '#previewSection' ).removeClass( 'notDisplayed' );
         }
     );
+    $( '#outputTypeTurtle' ).click( 
+        function() {
+            if( $( this ).is( ':checked' ) ) 
+                $( '#previewSection' ).addClass( 'notDisplayed' );
+            else
+                $( '#previewSection' ).removeClass( 'notDisplayed' );
+        }
+    );
     $( '#outputTypeRdfaHtml' ).click( 
         function() {
             if( $( this ).is( ':checked' ) ) 

@@ -1,3 +1,4 @@
+Bug: In Organization, in RDFa, if we specify a geoloc uri (only) and part uris, the part uris are associated to the geolocation.  Check if we have this problem elsewhere.
 Implement RDF Turtle output
 Disable syntax highlighting for Turtle.
 Use specific types.  For example, date elements should look like "2010-01-01"^^xsd:date, and so on.
