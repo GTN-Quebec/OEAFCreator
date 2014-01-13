@@ -83,7 +83,7 @@
             var tagMlrRecRecordLastUpdate = getTag( 'mlrRecRecordLastUpdate', lang );
 
             var tagCloConcreteLearningOpportunity = getTag( 'cloConcreteLearningOpportunity', lang );
-            var tagCclodentifier = getTag( 'cloIdentifier', lang );
+            var tagCloIdentifier = getTag( 'cloIdentifier', lang );
             var tagCloTitle = getTag( 'cloTitle', lang );
             var tagCloPublicationDate = getTag( 'cloPublicationDate', lang );
             var tagCloDescription = getTag( 'cloDescription', lang );
@@ -149,7 +149,7 @@
                     str += ' rdf:about="' + cloUri + '"';
                 str += '>' + "\n";
                 if( cloIdentifier != '' )
-                    str += '        <' + tagCclodentifier + '>' + cloIdentifier + '</' + tagCclodentifier + '>' + "\n";
+                    str += '        <' + tagCloIdentifier + '>' + cloIdentifier + '</' + tagCloIdentifier + '>' + "\n";
                 if( cloTitle != '' )
                     str += '        <' + tagCloTitle + '>' + cloTitle + '</' + tagCloTitle + '>' + "\n";
                 if( cloPublicationDate != '' )
@@ -197,14 +197,14 @@
                 if( cloCost != '' )
                     str += '        <' + tagCloCost + '>' + cloCost + '</' + tagCloCost + '>' + "\n";
                 if( cloPerformanceLanguage != null ) {
-                    for( var i = 0; i < $( '#cloPerformanceLanguage' ).val().length; i++ ) {
-                        var langValue = $( '#cloPerformanceLanguage' ).val()[ i ]; 
+                    for( var i = 0; i < cloPerformanceLanguage.length; i++ ) {
+                        var langValue = cloPerformanceLanguage[ i ]; 
                         str += '        <' + tagCloPerformanceLanguage + '>' + langValue + '</' + tagCloPerformanceLanguage + '>' + "\n";
                     }
                 }
                 if( cloDeliveryMode != null ) { 
-                    for( var i = 0; i < $( '#cloDeliveryMode' ).val().length; i++ ) {
-                        var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
+                    for( var i = 0; i < cloDeliveryMode.length; i++ ) {
+                        var deliveryModeValue = cloDeliveryMode[ i ]; 
                         if( deliveryModeValue != '' )
                             str += '        <' + tagCloDeliveryMode + ' rdf:resource="' + deliveryModeValue + '"/>' + "\n"; 
                     }
@@ -248,6 +248,180 @@
 
                 if( isPrologueAndEpilogueRequired ) 
                     str += '</rdf:RDF>';
+            }
+            if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
+                    str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
+                    str += '@prefix mlr-8: <http://standards.iso.org/iso-iec/19788/-8/ed-1/en/> .' + "\n";
+                    str += '@prefix mlr-9: <http://standards.iso.org/iso-iec/19788/-9/ed-1/en/> .' + "\n";
+                    str += '@prefix oeaf: <http://normetic.org/uri/profil_oeaf/v1.0/ns#> .' + "\n";
+                    str += "\n";
+                }
+                if( mlrRecUri != '' ) {
+                    str += '<' + mlrRecUri + '> a ' + tagMlrRec;
+                    if( mlrRecCreated != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreated + ' "' + mlrRecCreated + '"';
+                    }
+                    if( mlrRecCreator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreator + ' "' + mlrRecCreator + '"';
+                    }
+                    if( mlrRecValidator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecValidator + ' "' + mlrRecValidator + '"';
+                    }
+                    if( cloUri != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecDescribes + ' <' + cloUri + '>';
+                    }
+                    str += ';' + "\n";
+                    str += '    ' + tagMlrRecHasApplicationProfile + ' "' + applProf + '"';
+                    if( mlrRecLanguage != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecLanguage + ' "' + mlrRecLanguage + '"';
+                    }
+                    if( mlrRecIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecIdentifier + ' "' + mlrRecIdentifier + '"';
+                    }
+                    if( mlrRecRecordLastUpdate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecRecordLastUpdate + ' "' + mlrRecRecordLastUpdate + '"';
+                    }
+                    str += ".\n\n";
+                }
+                if( cloUri != '' ) {
+                    str += '<' + cloUri + '> a ' + tagCloConcreteLearningOpportunity;
+                    if( cloCost != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloCost + ' "' + cloCost + '"';
+                    }
+                    if( cloDeliveryMode != null && cloDeliveryMode.length > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloDeliveryMode + ' ';
+                        var delim = '';
+                        for( var i = 0; i < cloDeliveryMode.length; i++ ) {
+                            var deliveryMode = '<' + cloDeliveryMode[ i ] + '>';
+                            str += delim + deliveryMode;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( cloDescription != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloDescription + ' "' + cloDescription.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    if( cloDuration != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloDuration + ' "' + cloDuration + '"';
+                    }
+                    if( cloEndDate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloEndDate + ' "' + cloEndDate + '"';
+                    }
+                    if( cloGenericComponent != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloGenericComponent + ' <' + cloGenericComponent + '>';
+                    }
+                    if( cloLocationUri != '' ) {
+                        if( cloLocationLongitude != '' && cloLocationLatitude != '' || cloLocationDescription != '' ) {
+                            extLocationStr = ".\n\n";
+                            extLocationStr += '<' + cloLocationUri + '> a ' + tagGeographicalLocation;
+                            if( cloLocationDescription != '' ) {
+                                extLocationStr += ';' + "\n";
+                                extLocationStr += '    ' + tagCloLocationDescription + ' "' + cloLocationDescription.replace( /\n/g, '\\n' ) + '"';
+                            }
+                            if( cloLocationLongitude != '' && cloLocationLatitude != '' ) {
+                                if( cloLocationLatitude != '' ) {
+                                    extLocationStr += ';' + "\n";
+                                    extLocationStr += '    ' + tagCloLocationLatitude + ' "' + cloLocationLatitude + '"';
+                                }
+                                if( cloLocationLongitude != '' ) {
+                                    extLocationStr += ';' + "\n";
+                                    extLocationStr += '    ' + tagCloLocationLongitude + ' "' + cloLocationLongitude + '"';
+                                }
+                            }
+                        }
+                        str += ';' + "\n";
+                        str += '    ' + tagCloGeolocation + ' <' + cloLocationUri + '>';
+                    }
+                    if( $( '.cloHasPartTextField' ).size() > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloHasPart + ' ';
+                        var delim = '';
+                        for( var i = 0; i < $( '.cloHasPartTextField' ).size(); i++ ) {
+                            var hasPart = '<' + normalizeSpace( $( '.cloHasPartTextField' )[ i ].value ) + '>';
+                            str += delim + hasPart;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( cloIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloIdentifier + ' "' + cloIdentifier + '"';
+                    }
+                    if( cloLastMinuteInfos != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloLastMinuteInfos + ' "' + cloLastMinuteInfos.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    if( cloNumberOfPlaces != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloNumberOfPlaces + ' "' + cloNumberOfPlaces + '"';
+                    }
+                    if( $( '.cloOfferedByTextField' ).size() > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloOfferedBy + ' ';
+                        var delim = '';
+                        for( var i = 0; i < $( '.cloOfferedByTextField' ).size(); i++ ) {
+                            var offeredBy = '<' + normalizeSpace( $( '.cloOfferedByTextField' )[ i ].value ) + '>';
+                            str += delim + offeredBy;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( cloPerformanceDate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloPerformanceDate + ' "' + cloPerformanceDate + '"';
+                    }
+                    if( cloPerformanceLanguage != null && cloPerformanceLanguage.length > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloPerformanceLanguage + ' ';
+                        var delim = '';
+                        for( var i = 0; i < cloPerformanceLanguage.length; i++ ) {
+                            var performanceLanguage = '<' + cloPerformanceLanguage[ i ] + '>';
+                            str += delim + performanceLanguage;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( $( '.cloProviderTextField' ).size() > 0 ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloProvider + ' ';
+                        var delim = '';
+                        for( var i = 0; i < $( '.cloProviderTextField' ).size(); i++ ) {
+                            var provider = '<' + normalizeSpace( $( '.cloProviderTextField' )[ i ].value ) + '>';
+                            str += delim + provider;
+                            delim = ",\n        ";
+                        }
+                    }
+                    if( cloPublicationDate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloPublicationDate + ' "' + cloPublicationDate + '"';
+                    }
+                    if( cloRegistrationModalities != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloRegistrationModalities + ' "' + cloRegistrationModalities.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    if( cloStartDate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloStartDate + ' "' + cloStartDate + '"';
+                    }
+                    if( cloTitle != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagCloTitle + ' "' + cloTitle + '"';
+                    }
+                    if( extLocationStr != null )
+                        str += extLocationStr;
+                    str += ".\n\n";
+                }
             }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
@@ -330,7 +504,7 @@
                 if( cloTitle != '' ) {
                     str += '      <b><span property="' + tagCloTitle + '">' + cloTitle + '</span>';
                     if( cloIdentifier != '' ) 
-                        str += ' (<span property="' + tagCclodentifier + '">' + cloIdentifier + '</span>)';
+                        str += ' (<span property="' + tagCloIdentifier + '">' + cloIdentifier + '</span>)';
                     str += '</b><br/>' + "\n";
                 }
                 if( cloDescription != '' )
@@ -354,8 +528,8 @@
                 if( cloPerformanceLanguage != null ) {
                     var delimiter = '';
                     str += '      Performance Language: ';
-                    for( var i = 0; i < $( '#cloPerformanceLanguage' ).val().length; i++ ) {
-                        var langValue = $( '#cloPerformanceLanguage' ).val()[ i ]; 
+                    for( var i = 0; i < cloPerformanceLanguage.length; i++ ) {
+                        var langValue = cloPerformanceLanguage[ i ]; 
                         str += delimiter + '<span property="' + tagCloPerformanceLanguage + '" content="' + langValue + '">' + langTable[ langValue ] + '</span>'
                         delimiter = ', ';
                     }
@@ -363,8 +537,8 @@
                 }
                 if( cloDeliveryMode != null ) { 
                     var deliveryModeHeader = "      <br/> \n      Delivery Modes: <ul>\n";
-                    for( var i = 0; i < $( '#cloDeliveryMode' ).val().length; i++ ) {
-                        var deliveryModeValue = $( '#cloDeliveryMode' ).val()[ i ]; 
+                    for( var i = 0; i < cloDeliveryMode.length; i++ ) {
+                        var deliveryModeValue = cloDeliveryMode[ i ]; 
                         if( deliveryModeValue != '' ) {
                             str += deliveryModeHeader; 
                             str += '      <li><span rel="' + tagCloDeliveryMode + '" resource="' + deliveryModeValue + '">' + deliveryModeTable[ deliveryModeValue ] + '</span></li>' + "\n";
@@ -605,6 +779,7 @@
         <div class="options">
             <h2>Options</h2>
             Generation: <input type="radio" form="cloForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="cloForm" id="outputTypeTurtle" name="outputType" value="rdf" /><label for="outputTypeTurtle">Turtle</label>
             <input type="radio" form="cloForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="cloForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
             Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
@@ -623,6 +798,11 @@
                     <span></span>
                 </div>
             </div>
+
+            <form id="turtleValidation" action="http://www.rdfabout.com/demo/validator/validate.xpd" method="post">
+                <input type="hidden" id="Turtle" name="content"/>
+                <input type="hidden" name="format" value="n3"/>
+            </form>
 
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
