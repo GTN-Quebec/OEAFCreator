@@ -695,7 +695,14 @@ function addField( fieldName ) {
     );
 }
 
-function generateTurtleMultiValueSelect( tag, selectSelector ) {
+function generateTurtleMultiValueSelect( tag, selectSelector, isTextLiteral ) {
+    var valueStartDelim = '<';
+    var valueEndDelim = '>';
+    if( isTextLiteral ) {
+        valueStartDelim = '"';
+        valueEndDelim = '"';
+    }
+
     var str = '';
     var array = $( selectSelector ).val();
     var firstDelim = ";\n    " + tag + ' ';
@@ -704,7 +711,7 @@ function generateTurtleMultiValueSelect( tag, selectSelector ) {
         var value = normalizeSpace( array[ i ] );
         if( value != '' ) {
             str += firstDelim;
-            str += delim + '<' + value + '>';
+            str += delim + valueStartDelim + value + valueEndDelim;
             firstDelim = '';
             delim = ",\n        ";
         }
@@ -712,7 +719,14 @@ function generateTurtleMultiValueSelect( tag, selectSelector ) {
     return( str );
 }
 
-function generateTurtleMultiValueTextField( tag, textFieldSelector ) {
+function generateTurtleMultiValueTextField( tag, textFieldSelector, isTextLiteral ) {
+    var valueStartDelim = '<';
+    var valueEndDelim = '>';
+    if( isTextLiteral ) {
+        valueStartDelim = '"';
+        valueEndDelim = '"';
+    }
+
     var str = '';
     var array = $( textFieldSelector );
     var firstDelim = ";\n    " + tag + ' ';
@@ -721,7 +735,7 @@ function generateTurtleMultiValueTextField( tag, textFieldSelector ) {
         var value = normalizeSpace( array[ i ].value );
         if( value != '' ) {
             str += firstDelim;
-            str += delim + '<' + value + '>';
+            str += delim + valueStartDelim + value + valueEndDelim;
             firstDelim = '';
             delim = ",\n        ";
         }

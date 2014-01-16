@@ -191,9 +191,92 @@
                     str += '</rdf:RDF>';
                 }
             }
+            else if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
+                    str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
+                    str += '@prefix mlr-8: <http://standards.iso.org/iso-iec/19788/-8/ed-1/en/> .' + "\n";
+                    str += '@prefix mlr-9: <http://standards.iso.org/iso-iec/19788/-9/ed-1/en/> .' + "\n";
+                    str += '@prefix oeaf: <http://normetic.org/uri/profil_oeaf/v1.0/ns#> .' + "\n";
+                    str += "\n";
+                }
+                if( mlrRecUri != '' ) {
+                    str += '<' + mlrRecUri + '> a ' + tagMlrRec;
+                    if( mlrRecCreated != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreated + ' "' + mlrRecCreated + '"';
+                    }
+                    if( mlrRecCreator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreator + ' "' + mlrRecCreator + '"';
+                    }
+                    if( mlrRecValidator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecValidator + ' "' + mlrRecValidator + '"';
+                    }
+                    if( gloUri != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecDescribes + ' <' + gloUri + '>';
+                    }
+                    str += ';' + "\n";
+                    str += '    ' + tagMlrRecHasApplicationProfile + ' "' + applProf + '"';
+                    if( mlrRecLanguage != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecLanguage + ' "' + mlrRecLanguage + '"';
+                    }
+                    if( mlrRecIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecIdentifier + ' "' + mlrRecIdentifier + '"';
+                    }
+                    if( mlrRecRecordLastUpdate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecRecordLastUpdate + ' "' + mlrRecRecordLastUpdate + '"';
+                    }
+                    str += ".\n\n";
+                }
+                if( gloUri != '' ) {
+                    str += '<' + gloUri + '> a ' + tagGloGenericLearningOpportunity;
+                    str += generateTurtleMultiValueSelect( tagGloAssessmentType, '#gloAssessmentType' );
+                    str += generateTurtleMultiValueTextField( tagGloCredit, '.gloCreditTextField', true );
+                    if( gloDescription != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloDescription + ' "' + gloDescription.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    str += generateTurtleMultiValueSelect( tagGloEducationalLevel, '#gloEducationalLevel' );
+                    str += generateTurtleMultiValueTextField( tagGloHasPart, '.gloHasPartTextField' );
+                    if( gloIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloIdentifier + ' "' + gloIdentifier + '"';
+                    }
+                    if( gloObjective != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloObjective + ' "' + gloObjective.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    str += generateTurtleMultiValueTextField( tagGloOfferedBy, '.gloOfferedByTextField' );
+                    if( gloOpportunityType != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloOpportunityType + ' <' + gloOpportunityType + '>';
+                    }
+                    if( gloOutputQualification != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloOutputQualification + ' "' + gloOutputQualification.replace( /\n/g, '\\n' ) + '"';
+                    }
+                    str += generateTurtleMultiValueTextField( tagGloPrerequisite, '.gloPrerequisiteTextField', true );
+                    if( gloPublicationDate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloPublicationDate + ' "' + gloPublicationDate + '"';
+                    }
+                    str += generateTurtleMultiValueTextField( tagGloSubject, '.gloPrerequisiteTextField', true );
+                    if( gloTitle != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagGloTitle + ' "' + gloTitle + '"';
+                    }
+                    str += ".\n\n";
+                }
+            }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
-                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    if( $( 'input:radio[name=outputType]' )[ 2 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
                         str += '<html' + "\n"; 
@@ -513,6 +596,7 @@
             <h2>Options</h2>
             Generation:
             <input type="radio" form="gloForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="gloForm" id="outputTypeTurtle" name="outputType" value="rdf" /><label for="outputTypeTurtle">Turtle</label>
             <input type="radio" form="gloForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="gloForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
             Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
@@ -531,6 +615,11 @@
                     <span></span>
                 </div>
             </div>
+
+            <form id="turtleValidation" action="http://www.rdfabout.com/demo/validator/validate.xpd" method="post">
+                <input type="hidden" id="Turtle" name="content"/>
+                <input type="hidden" name="format" value="n3"/>
+            </form>
 
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
