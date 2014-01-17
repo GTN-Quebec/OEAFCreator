@@ -166,9 +166,100 @@
                     str += '</rdf:RDF>';
                 }
             }
+            else if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // Turtle
+                if( isPrologueAndEpilogueRequired ) {
+                    str = '@prefix dc: <http://purl.org/dc/elements/1.1/> .' + "\n";
+                    str += '@prefix dcterms: <http://purl.org/dc/dcterms/> .' + "\n";
+                    str += '@prefix mlr-8: <http://standards.iso.org/iso-iec/19788/-8/ed-1/en/> .' + "\n";
+                    str += '@prefix mlr-9: <http://standards.iso.org/iso-iec/19788/-9/ed-1/en/> .' + "\n";
+                    str += '@prefix oeaf: <http://normetic.org/uri/profil_oeaf/v1.0/ns#> .' + "\n";
+                    str += "\n";
+                }
+                if( mlrRecUri != '' ) {
+                    str += '<' + mlrRecUri + '> a ' + tagMlrRec;
+                    if( mlrRecCreated != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreated + ' "' + mlrRecCreated + '"';
+                    }
+                    if( mlrRecCreator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecCreator + ' "' + mlrRecCreator + '"';
+                    }
+                    if( mlrRecValidator != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecValidator + ' "' + mlrRecValidator + '"';
+                    }
+                    if( lopUri != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecDescribes + ' <' + lopUri + '>';
+                    }
+                    str += ';' + "\n";
+                    str += '    ' + tagMlrRecHasApplicationProfile + ' "' + applProf + '"';
+                    if( mlrRecLanguage != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecLanguage + ' "' + mlrRecLanguage + '"';
+                    }
+                    if( mlrRecIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecIdentifier + ' "' + mlrRecIdentifier + '"';
+                    }
+                    if( mlrRecRecordLastUpdate != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagMlrRecRecordLastUpdate + ' "' + mlrRecRecordLastUpdate + '"';
+                    }
+                    str += ".\n\n";
+                }
+                if( lopUri != '' ) {
+                    str += '<' + lopUri + '> a ' + tagLopLearningOpportunityProvider;
+                    if( lopEmail != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopEmail + ' "' + lopEmail + '"';
+                    }
+                    if( lopFamilyName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopFamilyName + ' "' + lopFamilyName + '"';
+                    }
+                    if( lopGivenName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopGivenName + ' "' + lopGivenName + '"';
+                    }
+                    if( lopLocation != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopLocation + ' <' + lopLocation + '>';
+                    }
+                    if( lopName != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopName + ' "' + lopName + '"';
+                    }
+                    if( lopName2 != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopName2 + ' "' + lopName2 + '"';
+                    }
+                    if( lopWebSite != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopWebSite + ' "' + lopWebSite + '"';
+                    }
+                    if( lopWorkTelephone != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopWorkTelephone + ' "' + lopWorkTelephone + '"';
+                    }
+                    str += generateTurtleMultiValueTextField( tagLopContactPerson, '.lopContactPersonTextField' );
+                    str += generateTurtleMultiValueTextField( tagLopHasPart, '.lopHasPartTextField' );
+                    if( lopIdentifier != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopIdentifier + ' "' + lopIdentifier + '"';
+                    }
+                    str += generateTurtleMultiValueTextField( tagLopOffer, '.lopOfferTextField' );
+                    if( lopType != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagLopType + ' <' + lopType + '>';
+                    }
+                    str += ".\n\n";
+                }
+            }
             else { // RDFa HTML and XHTML
                 if( isPrologueAndEpilogueRequired ) {
-                    if( $( 'input:radio[name=outputType]' )[ 1 ].checked ) { // RDFa HTML
+                    if( $( 'input:radio[name=outputType]' )[ 2 ].checked ) { // RDFa HTML
                         str += '<!DOCTYPE html>' + "\n";
                         //str += '<html lang="en">' + "\n"; // Not sure if it's a good idea to specify the language here. - FB
                         str += '<html' + "\n"; 
@@ -430,7 +521,9 @@
 
         <div class="options">
             <h2>Options</h2>
-            Generation: <input type="radio" form="lopForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            Generation: 
+            <input type="radio" form="lopForm" id="outputTypeRdf" name="outputType" value="rdf" checked="checked" /><label for="outputTypeRdf">RDF</label>
+            <input type="radio" form="lopForm" id="outputTypeTurtle" name="outputType" value="rdf" /><label for="outputTypeTurtle">Turtle</label>
             <input type="radio" form="lopForm" id="outputTypeRdfaHtml" name="outputType" value="rdf" /><label for="outputTypeRdfaHtml">HTML5+RDFa</label>
             <input type="radio" form="lopForm" id="outputTypeRdfaXhtml" name="outputType" value="rdf" /><label for="outputTypeRdfaXhtml">XHTML+RDFa</label><br />
             Language: <select id="genLang"><option value="---">---</option><option value="eng" selected="selected">English</option><option value="fra">French</option></select><br/>
@@ -450,6 +543,11 @@
                 </div>
             </div>
             
+            <form id="turtleValidation" action="http://www.rdfabout.com/demo/validator/validate.xpd" method="post">
+                <input type="hidden" id="Turtle" name="content"/>
+                <input type="hidden" name="format" value="n3"/>
+            </form>
+
             <form id="rdfValidation" action="http://www.w3.org/RDF/Validator/rdfval" method="post">
                 <input type="hidden" id="RDF" name="RDF"/>
                 <input type="hidden" name="TRIPLES_AND_GRAPH" value="PRINT_BOTH"/>
