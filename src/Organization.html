@@ -21,6 +21,7 @@
             $( '#mlrRecUri' ).val( 'urn:' + mlrRecUri );
 
             initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
+            initOptionElements( typeOfLearningOpportunitiesProviderTable, '#orgType', false, false, false, false );
 
             var orgUri = uuid.v4();
             $( '#orgUri' ).val( 'urn:' + orgUri );
@@ -55,6 +56,7 @@
             var orgLocationLongitude = normalizeSpace( $( '#orgLocationLongitude' ).val() );
             var orgLocationLatitude = normalizeSpace( $( '#orgLocationLatitude' ).val() );
             var orgLocationDescription = $( '#orgLocationDescription' ).val();
+            var orgType = $( '#orgType' ).val();
 
             var tagMlrRec = getTag( 'mlrRec', lang );
             var tagMlrRecIdentifier = getTag( 'mlrRecIdentifier', lang );
@@ -80,6 +82,7 @@
             var tagOrgLocationLatitude = getTag( 'orgLocationLatitude', lang );
             var tagOrgLocationDescription = getTag( 'orgLocationDescription', lang );
             var tagOrgHasPart = getTag( 'orgHasPart', lang );
+            var tagOrgType = getTag( 'orgType', lang );
 
             var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
 
@@ -170,6 +173,8 @@
                             str += '        <' + tagOrgHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
                     } 
                 );
+                if( orgType != null && orgType != '' )
+                    str += '        <' + tagOrgType + ' rdf:resource="' + orgType + '"/>' + "\n"; 
                 str += '  </' + tagOrgOrganization + '>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -285,6 +290,10 @@
                     }
                     if( extLocationStr != null )
                         str += extLocationStr;
+                    if( orgType != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagOrgType + ' <' + orgType + '>';
+                    }
                     str += ".\n\n";
                 }
             }
@@ -412,6 +421,8 @@
                         str += '      <span rel="' + tagOrgGeolocation + '" resource="' + orgLocationUri + '"/>' + "\n";
                     }
                 }
+                if( orgType != null && orgType != '' )
+                    str += '      Type: <span rel="' + tagOrgType + '" resource="' + orgType + '">' + typeOfLearningOpportunitiesProviderTable[ orgType ] + '</span><br/>' + "\n";
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -526,6 +537,10 @@
                         <label for="orgHasPart">has part (uri)</label>
                         <input type="text" id="orgHasPart" class="orgHasPartTextField"></input>
                         <button id="orgAddHasPart">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="orgType">type</label>
+                        <select id="orgType"></select>
                     </div>
                 </fieldset>
             </fieldset>

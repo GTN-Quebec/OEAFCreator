@@ -21,6 +21,7 @@
             $( '#mlrRecUri' ).val( 'urn:' + mlrRecUri );
 
             initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
+            initOptionElements( typeOfLearningOpportunitiesProviderTable, '#npType', false, false, false, false );
 
             var npUri = uuid.v4();
             $( '#npUri' ).val( 'urn:' + npUri );
@@ -51,6 +52,7 @@
             var npEmail = normalizeSpace( $( '#npEmail' ).val() );
             var npWorkTelephone = normalizeSpace( $( '#npWorkTelephone' ).val() );
             var npWebSite = normalizeSpace( $( '#npWebSite' ).val() );
+            var npType = $( '#npType' ).val();
 
             var tagMlrRec = getTag( 'mlrRec', lang );
             var tagMlrRecIdentifier = getTag( 'mlrRecIdentifier', lang );
@@ -73,6 +75,7 @@
             var tagNpWebSite = getTag( 'npWebSite', lang );
             var tagNpWorkFor = getTag( 'npWorkFor', lang );
             var tagNpHasPart = getTag( 'npHasPart', lang );
+            var tagNpType = getTag( 'npType', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -138,6 +141,8 @@
                             str += '        <' + tagNpHasPart + ' rdf:resource="' + hasPart + '"/>' + "\n";
                     } 
                 );
+                if( npType != null && npType != '' )
+                    str += '        <' + tagNpType + ' rdf:resource="' + npType + '"/>' + "\n"; 
                 str += '  </' + tagNpNaturalPerson + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </' + tagMlrRecDescribes + '>' + "\n";
@@ -223,6 +228,10 @@
                     if( npWorkTelephone != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagNpWorkTelephone + ' "' + npWorkTelephone + '"';
+                    }
+                    if( npType != '' ) {
+                        str += ';' + "\n";
+                        str += '    ' + tagNpType + ' <' + npType + '>';
                     }
 
                     str += ".\n\n";
@@ -351,6 +360,8 @@
                     } 
                 );
                 str += hasPartFooter;
+                if( npType != null && npType != '' )
+                    str += '      Type: <span rel="' + tagNpType + '" resource="' + npType + '">' + typeOfLearningOpportunitiesProviderTable[ npType ] + '</span><br/>' + "\n";
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -447,6 +458,10 @@
                         <label for="npHasPart">has part (uri)</label>
                         <input type="text" id="npHasPart" class="npHasPartTextField"></input>
                         <button id="npAddHasPart">+</button> 
+                    </div>
+                    <div class="field">
+                        <label for="npType">type</label>
+                        <select id="npType"></select>
                     </div>
                 </fieldset>
             </fieldset>

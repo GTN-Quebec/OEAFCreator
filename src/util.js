@@ -429,6 +429,11 @@ var tagTable = {
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
     },
+    'npType': { 
+        '---': 'oeaf:sed0700',
+        'eng': 'oeaf:type',
+        'fra': 'oeaf:type'
+    },
 
     // Organization
     
@@ -501,6 +506,11 @@ var tagTable = {
         '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
         'fra': 'oeaf:composéDe'
+    },
+    'orgType': { 
+        '---': 'oeaf:sed0700',
+        'eng': 'oeaf:type',
+        'fra': 'oeaf:type'
     }
 
 };
