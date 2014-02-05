@@ -307,12 +307,12 @@
                         str += ';' + "\n";
                         str += '    ' + tagOrgWorkTelephone + ' "' + orgWorkTelephone + '"';
                     }
-                    if( extLocationStr != null )
-                        str += extLocationStr;
                     if( orgType != '' ) {
                         str += ';' + "\n";
                         str += '    ' + tagOrgType + ' <' + orgType + '>';
                     }
+                    if( extLocationStr != null )
+                        str += extLocationStr;
                     str += generateTurtleMultiValueTextField( tagOrgOffer, '.orgOfferTextField' );
                     str += ".\n\n";
                 }
