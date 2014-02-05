@@ -502,6 +502,11 @@ var tagTable = {
         'eng': 'mlr-9:description',
         'fra': 'mlr-9:description'
     },
+    'orgContactPerson': {
+        '---': 'oeaf:sed0800',
+        'eng': 'oeaf:contactPerson',
+        'fra': 'oeaf:personneContact'
+    },
     'orgHasPart': {
         '---': 'oeaf:sed0400',
         'eng': 'oeaf:hasPart',
