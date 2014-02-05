@@ -434,6 +434,11 @@ var tagTable = {
         'eng': 'oeaf:type',
         'fra': 'oeaf:type'
     },
+    'npOffer': {
+        '---': 'oeaf:sed0100',
+        'eng': 'oeaf:offer',
+        'fra': 'oeaf:offre'
+    },
 
     // Organization
     
@@ -516,6 +521,11 @@ var tagTable = {
         '---': 'oeaf:sed0700',
         'eng': 'oeaf:type',
         'fra': 'oeaf:type'
+    },
+    'orgOffer': {
+        '---': 'oeaf:sed0100',
+        'eng': 'oeaf:offer',
+        'fra': 'oeaf:offre'
     }
 
 };

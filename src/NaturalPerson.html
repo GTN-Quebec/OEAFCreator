@@ -28,6 +28,7 @@
 
             $( "#npAddWorkFor" ).click( addField( 'npWorkFor' ) );
             $( "#npAddHasPart" ).click( addField( 'npHasPart' ) );
+            $( "#npAddOffer" ).click( addField( 'npOffer' ) );
             doReset();
         }
 
@@ -76,6 +77,7 @@
             var tagNpWorkFor = getTag( 'npWorkFor', lang );
             var tagNpHasPart = getTag( 'npHasPart', lang );
             var tagNpType = getTag( 'npType', lang );
+            var tagNpOffer = getTag( 'npOffer', lang );
 
             var str = '';
             if( $( 'input:radio[name=outputType]' )[ 0 ].checked ) { // RDF
@@ -143,6 +145,13 @@
                 );
                 if( npType != null && npType != '' )
                     str += '        <' + tagNpType + ' rdf:resource="' + npType + '"/>' + "\n"; 
+                $( '.npOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) 
+                            str += '        <' + tagNpOffer + ' rdf:resource="' + offer + '"/>' + "\n";
+                    } 
+                );
                 str += '  </' + tagNpNaturalPerson + '>' + "\n";
                 if( isPrologueAndEpilogueRequired ) {
                     str += '    </' + tagMlrRecDescribes + '>' + "\n";
@@ -233,6 +242,7 @@
                         str += ';' + "\n";
                         str += '    ' + tagNpType + ' <' + npType + '>';
                     }
+                    str += generateTurtleMultiValueTextField( tagNpOffer, '.npOfferTextField' );
 
                     str += ".\n\n";
                 }
@@ -362,6 +372,20 @@
                 str += hasPartFooter;
                 if( npType != null && npType != '' )
                     str += '      Type: <span rel="' + tagNpType + '" resource="' + npType + '">' + typeOfLearningOpportunitiesProviderTable[ npType ] + '</span><br/>' + "\n";
+                var offerHeader = '      offers: <ul>' + "\n";
+                var offerFooter = '';
+                $( '.npOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) { 
+                            str += offerHeader;
+                            offerHeader = '';
+                            offerFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span rel="' + tagNpOffer + '" resource="' + offer + '">' + offer + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += offerFooter;
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -462,6 +486,11 @@
                     <div class="field">
                         <label for="npType">type</label>
                         <select id="npType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="npOffer">offer (uri)</label>
+                        <input type="text" id="npOffer" class="npOfferTextField"></input>
+                        <button id="npAddOffer">+</button> 
                     </div>
                 </fieldset>
             </fieldset>

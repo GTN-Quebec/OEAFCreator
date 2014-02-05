@@ -23,6 +23,7 @@
             initOptionElements( langTable, '#mlrRecLanguage', false, false, false, true );
             initOptionElements( typeOfLearningOpportunitiesProviderTable, '#orgType', false, false, false, false );
             $( "#orgAddContactPerson" ).click( addField( 'orgContactPerson' ) );
+            $( "#orgAddOffer" ).click( addField( 'orgOffer' ) );
 
             var orgUri = uuid.v4();
             $( '#orgUri' ).val( 'urn:' + orgUri );
@@ -85,6 +86,7 @@
             var tagOrgContactPerson = getTag( 'orgContactPerson', lang );
             var tagOrgHasPart = getTag( 'orgHasPart', lang );
             var tagOrgType = getTag( 'orgType', lang );
+            var tagOrgOffer = getTag( 'orgOffer', lang );
 
             var tagGeographicalLocation = getTag( 'geographicalLocation', lang );
 
@@ -184,6 +186,13 @@
                 );
                 if( orgType != null && orgType != '' )
                     str += '        <' + tagOrgType + ' rdf:resource="' + orgType + '"/>' + "\n"; 
+                $( '.orgOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) 
+                            str += '        <' + tagOrgOffer + ' rdf:resource="' + offer + '"/>' + "\n";
+                    } 
+                );
                 str += '  </' + tagOrgOrganization + '>' + "\n";
 
                 if( isPrologueAndEpilogueRequired ) {
@@ -304,6 +313,7 @@
                         str += ';' + "\n";
                         str += '    ' + tagOrgType + ' <' + orgType + '>';
                     }
+                    str += generateTurtleMultiValueTextField( tagOrgOffer, '.orgOfferTextField' );
                     str += ".\n\n";
                 }
             }
@@ -447,6 +457,20 @@
                 str += contactPersonFooter;
                 if( orgType != null && orgType != '' )
                     str += '      Type: <span rel="' + tagOrgType + '" resource="' + orgType + '">' + typeOfLearningOpportunitiesProviderTable[ orgType ] + '</span><br/>' + "\n";
+                var offerHeader = '      offers: <ul>' + "\n";
+                var offerFooter = '';
+                $( '.orgOfferTextField' ).each( 
+                    function() { 
+                        var offer = normalizeSpace( $( this ).val() );
+                        if( offer != '' ) { 
+                            str += offerHeader;
+                            offerHeader = '';
+                            offerFooter = '      </ul><br/>' + "\n";
+                            str += '      <li><span rel="' + tagOrgOffer + '" resource="' + offer + '">' + offer + '</span></li>' + "\n";
+                        }
+                    } 
+                );
+                str += offerFooter;
                 str += '    </div>' + "\n";
                 
                 if( isPrologueAndEpilogueRequired ) {
@@ -570,6 +594,11 @@
                     <div class="field">
                         <label for="orgType">type</label>
                         <select id="orgType"></select>
+                    </div>
+                    <div class="field">
+                        <label for="orgOffer">offer (uri)</label>
+                        <input type="text" id="orgOffer" class="orgOfferTextField"></input>
+                        <button id="orgAddOffer">+</button> 
                     </div>
                 </fieldset>
             </fieldset>
